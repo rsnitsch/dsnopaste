@@ -1,0 +1,3 @@
+# auf diesen Ordner soll niemand zugreifen...
+Order deny,allow
+Deny from all

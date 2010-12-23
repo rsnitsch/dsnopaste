@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /tools/attplaner.php?id=
+Disallow: /tools/attplaner.php?create=
+Disallow: /tools/farmmanager.php?id=

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "DS NoPaste - Administration"
+AuthUserFile  /var/www/.htpasswd_nopaste
+require valid-user
