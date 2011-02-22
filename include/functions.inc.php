@@ -60,7 +60,7 @@
         
         public function coordSystem()
         {
-            return ($this->config->coord->sector == 2) ? 'modern' : 'old';
+            return 'modern';
         }
         
         public function bonusNew() {
