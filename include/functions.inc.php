@@ -35,6 +35,10 @@
             $this->unitnames = array();
             
             foreach($units as $unitname => $data) {
+                if ($unitname == "militia") {
+                    continue;
+                }
+                
                 $this->runtimes[$unitname] = floatval($data->speed);
                 $this->unitnames[] = $unitname;
             }
