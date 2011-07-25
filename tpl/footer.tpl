@@ -1,4 +1,4 @@
-	<br />
+﻿	<br />
 	<hr style="margin-top: 20px;" />
 	
 	<table align="center" border="0" style="vertical-align: bottom; width: 100%;">
@@ -56,10 +56,6 @@
 
 
 </div>
-
-<script Language="JavaScript">
-document.write ('<scr' + 'ipt Language="JavaScript" src="http://www.euros4click.de/showme.php?id=18118&rnd=' + Math.random() + '&popup=false&layer=true"></scr' + 'ipt>');
-</script>
 
 </body>
 </html>
