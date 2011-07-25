@@ -23,7 +23,7 @@
     define('CFG_TPLDIR',$root_path.'tpl');
     define('CFG_INCDIR',$root_path.'include');
     
-    define('CFG_DEBUGMODE',true || !$uploaded ||
+    define('CFG_DEBUGMODE',!$uploaded ||
            $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
            $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR']);
     
