@@ -50,7 +50,7 @@
 /*
 	Changelog:
 
-	Version 1.0.1 (03.08.2010):
+	Version 1.0.1 (03.08.2011):
 	- jetzt kompatibel mit DS-Version 7.3
 	- man kann jetzt wahlweise den Link bzw. die URL zum Farmmanager *oder* die ID des Farmmanagers angeben
 
