@@ -10,16 +10,7 @@
     <input type="submit" value="Abschicken" />
 </form>
 
-<script language="javascript" type="text/javascript">
-// <![CDATA[ {literal}
-$(document).ready(function() {
-    if(String(top.location).match(/target=top/i)) {
-        $("#form_sendtroops").attr("target", "_top");
-    }
-    
-    document.forms.sendtroops.submit();
-});
-// ]]> {/literal}
-</script>
+</div>
 
-{include file='footer.tpl'}
+</body>
+</html>
