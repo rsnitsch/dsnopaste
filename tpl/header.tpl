@@ -5,7 +5,7 @@
 	<link rel="shortcut icon" href="http://www.die-staemme.de/favicon.ico" />
 	<title>DS NoPaste - {$title}</title>
 	<meta name="author" content="Robert 'bmaker' Nitsch" />
-	<meta name="keywords" content="robert nitsch, bmaker, nopaste, tool, paste, die stämme, diestämme, die staemme, diestaemme, tribalwars, tribal wars, online" />
+	<meta name="keywords" content="browsergame, angriffsplaner, planer, farmmanager, manager, tools, stämme, staemme, diestämme, diestaemme, tribal wars" />
 	<link rel="stylesheet" type="text/css" href="{$root_path}styles.css" />
 </head>
 
