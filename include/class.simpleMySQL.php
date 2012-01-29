@@ -50,6 +50,10 @@ class simpleMySQL {
             return false;
     }
     
+    public function escape($data)
+    {
+        return mysql_real_escape_string($data);
+    }
     
     public function sql_query($query)
     {

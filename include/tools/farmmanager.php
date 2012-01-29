@@ -117,7 +117,7 @@
         
         $sql = 'SELECT *,'.
                 'farmable*3 AS storage_max '.
-                'FROM farms WHERE saveid="'.addslashes($saveid).'" '.$_av_filter.
+                'FROM farms WHERE saveid="'.$mysql->escape($saveid).'" '.$_av_filter.
                 ' ORDER BY farmed ASC,time ASC';
         $res = $mysql->sql_query($sql);
         
@@ -192,7 +192,7 @@
         $timelimit=1800; // 30 Minuten
         $sql = "SELECT id FROM farmmanagers WHERE " .
                 "ip='{$_SERVER['REMOTE_ADDR']}' AND " .
-                "server='".addslashes($server)."'" .
+                "server='".$mysql->escape($server)."'" .
                 "AND time>".(time()-$timelimit)." LIMIT 1";
         $res = $mysql->sql_query($sql);
         if(!$res)
@@ -206,7 +206,7 @@
         // Farmmanager erstellen und weiterleiten
         $sql = "INSERT INTO farmmanagers " .
                 "(id, server, ip, time) VALUES" .
-                "('$saveid', '".addslashes($server)."', '{$_SERVER['REMOTE_ADDR']}', '".time()."')";
+                "('$saveid', '".$mysql->escape($server)."', '{$_SERVER['REMOTE_ADDR']}', '".time()."')";
         if(!$mysql->sql_query($sql)) {
             _displaySQLError();
         }
@@ -237,7 +237,7 @@
     }
     
     // gibt es diesen Farmmanager überhaupt?
-    $res = $mysql->sql_query("SELECT time,ip,server FROM farmmanagers WHERE id='".addslashes($saveid)."' LIMIT 1");
+    $res = $mysql->sql_query("SELECT time,ip,server FROM farmmanagers WHERE id='".$mysql->escape($saveid)."' LIMIT 1");
     if($mysql->sql_num_rows($res) != 1) {
         $errors[] = "Farmmanager nicht gefunden. Möglicherweise wurde er wegen Nichtnutzung gelöscht.";
         $debugs[] = "Oder SQL-Fehler: ".$mysql->lasterror;
@@ -269,7 +269,7 @@
     
     // Herkunftsdörfer auslesen
     $att_villages = array();
-    $res = $mysql->sql_query("SELECT av_name, av_coords FROM farms WHERE saveid='".addslashes($saveid)."' GROUP BY av_coords ORDER BY av_name");
+    $res = $mysql->sql_query("SELECT av_name, av_coords FROM farms WHERE saveid='".$mysql->escape($saveid)."' GROUP BY av_coords ORDER BY av_name");
     if(!$res)
         _displaySQLError();
     while($av = $mysql->fetch($res)) {
@@ -482,7 +482,7 @@
         }
         
         // Alte Daten der Farm abrufen, wenn die Farm schon mal früher eingelesen wurde
-        $res = $mysql->sql_query("SELECT * FROM farms WHERE v_coords='".addslashes($data['v_coords'])."' AND saveid='$saveid'");
+        $res = $mysql->sql_query("SELECT * FROM farms WHERE v_coords='".$mysql->escape($data['v_coords'])."' AND saveid='$saveid'");
         
         // Hat das Dorf den Speicher-Bonus?
         if(!empty($data['bonus']) && $data['bonus'] == 'storage') {
@@ -511,7 +511,7 @@
         // je nachdem ob die Farm bereits bekannt war (UPDATE) oder nicht (INSERT)
         if($mysql->sql_num_rows($res) == 0) {
             // zuerst überprüfen, ob das limit überschritten wird
-            $res = $mysql->sql_query("SELECT COUNT(*) AS count FROM farms WHERE saveid='".addslashes($saveid)."'");
+            $res = $mysql->sql_query("SELECT COUNT(*) AS count FROM farms WHERE saveid='".$mysql->escape($saveid)."'");
             if((!$res) or $mysql->sql_result($res, 0, 'count') >= 500) {
                 $errors[] = "Sorry, du kannst höchstens 500 Farmen in einem Farmmanager verwalten!";
                 _displayErrors();
@@ -534,7 +534,7 @@
             // SQL-INSERT bilden
             $sql = "INSERT INTO farms (".implode(',',array_keys($data)).") VALUES (";
             foreach($data as $value) {
-                $sql .= "'".addslashes($value)."',";
+                $sql .= "'".$mysql->escape($value)."',";
             }
             
             $sql = trim($sql, ',');
@@ -544,7 +544,7 @@
             // Hat sich der Name des Angriffsdorfs geändert?
             if($mysql->sql_result($res,0,'av_name') != $data['av_name']) {
                 // Namen des Angriffsdorfs in allen eingetragenen Farmen aktualisieren
-                $res2 = $mysql->sql_query("UPDATE farms SET av_name='".addslashes($data['av_name'])."' WHERE saveid='$saveid' AND av_coords='".addslashes($data['av_coords'])."'");
+                $res2 = $mysql->sql_query("UPDATE farms SET av_name='".$mysql->escape($data['av_name'])."' WHERE saveid='$saveid' AND av_coords='".$mysql->escape($data['av_coords'])."'");
                 if(!$res2)
                     _displaySQLError();
             }
@@ -574,12 +574,12 @@
             // SQL-UPDATE bilden
             $sql = "UPDATE farms SET ";
             foreach($data as $key => $value) {
-                $sql .= "`".$key."`='".addslashes($value)."',";
+                $sql .= "`".$key."`='".$mysql->escape($value)."',";
             }
             
             $sql = trim($sql, ',');
             
-            $sql .= " WHERE id='".addslashes($mysql->sql_result($res,0,'id'))."' AND saveid='".$saveid."'";
+            $sql .= " WHERE id='".$mysql->escape($mysql->sql_result($res,0,'id'))."' AND saveid='".$saveid."'";
         }
         
         $sql = trim($sql, ',');
@@ -597,7 +597,7 @@
     // eine Farm löschen?
     if(!empty($_GET['delete']) and is_number($_GET['delete'])) {
         $delete = $_GET['delete'];
-        $sql = "DELETE FROM farms WHERE saveid='".$saveid."' AND id='".addslashes($delete)."' LIMIT 1";
+        $sql = "DELETE FROM farms WHERE saveid='".$saveid."' AND id='".$mysql->escape($delete)."' LIMIT 1";
         if(!$mysql->sql_query($sql)) {
             _displaySQLError();
         }
@@ -608,7 +608,7 @@
     // eine Farm als gefarmt markieren?
     if(!empty($_GET['farmed']) and is_number($_GET['farmed'])) {
         $farmed = $_GET['farmed'];
-        $sql = "UPDATE farms SET farmed=NOT farmed WHERE saveid='".$saveid."' AND id='".addslashes($farmed)."' LIMIT 1";
+        $sql = "UPDATE farms SET farmed=NOT farmed WHERE saveid='".$saveid."' AND id='".$mysql->escape($farmed)."' LIMIT 1";
         if(!$mysql->sql_query($sql)) {
             _displaySQLError();
         }
@@ -619,7 +619,7 @@
     // eine Farm bearbeiten?
     if(!empty($_GET['edit']) and is_number($_GET['edit'])) {
         $edit = $_GET['edit'];
-        $sql = "SELECT id,note,bonus FROM farms WHERE saveid='".$saveid."' AND id='".addslashes($edit)."' LIMIT 1";
+        $sql = "SELECT id,note,bonus FROM farms WHERE saveid='".$saveid."' AND id='".$mysql->escape($edit)."' LIMIT 1";
         $res = $mysql->sql_query($sql);
         if(!$res)
             _displaySQLError();
@@ -632,7 +632,7 @@
     }
     // das Bearbeiten-Formular wurde bereits abgeschickt
     if(!empty($_POST) && !empty($_POST['edit']) && !empty($_POST['id']) && ctype_digit($_POST['id'])) {
-        $id = addslashes($_POST['id']);
+        $id = $mysql->escape($_POST['id']);
         
         $bonus = in_array($_POST['bonus'], $possible_boni) ? $_POST['bonus'] : '';
         
@@ -641,12 +641,12 @@
             _displayErrors();
         }
         
-        $bonus = addslashes($bonus);
+        $bonus = $mysql->escape($bonus);
         
         // Wenn auf den Storage-Bonus geändert wurde oder vom Storage-Bonus auf einen anderen Bonus,
         // dann muss der farmable-Wert aktualisiert werden
         // => Alten Bonus abrufen
-        $sql = "SELECT bonus,b_storage,b_hide FROM farms WHERE saveid='".$saveid."' AND id='".addslashes($id)."' LIMIT 1";
+        $sql = "SELECT bonus,b_storage,b_hide FROM farms WHERE saveid='".$saveid."' AND id='".$mysql->escape($id)."' LIMIT 1";
         $res = $mysql->sql_query($sql);
         if(!$res)
             _displaySQLError();
@@ -674,7 +674,7 @@
         }
         
         $note = strlen($_POST['note']) <= 100 ? $_POST['note'] : substr($_POST['note'], 0, 100);
-        $note = addslashes($note);
+        $note = $mysql->escape($note);
         
         $sql = "UPDATE farms SET bonus='$bonus', note='$note' WHERE saveid='$saveid' AND id='$id'";
         

@@ -68,7 +68,7 @@
                 $limit=5; // 5 Einträge
                 $timelimit=3600; // 1 Stunde
                 $currenttime=time();
-                $sql_cmd='SELECT id FROM attplans WHERE ip="'.addslashes($_SERVER['REMOTE_ADDR']).'" AND time>'.($currenttime-$timelimit).' LIMIT 5';
+                $sql_cmd='SELECT id FROM attplans WHERE ip="'.$mysql->escape($_SERVER['REMOTE_ADDR']).'" AND time>'.($currenttime-$timelimit).' LIMIT 5';
                 $erg=$mysql->sql_query($sql_cmd);
                 
                 if(!($mysql->sql_num_rows($erg)>=$limit)) // wenn das Limit NICHT überschritten wird
@@ -80,7 +80,7 @@
                     $adminkey=generatePassword(6);
                     $server = $_REQUEST['server'];
                     
-                    $sql_cmd='INSERT INTO attplans (id, `key`, adminkey, time, ip, server) VALUES ('.$attid.', "'.$key.'", "'.$adminkey.'", '.time().', "'.$_SERVER['REMOTE_ADDR'].'", "'.addslashes($server).'")';
+                    $sql_cmd='INSERT INTO attplans (id, `key`, adminkey, time, ip, server) VALUES ('.$attid.', "'.$key.'", "'.$adminkey.'", '.time().', "'.$_SERVER['REMOTE_ADDR'].'", "'.$mysql->escape($server).'")';
                     $erg=$mysql->sql_query($sql_cmd);
                     
                     if($erg)
@@ -233,7 +233,7 @@
                                     // der paladin senkt die zeit/feld bei unterstützungsaufträgen auf 10 minuten
                                     if($typ == 2)
                                     {
-                                        $paladin = isset($units['knight']) ? addslashes($units['knight']) : 0;
+                                        $paladin = isset($units['knight']) ? $mysql->escape($units['knight']) : 0;
                                         if($paladin > 0)
                                             $timeperfield = 600;
                                     }
@@ -246,39 +246,39 @@
                                     {
                                         // Angriff/Unterstützung hinzufügen
                                         $sql_cmd='INSERT INTO attplans_actions (attplan_id, typ, `from`, `to`, runtime, senddate, arrive, note, spear, sword, axe, archer, spy, light, marcher, heavy, ram, catapult, knight, priest, snob)'
-                                            .' VALUES ('.$attid.', '.$typ.', "'.$from.'", "'.$to.'", '.$runtime.', '.$senddate.', '.$arrive.', "'.addslashes(htmlspecialchars($_POST['note'])).'", '
-                                            .(isset($units['spear'])    ? addslashes($units['spear'])    : 0).', '
-                                            .(isset($units['sword'])    ? addslashes($units['sword'])    : 0).', '
-                                            .(isset($units['axe'])        ? addslashes($units['axe'])        : 0).', '
-                                            .(isset($units['archer'])    ? addslashes($units['archer'])    : 0).', '
-                                            .(isset($units['spy'])        ? addslashes($units['spy'])        : 0).', '
-                                            .(isset($units['light'])    ? addslashes($units['light'])    : 0).', '
-                                            .(isset($units['marcher'])    ? addslashes($units['marcher'])    : 0).', '
-                                            .(isset($units['heavy'])    ? addslashes($units['heavy'])    : 0).', '
-                                            .(isset($units['ram'])        ? addslashes($units['ram'])        : 0).', '
-                                            .(isset($units['catapult'])    ? addslashes($units['catapult']): 0).', '
-                                            .(isset($units['knight'])    ? addslashes($units['knight'])    : 0).', '
-                                            .(isset($units['priest'])    ? addslashes($units['priest'])    : 0).', '
-                                            .(isset($units['snob'])        ? addslashes($units['snob'])    : 0).')';
+                                            .' VALUES ('.$attid.', '.$typ.', "'.$from.'", "'.$to.'", '.$runtime.', '.$senddate.', '.$arrive.', "'.$mysql->escape($_POST['note']).'", '
+                                            .(isset($units['spear'])    ? $mysql->escape($units['spear'])    : 0).', '
+                                            .(isset($units['sword'])    ? $mysql->escape($units['sword'])    : 0).', '
+                                            .(isset($units['axe'])        ? $mysql->escape($units['axe'])        : 0).', '
+                                            .(isset($units['archer'])    ? $mysql->escape($units['archer'])    : 0).', '
+                                            .(isset($units['spy'])        ? $mysql->escape($units['spy'])        : 0).', '
+                                            .(isset($units['light'])    ? $mysql->escape($units['light'])    : 0).', '
+                                            .(isset($units['marcher'])    ? $mysql->escape($units['marcher'])    : 0).', '
+                                            .(isset($units['heavy'])    ? $mysql->escape($units['heavy'])    : 0).', '
+                                            .(isset($units['ram'])        ? $mysql->escape($units['ram'])        : 0).', '
+                                            .(isset($units['catapult'])    ? $mysql->escape($units['catapult']): 0).', '
+                                            .(isset($units['knight'])    ? $mysql->escape($units['knight'])    : 0).', '
+                                            .(isset($units['priest'])    ? $mysql->escape($units['priest'])    : 0).', '
+                                            .(isset($units['snob'])        ? $mysql->escape($units['snob'])    : 0).')';
                                     }
                                     else
                                     {
                                         // bearbeiten
-                                        $sql_cmd='UPDATE attplans_actions SET typ='.$typ.', `from`="'.$from.'", `to`="'.$to.'", runtime='.$runtime.', senddate='.$senddate.', arrive='.$arrive.', note="'.addslashes(htmlspecialchars($_POST['note']))
-                                        .'", spear='.(        isset($units['spear'])        ? addslashes($units['spear'])        : 0)
-                                        .', sword='.(        isset($units['sword'])        ? addslashes($units['sword'])        : 0)
-                                        .', axe='.(            isset($units['axe'])        ? addslashes($units['axe'])            : 0)
-                                        .', archer='.(        isset($units['archer'])        ? addslashes($units['archer'])    : 0)
-                                        .', spy='.(            isset($units['spy'])        ? addslashes($units['spy'])            : 0)
-                                        .', light='.(        isset($units['light'])        ? addslashes($units['light'])        : 0)
-                                        .', marcher='.(        isset($units['marcher'])    ? addslashes($units['marcher'])        : 0)
-                                        .', heavy='.(        isset($units['heavy'])        ? addslashes($units['heavy'])        : 0)
-                                        .', ram='.(            isset($units['ram'])        ? addslashes($units['ram'])            : 0)
-                                        .', catapult='.(    isset($units['catapult'])    ? addslashes($units['catapult'])    : 0)
-                                        .', knight='.(        isset($units['knight'])        ? addslashes($units['knight'])        : 0)
-                                        .', priest='.(        isset($units['priest'])        ? addslashes($units['priest'])        : 0)
-                                        .', snob='.(        isset($units['snob'])        ? addslashes($units['snob'])        : 0)
-                                        .' WHERE attplan_id='.$attid.' AND id='.addslashes($_POST['oldid']);
+                                        $sql_cmd='UPDATE attplans_actions SET typ='.$typ.', `from`="'.$from.'", `to`="'.$to.'", runtime='.$runtime.', senddate='.$senddate.', arrive='.$arrive.', note="'.$mysql->escape($_POST['note'])
+                                        .'", spear='.(        isset($units['spear'])        ? $mysql->escape($units['spear'])        : 0)
+                                        .', sword='.(        isset($units['sword'])        ? $mysql->escape($units['sword'])        : 0)
+                                        .', axe='.(            isset($units['axe'])        ? $mysql->escape($units['axe'])            : 0)
+                                        .', archer='.(        isset($units['archer'])        ? $mysql->escape($units['archer'])    : 0)
+                                        .', spy='.(            isset($units['spy'])        ? $mysql->escape($units['spy'])            : 0)
+                                        .', light='.(        isset($units['light'])        ? $mysql->escape($units['light'])        : 0)
+                                        .', marcher='.(        isset($units['marcher'])    ? $mysql->escape($units['marcher'])        : 0)
+                                        .', heavy='.(        isset($units['heavy'])        ? $mysql->escape($units['heavy'])        : 0)
+                                        .', ram='.(            isset($units['ram'])        ? $mysql->escape($units['ram'])            : 0)
+                                        .', catapult='.(    isset($units['catapult'])    ? $mysql->escape($units['catapult'])    : 0)
+                                        .', knight='.(        isset($units['knight'])        ? $mysql->escape($units['knight'])        : 0)
+                                        .', priest='.(        isset($units['priest'])        ? $mysql->escape($units['priest'])        : 0)
+                                        .', snob='.(        isset($units['snob'])        ? $mysql->escape($units['snob'])        : 0)
+                                        .' WHERE attplan_id='.$attid.' AND id='.$mysql->escape($_POST['oldid']);
                                     }
                                     
                                     // SQL Abfrage ausführen
@@ -317,7 +317,7 @@
                             // einen Angriff löschen?
                             if(!empty($_GET['deleteatt']) and is_number($_GET['deleteatt']))
                             {
-                                $sql_cmd='DELETE FROM attplans_actions WHERE id='.addslashes($_GET['deleteatt']).' AND attplan_id='.$attid;
+                                $sql_cmd='DELETE FROM attplans_actions WHERE id='.$mysql->escape($_GET['deleteatt']).' AND attplan_id='.$attid;
                                 $mysql->sql_query($sql_cmd);
                                 
                                 // umleiten, damit der deleteatt-Parameter wieder verlorengeht
@@ -332,7 +332,7 @@
                                 {
                                     $notes=$_POST['notes'];
                                     
-                                    $sql_cmd='UPDATE attplans SET notes="'.addslashes($notes).'" WHERE id='.$attid;
+                                    $sql_cmd='UPDATE attplans SET notes="'.$mysql->escape($notes).'" WHERE id='.$attid;
                                     $mysql->sql_query($sql_cmd);
                                 }
                                 else
@@ -552,8 +552,6 @@
                     $actions_array=array();
                     while($row=$mysql->sql_fetch_assoc($actions))
                     {
-                        $row['note'] = $row['note'];
-                        
                         $row['arrive_pure']=date('d.m.Y H:i:s',$row['arrive']);
                         $row['arrive']=date('j. M H:i:s',$row['arrive']);
                         
@@ -591,7 +589,7 @@
                         {
                             // EIN ANGRIFF bzw. EINE UNTERSTÜTZUNG SOLLEN EDITIERT WERDEN!!!
                             
-                            $sql_cmd='SELECT * FROM attplans_actions WHERE attplan_id='.$attid.' AND id='.addslashes($_GET['edit']);
+                            $sql_cmd='SELECT * FROM attplans_actions WHERE attplan_id='.$attid.' AND id='.$mysql->escape($_GET['edit']);
                             $attdata=$mysql->sql_query($sql_cmd);
                             
                             if($mysql->sql_num_rows($attdata)==1)
@@ -663,8 +661,8 @@
                                 $output->assign('to', $last_action['to']);
                             }
                             
-                            $output->assign('typ1',''); // welcher Typ ausgewï¿½lt ist
-                            $output->assign('typ2',''); // welcher Typ ausgewï¿½lt ist
+                            $output->assign('typ1',''); // welcher Typ ausgewählt ist
+                            $output->assign('typ2',''); // welcher Typ ausgewählt ist
                             // alle Einheiten
                             $output->assign('units', $units);
 
@@ -676,7 +674,7 @@
                         }
                         
                         // Notizen
-                        $output->assign('notes',htmlspecialchars($notes));
+                        $output->assign('notes', $notes);
                         
                         
                         // den Planer darstellen
