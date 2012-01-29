@@ -370,8 +370,9 @@
             $data['note'] = $_POST['note'];
         
         // Zeitpunkt des Berichtes
-        _pregMatch('/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+)/', $report, "'Gesendet'-Teil konnte nicht eingelesen werden.");
-        $data['time'] = mktime($matches[4], $matches[5], 0, $matches[2], $matches[1], $matches[3]);
+        // Beispiel: "Gesendet:        28.01.12 15:48:23"
+        _pregMatch('/Gesendet\s+(\d+)\.(\d+)\.(\d+)\s+(\d+):(\d+):(\d+)/', $report, "'Gesendet'-Teil konnte nicht eingelesen werden.");
+        $data['time'] = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[1], $matches[3]);
         
         // die Ressourcen, die gespäht wurden
         $wood = (!empty($_POST['wood']) && $_POST['wood'] == 'yes');
