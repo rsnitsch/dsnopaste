@@ -43,13 +43,4 @@
     Ich lasse euch dann meine Kontodaten zukommen.
 </p>
 
-<h3>Spenden per Flattr</h3>
-
-<p>Ihr könnt mir natürlich auch per <a href="http://www.flattr.com" target="_blank">Flattr</a> kleine Beträge zukommen lassen:</p>
-
-<script type="text/javascript">
-	var flattr_url = 'http://np.bmaker.net';
-</script>
-<script src="http://api.flattr.com/button/load.js" type="text/javascript"></script>
-
 {include file='footer.tpl'}
