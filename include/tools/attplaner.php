@@ -753,13 +753,13 @@
             
             // Absendekoordinate
             if(validCoord($_POST['from']))
-                $from = (string) $_POST['from'];
+                $from = cleanCoord($_POST['from']);
             else
                 $errors[]='Ungültige Absendekoordinate!';
             
             // Zielkoordinate
             if(validCoord($_POST['to']))
-                $to = (string) $_POST['to'];
+                $to = cleanCoord($_POST['to']);
             else
                 $errors[]='Ungültige Zielkoordinate!';
                 

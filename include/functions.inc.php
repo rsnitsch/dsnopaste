@@ -321,17 +321,19 @@
         $matches=FALSE;
         $result=array('x' => 0, 'y' => 0);
         
-        if(preg_match('/^(\-?[0-9]{1,3})\|(\-?[0-9]{1,3})$/',$str,$matches))
+        if(preg_match('/(\-?[0-9]{1,3})\|(\-?[0-9]{1,3})/',$str,$matches))
         {
             if(is_numeric($matches[1]) and is_numeric($matches[2]))
             {
+                $result['orig'] = $matches[0];
                 $result['x']=$matches[1];
                 $result['y']=$matches[2];
             }
         }
-        elseif(preg_match('/^([0-9]{1,3}):([0-9]{1,3}):([0-9]{1,3})$/',$str,$matches))
+        elseif(preg_match('/([0-9]{1,3}):([0-9]{1,3}):([0-9]{1,3})/',$str,$matches))
         {
             $result = convert_coords_to_xy($matches[1], $matches[2], $matches[3]);
+            $result['orig'] = $matches[0];
             /*
             if(CFG_DEBUGMODE)
             {
@@ -346,6 +348,12 @@
         }
         
         return $result;
+    }
+    
+    function cleanCoord($str)
+    {
+        $coord = getCoord($str);
+        return $coord['orig'];
     }
     
     // berechnet die Minenproduktion
