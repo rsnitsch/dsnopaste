@@ -165,7 +165,16 @@
     }
     
     function _isAjaxRequest() {
-        return isset($_POST['ajax']);
+        if (!isset($_POST['ajax'])) {
+            return false;
+        }
+
+        $a = intval($_POST['ajax']);
+        if ($a > 0) {
+            return $a;
+        }
+
+        return true;
     }
     
     // neuen Farmmanager erstellen?
@@ -351,8 +360,18 @@
         }
         
         $report = $_POST['report'];
+        if (_isAjaxRequest() >= 2) {
+            // Since AJAX version 2 the report data is extra-encoded.
+            $report = urldecode($report);
+        }
         $matches = array();
         $data = array();
+        
+        if(CFG_DEBUGMODE && is_writable("/tmp/report.txt")) {
+            $fh = fopen("/tmp/report.txt", "wb");
+            fwrite($fh, $report);
+            fclose($fh);
+        }
         
         if(strlen($_POST['note']) > 100) {
             $errors[] = "Notizen dürfen höchstens 100 Zeichen lang sein!";
@@ -381,7 +400,7 @@
         
         if($wood || $loam || $iron) {
             // den regulären Ausdruck für die erspähten Ressourcen erstellen
-            $regex_resources = '/Ersp.{1,2}hte Rohstoffe:\s+';
+            $regex_resources = '/Ersp.{1,4}hte Rohstoffe:\s+';
             if($wood && $loam && $iron)
                 $regex_resources .= '([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)';
             else {
@@ -392,7 +411,7 @@
                     $regex_resources .= '([0-9\.]+)';
                 }
             }
-            $regex_resources .= '/';
+            $regex_resources .= '/s';
             _pregMatch($regex_resources, $report, "Die erspähten Rohstoffe konnten nicht eingelesen werden.");
             
             // die erspähten Ressourcen einlesen
@@ -452,7 +471,7 @@
         $data['v_name'] = substr(trim($matches[1]), 0, 50);
         $data['v_coords'] = $matches[2];
         
-        $b_wood = _pregMatch('/Holzf.{1,2}ller\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
+        $b_wood = _pregMatch('/Holzf.{1,4}ller\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
         $data['b_wood'] = ($b_wood !== false) ? min($matches[1], 30) : 0;
         
         $b_loam = _pregMatch('/Lehmgrube\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
