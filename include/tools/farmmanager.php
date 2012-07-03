@@ -531,8 +531,8 @@
         if($mysql->sql_num_rows($res) == 0) {
             // zuerst überprüfen, ob das limit überschritten wird
             $res = $mysql->sql_query("SELECT COUNT(*) AS count FROM farms WHERE saveid='".$mysql->escape($saveid)."'");
-            if((!$res) or $mysql->sql_result($res, 0, 'count') >= 500) {
-                $errors[] = "Sorry, du kannst höchstens 500 Farmen in einem Farmmanager verwalten!";
+            if((!$res) or $mysql->sql_result($res, 0, 'count') >= 1000) {
+                $errors[] = "Sorry, du kannst höchstens 1000 Farmen in einem Farmmanager verwalten!";
                 _displayErrors();
             }
             
