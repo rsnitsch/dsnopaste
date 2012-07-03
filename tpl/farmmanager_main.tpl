@@ -180,7 +180,7 @@ $(document).ready(
 				
 				{if !empty($av_filter_id) && !$farm.farmed && $farm.v_id != 0}
 				<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$av_filter_id}, {$farm.v_id}, 'spy=5');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$av_filter_id}, {$farm.v_id}, 'spy={if $farm.v_name != "Barbarendorf" && $farm.v_name != "Bonusdorf"}5{else}1{/if}');">
 					<img src="http://dsgfx.bmaker.net/unit_spy.png" title="Späher schicken & als gefarmt markieren" alt="Späher" />
 				</a>
 				&nbsp;
