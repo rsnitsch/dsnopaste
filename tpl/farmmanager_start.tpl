@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-<p>Dies ist der Farmmanager. Hier kannst du bis zu 500 Farmen verwalten und überwachen.</p>
+<p>Dies ist der Farmmanager. Hier kannst du bis zu 1000 Farmen verwalten und überwachen.</p>
 
 <p>Eine genauere Beschreibung findest du hier:
 <a href="http://forum.die-staemme.de/showthread.php?t=83974">http://forum.die-staemme.de/showthread.php?t=83974</a></p>
