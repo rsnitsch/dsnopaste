@@ -14,7 +14,7 @@
 
 <p>
 ACHTUNG: Damit das Formular im Versammlungsplatz automatisch ausgefüllt werden kann musst du dieses Greasemonkey-Script installieren:
-<a href="http://np.bmaker.net/misc/sendtroopshelper.user.js">sendtroopshelper.user.js</a>
+<a href="http://scripts.die-staemme.de/download/50.user.js">Farmmanager - Erweiterung II</a> aus der <a href="http://scripts.die-staemme.de/">Script-DB</a>.
 </p>
 
 </div>
