@@ -1,4 +1,6 @@
 <?php
+echo "Cron started.<br />";
+
 $root_path='../../';
 $dir = $root_path.'data/server/de';
 
@@ -31,63 +33,75 @@ $avail_servers = array('de' => array());
 foreach($servers as $key => $url) {
     $serverdir = $dir.'/'.$key;
     
-    if(is_dir($serverdir)) {
-        // check whether $serverdir is writeable and attempt to chmod, if not
-        if(!is_writeable($serverdir)) {
-            if(!@chmod($serverdir, 0777)) {
-                echo "Directory of server '$key' is not writeable. Additionally, chmod(0777) failed.<br />";
+    if(!is_dir($serverdir)) {
+        if (preg_match("/^de[0-9]+$/", $key)) {
+            if (@mkdir($serverdir)) {
+                echo "Directory for server '$key' has been created automatically.<br />";
+            } else {
+                echo "Directory for server '$key' does not exist and could not be created.<br />";
                 continue;
             }
+        } else {
+            echo "Directory for server '$key' does not exist. Server '$key' is not a normal world (i.e. classic or speed), so it is not automatically added.<br />";
+            continue;
         }
-        
-        // actually download the files
-        if(!isset($_GET['nodl'])) {
-	        foreach($files_to_download as $destinationFile => $path) {
-	            echo "Downloading '$url$path'... ";
-	            
-	            if(copy($url.$path, $serverdir.'/'.$destinationFile))
-	                done();
-	            else
-	                failed();
-	        }
+    }
+    
+    // check whether $serverdir is writeable and attempt to chmod, if not
+    if(!is_writeable($serverdir)) {
+        if(!@chmod($serverdir, 0777)) {
+            echo "Directory of server '$key' is not writeable. Additionally, chmod(0777) failed.<br />";
+            continue;
         }
-        
-        // check whether the meta file exists
-        if(file_exists($serverdir.'/meta.xml') and !isset($_GET['force_meta']))
-            $avail_servers['de'][$key] = simplexml_load_file($serverdir.'/meta.xml')->name;
-        else {
-            // no meta file available, create initial one
-            echo "Creating initial meta file for $key...";
+    }
+    
+    // actually download the files
+    if(!isset($_GET['nodl'])) {
+        foreach($files_to_download as $destinationFile => $path) {
+            echo "Downloading '$url$path'... ";
             
-            // guess a good name for the world
-            // if a number is in the world's ID, take the number, otherwise take the ID unchanged
-            $name = 'Welt ';
-            $matches = array();
-            $number = 0;
-            if(preg_match('/[^0-9]+([0-9]+)$/', $key, $matches)) {
-                $number = $matches[1];
-                $name .= $number;
-            } else {
-                $name .= $key;
-            }
-            
-            // write the metafile
-            $metafile = str_replace('{name}', $name, $metafile_template);
-            
-            $fh = @fopen($serverdir.'/meta.xml', 'w');
-            if(!$fh) {
-                failed();
-            }
-            else {
-                fputs($fh, $metafile);
-                fclose($fh);
-                
+            if(copy($url.$path, $serverdir.'/'.$destinationFile))
                 done();
-            }
-            
-            // prepare the name to be stored in the servers.xml file
-            $avail_servers['de'][$key] = simplexml_load_file($serverdir.'/meta.xml')->name;
+            else
+                failed();
         }
+    }
+    
+    // check whether the meta file exists
+    if(file_exists($serverdir.'/meta.xml') and !isset($_GET['force_meta']))
+        $avail_servers['de'][$key] = simplexml_load_file($serverdir.'/meta.xml')->name;
+    else {
+        // no meta file available, create initial one
+        echo "Creating initial meta file for $key...";
+        
+        // guess a good name for the world
+        // if a number is in the world's ID, take the number, otherwise take the ID unchanged
+        $name = 'Welt ';
+        $matches = array();
+        $number = 0;
+        if(preg_match('/[^0-9]+([0-9]+)$/', $key, $matches)) {
+            $number = $matches[1];
+            $name .= $number;
+        } else {
+            $name .= $key;
+        }
+        
+        // write the metafile
+        $metafile = str_replace('{name}', $name, $metafile_template);
+        
+        $fh = @fopen($serverdir.'/meta.xml', 'w');
+        if(!$fh) {
+            failed();
+        }
+        else {
+            fputs($fh, $metafile);
+            fclose($fh);
+            
+            done();
+        }
+        
+        // prepare the name to be stored in the servers.xml file
+        $avail_servers['de'][$key] = simplexml_load_file($serverdir.'/meta.xml')->name;
     }
 }
 
@@ -102,7 +116,7 @@ foreach($avail_servers as $language => $servers) {
     $servers_xml .= "</$language>";
 }
 $servers_xml .= "</servers>";
-$fh = fopen('servers.xml', 'w');
+$fh = fopen($root_path.'data/server/servers.xml', 'w');
 fwrite($fh, $servers_xml);
 fclose($fh);
 
