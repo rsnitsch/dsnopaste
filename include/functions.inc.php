@@ -434,7 +434,6 @@
         $debugs[] = "SQL-Abfrage: ".$mysql->lastquery;
         $debugs[] = "SQL-Fehler: ".$mysql->lasterror;
         $debugs[] = "mysql_error(): ".mysql_error();
-	throw new Exception("debug");        
         displayErrors($smarty, $errors, $debugs);
     }
     
