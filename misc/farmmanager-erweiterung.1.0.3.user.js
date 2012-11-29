@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Farmmanager-Erweiterung
-// @description (Version 1.0.2) Berichte können mit einem Tastendruck in den Farmmanager eingelesen werden
+// @description (Version 1.0.3) Berichte können mit einem Tastendruck in den Farmmanager eingelesen werden
 // @author bmaker (Robert N.)
 // @namespace files.robertnitsch.de
 // @include http://*.die-staemme.de/game.php?*screen=report*view=*
@@ -53,6 +53,12 @@
 
 /*
 	Changelog:
+
+	Version 1.0.3 (29.11.2012):
+	- jetzt kompatibel mit DS-Version 8.8 (behebt den Bug, dass erspähte Ressourcen immer auf 0 gesetzt wurden)
+
+	Version 1.0.2 (???):
+	- hat einen Escaping-Bug behoben beim Senden des Berichtes
 
 	Version 1.0.1 (03.08.2010):
 	- jetzt kompatibel mit DS-Version 7.3
