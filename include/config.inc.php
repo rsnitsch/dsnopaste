@@ -12,7 +12,11 @@
         "twdata_include" => "/home/twdata/twdata.php",
         "language" => "de",
         "announce" => false,
-        "announcing" => ""
+        "announcing" => "",
+        "mysql_host" => "localhost",
+        "mysql_user" => "nopaste",
+        "mysql_db" => "nopaste",
+        "mysql_pass" => ""
     );
 
     // externe Authentifizierung
