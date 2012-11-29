@@ -51,6 +51,8 @@
             else
             {
                 unset($mysql_pass);
+                $debuginfo[] = "mysql_connect ist fehlgeschlagen!";
+                $debuginfo[] = mysql_error();
                 return FALSE;
             }
         }
