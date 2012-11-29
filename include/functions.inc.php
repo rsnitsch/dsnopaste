@@ -217,7 +217,13 @@
     {
         global $root_path, $language;
         
-        $xml = simplexml_load_file($root_path.'include/servers.xml');
+        $path = $root_path.'data/server/servers.xml';
+        
+        if (!is_readable($path)) {
+            return array();
+        }
+        
+        $xml = simplexml_load_file($path);
         
         $servers = array();
         
