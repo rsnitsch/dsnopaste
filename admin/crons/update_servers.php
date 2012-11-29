@@ -1,5 +1,6 @@
 <?php
-$dir = './servers/de';
+$root_path='../../';
+$dir = $root_path.'data/server/de';
 
 $data = file_get_contents('http://www.die-staemme.de/backend/get_servers.php');
 

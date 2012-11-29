@@ -22,7 +22,7 @@
             $this->id = $id;
             
             global $root_path, $language;
-            $this->dir = $root_path."include/servers/$language/{$this->id}";
+            $this->dir = $root_path."data/server/$language/{$this->id}";
             
             $this->getData();
         }
