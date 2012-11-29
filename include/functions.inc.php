@@ -206,7 +206,7 @@
     function serverExists($server)
     {
         global $root_path, $cfg;
-        return isValidServerID($server) and is_dir($root_path."include/servers/{$cfg['language']}/$server");
+        return isValidServerID($server) and is_dir($root_path."data/server/{$cfg['language']}/$server");
     }
     
     /**
@@ -293,7 +293,7 @@
     {
         global $root_path, $cfg;
         
-        $xml = simplexml_load_file($root_path."include/servers/{$cfg['language']}/$server/units.xml");
+        $xml = simplexml_load_file($root_path."data/server/{$cfg['language']}/$server/units.xml");
         
         $runtimes = array();
         
