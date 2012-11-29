@@ -1,66 +1,42 @@
 <?php
     if(!defined('INC_CHECK')) die("not that way");
-    
-    // Konfigurationskonstanten
-    $uploaded = !preg_match('%/home/robert.*%', __FILE__);
-    define('CFG_UPLOADED',$uploaded);
-    define('CFG_ENABLED',TRUE);
-    
-    // Server-spezifische Einstellungen
-    switch($_SERVER['SERVER_ADDR']) {
-        case '178.77.99.165':
-            define('CFG_SERVERPATH','http://np.bmaker.net');
-            define('CFG_SMARTYDIR',$root_path.'smarty/libs');
-            break;
-        case '127.0.0.1':
-            define('CFG_SERVERPATH','http://localhost/~robert/nopaste');
-            define('CFG_SMARTYDIR','/home/robert/coding/obst/obst-ab/include/libs/smarty');
-            break;
-        default:
-            throw new Exception("SERVER_ADDR unknown.");
-    }
-    
-    define('CFG_TPLDIR',$root_path.'tpl');
-    define('CFG_INCDIR',$root_path.'include');
-    
-    define('CFG_DEBUGMODE',!$uploaded ||
-           $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
-           $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR']);
-    
+
+    $cfg_defaults = array(
+        "uploaded" => true,
+        "enabled" => true,
+        "serverpath" => "http://np.bmaker.net",
+        "smartydir" => $root_path."smarty/libs",
+        "tpldir" => $root_path."tpl",
+        "incdir" => $root_path."include",
+        "debugmode" => false,
+        "twdata_include" => "/home/twdata/twdata.php",
+        "language" => "de",
+        "announce" => false,
+        "announcing" => ""
+    );
+
     // externe Authentifizierung
     define('AUTH_KEY', 'DSNoPaste');
     define('AUTH_SECRET', '1ab24a037c6155e112f684153f7335ad');
-    
-    // TWDATA
-    define('TWDATA_INCLUDE', '/home/twdata/twdata.php');
-    
-    $language = 'de';
-    
-    // ankündigung?
-    $announce = false;
-    $announcing = "Willkommen auf dem neuen Server. ;)";
-    define('CFG_GLOBAL_ANNOUNCING', $announce ? $announcing : '');
-    
-    define('CFG_ROOTPATH', $root_path);
-    
-    if(CFG_DEBUGMODE)
-    {
-        error_reporting(E_ALL);
+
+    // Lokale config inkludieren (kann Parameter überschreiben).
+    if (is_readable($root_path.'/include/config.local.inc.php')) {
+        require($root_path.'/include/config.local.inc.php');
+    } else {
+        die("Invalid installation: No local config present.");
     }
-    else
-    {
-        error_reporting(0);
-    }
-    
+
+    error_reporting($cfg["debugmode"] ? E_ALL : 0);
+
     // Includes etc...
     define('SSQL_INC_CHECK',TRUE);
-    require(CFG_INCDIR.'/class.simpleMySQL.php');
-    require(CFG_INCDIR.'/functions.inc.php');
-    include(CFG_INCDIR.'/mysql.inc.php');
-    require(CFG_INCDIR.'/class.outputControl.php');
-    require(CFG_INCDIR.'/class.nopSmarty.php');
-    require(CFG_INCDIR.'/Session.class.php');
-    
+    require($cfg["incdir"].'/class.simpleMySQL.php');
+    require($cfg["incdir"].'/functions.inc.php');
+    include($cfg["incdir"].'/mysql.inc.php');
+    require($cfg["incdir"].'/class.outputControl.php');
+    require($cfg["incdir"].'/class.nopSmarty.php');
+    require($cfg["incdir"].'/Session.class.php');
+
     // MySQL
     $mysql=FALSE;
 ?>

@@ -3,6 +3,6 @@
     
     $root_path='../';
     require($root_path.'include/config.inc.php');
-    header('Location: '.CFG_SERVERPATH);
+    header('Location: '.$cfg["serverpath"]);
     exit();
 ?>

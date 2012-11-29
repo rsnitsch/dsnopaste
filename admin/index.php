@@ -10,9 +10,9 @@
     // Allgemein Daten
     $output->assign('root_path', '../');
     $output->assign('title', 'Administration');
-    $output->assign('cfg_enabled', boolYesNo(CFG_ENABLED));
-    $output->assign('cfg_uploaded', boolYesNo(CFG_UPLOADED));
-    $output->assign('cfg_debugmode', boolYesNo(CFG_DEBUGMODE));
+    $output->assign('cfg_enabled', boolYesNo($cfg["enabled"]));
+    $output->assign('cfg_uploaded', boolYesNo($cfg["uploaded"]));
+    $output->assign('cfg_debugmode', boolYesNo($cfg["debugmode"]));
     
     // nur wenn SQL aktiviert werden kann...
     if(enableMySQL(true))

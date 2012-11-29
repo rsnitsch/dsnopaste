@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-{if CFG_ENABLED}
+{if $cfg.enabled}
     <p>
     Willkommen zum DS NoPaste Service.<br />
     Diese Website beinhaltet einige Tools für das Browsergame <a href="http://www.die-staemme.de" target="_blank">DieStämme</a>.
@@ -23,7 +23,7 @@
                     <li>
                         <a id="farmmanager" href="tools/farmmanager.php" target="_self">Farmmanager</a>
                         <ul>
-                            <li><a class="simple" href="http://forum.die-staemme.de/showthread.php?p=1350486#post1350486" target="_blank">Per Tastendruck Berichte einlesen!</a> <span class="tiny">(nur Firefox!)</span> <span class="hinweis"> NEU! &lt;&lt;</span></li>
+                            <li><a class="simple" href="http://forum.die-staemme.de/showthread.php?p=1350486#post1350486" target="_blank">Per Tastendruck Berichte einlesen!</a> <span class="tiny">(nur Firefox!)</span></li>
                         </ul>
                     </li>
                     <li>

@@ -12,7 +12,7 @@
 <body>
 
 <!-- Javascripts -->
-{if $debugmode}
+{if $cfg.debugmode}
 <script language="javascript" type="text/javascript" src="{$root_path}js/jquery-1.3.2.js"></script>
 {else}
 <script language="javascript" type="text/javascript" src="{$root_path}js/jquery-1.3.2.min.js"></script>

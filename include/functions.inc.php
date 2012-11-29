@@ -21,8 +21,8 @@
                 
             $this->id = $id;
             
-            global $root_path, $language;
-            $this->dir = $root_path."data/server/$language/{$this->id}";
+            global $root_path, $cfg;
+            $this->dir = $root_path."data/server/{$cfg['language']}/{$this->id}";
             
             $this->getData();
         }
@@ -205,8 +205,8 @@
      */
     function serverExists($server)
     {
-        global $root_path, $language;
-        return isValidServerID($server) and is_dir($root_path."include/servers/$language/$server");
+        global $root_path, $cfg;
+        return isValidServerID($server) and is_dir($root_path."include/servers/{$cfg['language']}/$server");
     }
     
     /**
@@ -215,7 +215,7 @@
      */
     function getServers()
     {
-        global $root_path, $language;
+        global $root_path, $cfg;
         
         $path = $root_path.'data/server/servers.xml';
         
@@ -227,7 +227,7 @@
         
         $servers = array();
         
-        $xml_servers = $xml->$language;
+        $xml_servers = $xml->$cfg['language'];
         
         
         foreach($xml_servers->children() as $id => $name) {
@@ -290,9 +290,9 @@
     // diese Funktion liefert ein assoziatives Array mit den Laufzeiten der Einheiten eines Servers zurück
     function getRuntimes($server)
     {
-        global $root_path, $language;
+        global $root_path, $cfg;
         
-        $xml = simplexml_load_file($root_path."include/servers/$language/$server/units.xml");
+        $xml = simplexml_load_file($root_path."include/servers/{$cfg['language']}/$server/units.xml");
         
         $runtimes = array();
         
@@ -341,7 +341,7 @@
             $result = convert_coords_to_xy($matches[1], $matches[2], $matches[3]);
             $result['orig'] = $matches[0];
             /*
-            if(CFG_DEBUGMODE)
+            if($cfg["debugmode"])
             {
                 echo 'converted xy-coordinates: x => '.$result['x'].', y => '.$result['y'];
             }
@@ -407,7 +407,9 @@
      * Diese werden automatisch angezeigt, wenn der DEBUG-Modus aktiviert ist.
      */
     function displayErrors(Smarty $smarty, $errors, $debugs=null) {
-        if($debugs == null or !CFG_DEBUGMODE)
+        global $cfg;
+        
+        if($debugs == null or !$cfg["debugmode"])
             $debugs = array();
             
         $smarty->assign('error', $errors);

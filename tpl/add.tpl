@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-{if CFG_ENABLED}
+{if $cfg.debugmode}
 
 	{* falls der Eintrag eingelesen werden sollte aber ein Fehler auftritt *}
 	{if $add and !$added}

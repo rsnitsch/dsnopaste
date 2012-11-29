@@ -11,7 +11,7 @@
 	$output->assign('title','Deffformular');
 	
 	// Inhalt
-	if(!CFG_ENABLED)
+	if(!$cfg["enabled"])
 	{
 		$output->display('offline.tpl');
 	}

@@ -40,7 +40,7 @@
      */
     define('INC_CHECK',true);
     include($root_path.'include/config.inc.php');
-    require_once(TWDATA_INCLUDE);
+    require_once($cfg["twdata_include"]);
     
     $smarty = new nopSmarty();
     
@@ -53,7 +53,7 @@
     $debugs = array();
     
     // ist die Seite aktiviert
-    if(!CFG_ENABLED) {
+    if(!$cfg["enabled"]) {
         $smarty->display('offline.tpl');
         exit();
     }
@@ -367,7 +367,7 @@
         $matches = array();
         $data = array();
         
-        if(CFG_DEBUGMODE && is_writable("/tmp/report.txt")) {
+        if($cfg["debugmode"] && is_writable("/tmp/report.txt")) {
             $fh = fopen("/tmp/report.txt", "wb");
             fwrite($fh, $report);
             fclose($fh);

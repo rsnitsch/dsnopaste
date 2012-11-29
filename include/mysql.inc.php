@@ -4,7 +4,7 @@
     $mysql_conn=NULL;
     
     $mysql_pass='';
-    if(!CFG_UPLOADED)
+    if(!$cfg["uploaded"])
     {
         define('MYSQL_HOST','localhost');
         define('MYSQL_USER','robert');

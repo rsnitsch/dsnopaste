@@ -1,5 +1,5 @@
 <?php
-	define('CFG_ENABLED', false);
+	define('$cfg["enabled"]', false);
 	define('INC_CHECK',true);
 	$root_path='../';
 	include($root_path.'include/config.inc.php');
@@ -12,7 +12,7 @@
 	$output->assign('title','Map Combiner');
 	
 	// Inhalt
-	if(!CFG_ENABLED)
+	if(!$cfg["enabled"])
 	{
 		$output->display('offline.tpl');
 	}

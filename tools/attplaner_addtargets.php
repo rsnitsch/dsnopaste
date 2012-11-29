@@ -29,7 +29,7 @@
     }
     
     // ist die Seite aktiviert
-    if(!CFG_ENABLED) {
+    if(!$cfg["enabled"]) {
     	$smarty->display('offline.tpl');
     	exit();
     }

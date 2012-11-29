@@ -43,7 +43,7 @@
 	error_reporting(E_ALL);
 	
     // Inhalt
-    if(!CFG_ENABLED)
+    if(!$cfg["enabled"])
     {
         $output->display('offline.tpl');
         exit;
@@ -97,7 +97,7 @@
                     else
                     {
                         $errors[]='Es ist ein Fehler aufgetreten (SQL-Fehler). Es konnte kein neuer Angriffsplan erstellt werden.';
-                        if(CFG_DEBUGMODE)
+                        if($cfg["debugmode"])
                         {
                             $debuginfo[]='SQL-Abfrage: '.$sql_cmd;
                             $debuginfo[]='SQL-Fehlermeldung: '.$mysql->lasterror;
@@ -285,7 +285,7 @@
                                     if(!$mysql->sql_query($sql_cmd))
                                     {
                                         $errors[]='Der Angriff bzw. die Untersttzung konnte nicht hinzugefgt/bearbeitet werden (SQL-Fehler).';
-                                        if(CFG_DEBUGMODE)
+                                        if($cfg["debugmode"])
                                         {
                                             $debuginfo[]='SQL-Fehlermeldung: '.$mysql->lasterror;
                                         }
@@ -398,7 +398,7 @@
                                             if(!$mysql->sql_query($sql_cmd))
                                             {
                                                 $errors[]=('Die Angriffe konnten nicht verschoben werden (SQL-Fehler).');
-                                                if(CFG_DEBUGMODE)
+                                                if($cfg["debugmode"])
                                                     $debuginfo[]='SQL-Fehlermeldung: '.$mysql->lasterror;
                                             }
                                         }
@@ -466,7 +466,7 @@
                                     if(!$mysql->sql_query($sql_cmd))
                                     {
                                         $errors[]=('Die Angriffe konnten nicht verschoben werden (SQL-Fehler).');
-                                        if(CFG_DEBUGMODE)
+                                        if($cfg["debugmode"])
                                             $debuginfo[]='SQL-Fehlermeldung: '.$mysql->lasterror;
                                     }
                                 }
@@ -544,7 +544,7 @@
                     $actions=$mysql->sql_query('SELECT * FROM attplans_actions WHERE attplan_id='.$attid.' ORDER BY '.$order);
                     if(!$actions)
                     {
-                        if(CFG_DEBUGMODE)
+                        if($cfg["debugmode"])
                             $debuginfo[]='Es ist ein SQL-Fehler aufgetreten. SQL-Fehlermeldung: '.$mysql->lasterror;
                     }
                     

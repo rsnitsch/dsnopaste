@@ -14,12 +14,12 @@
     $debugs = array();
     
     // ist die Seite aktiviert
-    if(!CFG_ENABLED) {
+    if(!$cfg["enabled"]) {
         $smarty->display('offline.tpl');
         exit();
     }
     
-    require(TWDATA_INCLUDE);
+    require($cfg["twdata_include"]);
     
     // Hilfsfunktionen
     function _displayErrors() {
