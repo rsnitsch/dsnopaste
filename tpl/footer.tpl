@@ -1,4 +1,4 @@
-﻿	<br />
+	<br />
 	<hr style="margin-top: 20px;" />
 	
 	<table align="center" border="0" style="vertical-align: bottom; width: 100%;">
@@ -29,8 +29,8 @@
 	  </td>
 	  <td align="right" width="300">
 		<p id="copyright">
-			&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2010.<br />
-			Support: <a href="http://forum.np.bmaker.net">Forum</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
+			&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2012.<br />
+			<a href="http://feedback.np.bmaker.net/">Feedback</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
 			<a href="{$root_path}anb.php" target="_self">ANBs/Impressum</a><br />
 			
 			{*
