@@ -8,7 +8,7 @@
     {/if}
     </p>
     
-    <img src="{$root_path}cache/map_combine/dsplus_map_{$pic_hash}.png" alt="dsplus karten, überlagert" border="0" />
+    <img src="{$root_path}data/cache/map_combine/dsplus_map_{$pic_hash}.png" alt="dsplus karten, überlagert" border="0" />
 
     
 

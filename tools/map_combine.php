@@ -19,7 +19,7 @@
 	else
 	{
         $pic_hash = md5($_SERVER['REMOTE_ADDR']);
-        $pic_exists = file_exists($root_path.'cache/map_combine/dsplus_map_'.$pic_hash.'.png');
+        $pic_exists = file_exists($root_path.'data/cache/map_combine/dsplus_map_'.$pic_hash.'.png');
         
         if(isset($_GET['merge']) and !$pic_exists)
         {
@@ -44,7 +44,7 @@
                         imagecopymerge($resultimg, $karte3, 0, 0, 0, 0, 1000, 1000, 100);
                     }
                     
-                    imagepng($resultimg, $root_path.'cache/map_combine/dsplus_map_'.$pic_hash.'.png');
+                    imagepng($resultimg, $root_path.'data/cache/map_combine/dsplus_map_'.$pic_hash.'.png');
             }
             else
             {
