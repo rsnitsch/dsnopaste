@@ -8,8 +8,8 @@
         function nopSmarty()
         {
             $this->template_dir = CFG_TPLDIR;
-            $this->compile_dir = CFG_ROOTPATH.'cache/compiled';
-            $this->cache_dir = CFG_ROOTPATH.'cache';
+            $this->compile_dir = CFG_ROOTPATH.'data/cache/compiled';
+            $this->cache_dir = CFG_ROOTPATH.'data/cache';
             
             $this->assign('global_announcing', CFG_GLOBAL_ANNOUNCING);
             $this->assign('debugmode', CFG_DEBUGMODE);
