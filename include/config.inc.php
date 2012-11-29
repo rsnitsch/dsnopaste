@@ -10,7 +10,7 @@
     switch($_SERVER['SERVER_ADDR']) {
         case '178.77.99.165':
             define('CFG_SERVERPATH','http://np.bmaker.net');
-            define('CFG_SMARTYDIR',$root_path.'smarty/Smarty-2.6.26/libs');
+            define('CFG_SMARTYDIR',$root_path.'smarty/libs');
             break;
         case '127.0.0.1':
             define('CFG_SERVERPATH','http://localhost/~robert/nopaste');
