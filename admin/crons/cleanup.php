@@ -10,13 +10,15 @@
      * - leere Farmmanager löschen
      */
     
+    define('INC_CHECK',true);
+    $root_path='../../';
+    
     error_reporting(E_ALL);
     
-    $log=fopen('cronjob.cleanup.log','a');
+    $log=fopen($root_path.'data/log/cronjob.cleanup.log','a');
     
     // mysql
-    define('INC_CHECK', true);
-    require "mysql.inc.php";
+    require($root_path."include/mysql.inc.php");
     enableMySQL(false) or die("Couldnt connect to database.");
     
     header("Content-Type: text/html; charset=utf-8");
