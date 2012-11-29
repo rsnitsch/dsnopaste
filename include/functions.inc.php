@@ -220,6 +220,7 @@
         $path = $root_path.'data/server/servers.xml';
         
         if (!is_readable($path)) {
+            trigger_error("servers.xml is not readable");
             return array();
         }
         
