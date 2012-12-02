@@ -32,23 +32,22 @@
 			&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2012.<br />
 			<a href="http://feedback.np.bmaker.net/">Feedback</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
 			<a href="{$root_path}anb.php" target="_self">ANBs/Impressum</a><br />
-			
-			{*
-			<!-- phpmyvisites -->
-			<a href="http://www.phpmyvisites.us/" title="phpMyVisites : Ein Open Source-Website-Statistikprogramm in PHP/MySQL veröffentlicht unter der GNU/GPL."
-			onclick="window.open(this.href);return(false);"><script type="text/javascript">
-			<!--
-			var a_vars = Array();
-			var pagename='';
-			
-			var phpmyvisitesSite = 1;
-			var phpmyvisitesURL = "http://stats.robertnitsch.de/phpmyvisites.php";
-			//-->
-			</script>
-			<script language="javascript" src="http://stats.robertnitsch.de/phpmyvisites.js" type="text/javascript"></script>
-			</a>
-			<!-- /phpmyvisites -->
-			*}
+{if $cfg.uploaded && !$cfg.debugmode}			
+			{literal}
+			<!-- Piwik --> 
+			<script type="text/javascript">
+			var pkBaseURL = (("https:" == document.location.protocol) ? "https://anal.robertnitsch.de/piwik/" : "http://anal.robertnitsch.de/piwik/");
+			document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+			</script><script type="text/javascript">
+			try {
+			var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+			piwikTracker.trackPageView();
+			piwikTracker.enableLinkTracking();
+			} catch( err ) {}
+			</script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+			<!-- End Piwik Tracking Code -->
+			{/literal}
+{/if}
 		</p>
 	  </td>
 	 </tr>
