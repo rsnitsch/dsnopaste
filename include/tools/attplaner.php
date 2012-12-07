@@ -40,8 +40,6 @@
     $url_create_keys = array("twforums" =>
 							 md5("FdxlWf0NO6dXjAaHQObyDtSxpcgdqTli8msqFuBcBmrIvEruCXPADx8kvBjjdb3".$time_key));
     
-	error_reporting(E_ALL);
-	
     // Inhalt
     if(!$cfg["enabled"])
     {
