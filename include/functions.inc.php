@@ -1,6 +1,4 @@
 <?php
-    error_reporting(E_ALL);
-    
     if(!defined('INC_CHECK')) exit;
     
     function is_number($txt) {
