@@ -3,6 +3,8 @@
 	/* BESCHREIBUNG:
 	Berechnet die Laufzeiten und Ankunftsdaten aller Angriffsplan-Aktionen neu!
 	*/
+	die("disabled");
+	
 	error_reporting(E_ALL);
 	
 	define('INC_CHECK', TRUE);

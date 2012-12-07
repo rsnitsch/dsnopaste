@@ -10,6 +10,8 @@
 	 * @todo: finish
 	 */
 	 
+    die("disabled");
+    
     define('INC_CHECK',true);
     $root_path='../';
     include($root_path.'include/config.inc.php');
