@@ -226,7 +226,7 @@
                                     {
                                         $units[$unitname] = $_POST['add_'.$unitname];
                                     }
-                                    $timeperfield=getTimePerField($units, $server);
+                                    $timeperfield=$server->getTimePerField($units);
                                     
                                     // der paladin senkt die zeit/feld bei unterstützungsaufträgen auf 10 minuten
                                     if($typ == 2)

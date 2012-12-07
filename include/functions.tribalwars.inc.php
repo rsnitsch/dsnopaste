@@ -125,6 +125,25 @@
 
             return $data[$level];
         }
+
+        // diese Funktion berechnet die Laufzeit für ein Feld anhand der Truppen... ($units, assoziatives Array)
+        function getTimePerField($units)
+        {
+            $time=0;
+            $runtimes = $this->runtimes;
+
+            // die langsamste Einheit ermitteln
+            foreach($units as $name => $einheit)
+            {
+                if($einheit > 0) // wenn von der Einheitensorte überhaupt welche dabei sind
+                {
+                    if($runtimes[$name] > $time)
+                        $time = $runtimes[$name];
+                }
+            }
+
+            return $time*60; // sekunden zurückgeben
+        }
     }
 
     // diese Funktion berechnet die Entfernung zwischen 2 Dörfern
@@ -199,25 +218,6 @@
         }
 
         return $runtimes;
-    }
-
-    // diese Funktion berechnet die Laufzeit für ein Feld anhand der Truppen... ($units, assoziatives Array)
-    function getTimePerField($units, $server)
-    {
-        $time=0;
-        $runtimes = $server->runtimes;
-
-        // die langsamste Einheit ermitteln
-        foreach($units as $name => $einheit)
-        {
-            if($einheit > 0) // wenn von der Einheitensorte überhaupt welche dabei sind
-            {
-                if($runtimes[$name] > $time)
-                    $time = $runtimes[$name];
-            }
-        }
-
-        return $time*60; // sekunden zurückgeben
     }
 
     /**
