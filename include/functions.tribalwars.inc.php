@@ -133,9 +133,9 @@
     {
         // die Start- und Zielkoordinate können wahlweise als String oder bereits als "Arraykoordinate" übergeben werden...
         if(!is_array($from))
-            $from=getCoord($from);
+            $from=parseCoordinate($from);
         if(!is_array($to))
-            $to=getCoord($to);
+            $to=parseCoordinate($to);
 
         $distance=sqrt(pow($from['x']-$to['x'],2) + pow($from['y']-$to['y'],2));
 
@@ -154,9 +154,9 @@
     {
         // die Start- und Zielkoordinate können wahlweise als String oder bereits als "Arraykoordinate" übergeben werden...
         if(!is_array($from))
-            $from=getCoord($from);
+            $from=parseCoordinate($from);
         if(!is_array($to))
-            $to=getCoord($to);
+            $to=parseCoordinate($to);
 
         $distance=calcDistance($from, $to);
 
@@ -176,7 +176,7 @@
 
     function cleanCoord($str)
     {
-        $coord = getCoord($str);
+        $coord = parseCoordinate($str);
         return $coord['orig'];
     }
 
@@ -192,43 +192,6 @@
         $x = ($con % 10) * 50 + ($sec % 10) * 5 + ($sub % 5);
         $y = floor($con / 10) * 50 + floor($sec / 10) * 5 + floor($sub / 5);
         return array('x' => $x, 'y' => $y);
-    }
-
-    // diese Funktion gibt ein assoziatives Array mit den Keys 'x' und 'y' zurück. x und y werden aus einer Koordinate (String) extrahiert
-    function getCoord($str)
-    {
-        $str = trim($str);
-
-        $matches=FALSE;
-        $result=array('x' => 0, 'y' => 0);
-
-        if(preg_match('/(\-?[0-9]{1,3})\|(\-?[0-9]{1,3})/',$str,$matches))
-        {
-            if(is_numeric($matches[1]) and is_numeric($matches[2]))
-            {
-                $result['orig'] = $matches[0];
-                $result['x']=$matches[1];
-                $result['y']=$matches[2];
-            }
-        }
-        elseif(preg_match('/([0-9]{1,3}):([0-9]{1,3}):([0-9]{1,3})/',$str,$matches))
-        {
-            $result = convert_coords_to_xy($matches[1], $matches[2], $matches[3]);
-            $result['orig'] = $matches[0];
-            /*
-            if($cfg["debugmode"])
-            {
-                echo 'converted xy-coordinates: x => '.$result['x'].', y => '.$result['y'];
-            }
-            */
-        }
-        else
-        {
-            trigger_error('invalid coordinate: '.$str);
-            return FALSE;
-        }
-
-        return $result;
     }
 
     // diese Funktion liefert ein assoziatives Array mit den Laufzeiten der Einheiten eines Servers zurück
@@ -278,6 +241,43 @@
     function isValidServerID($server)
     {
         return preg_match('/^[a-z0-9]+$/', $server);
+    }
+
+    // diese Funktion gibt ein assoziatives Array mit den Keys 'x' und 'y' zurück. x und y werden aus einer Koordinate (String) extrahiert
+    function parseCoordinate($str)
+    {
+        $str = trim($str);
+
+        $matches=FALSE;
+        $result=array('x' => 0, 'y' => 0);
+
+        if(preg_match('/(\-?[0-9]{1,3})\|(\-?[0-9]{1,3})/',$str,$matches))
+        {
+            if(is_numeric($matches[1]) and is_numeric($matches[2]))
+            {
+                $result['orig'] = $matches[0];
+                $result['x']=$matches[1];
+                $result['y']=$matches[2];
+            }
+        }
+        elseif(preg_match('/([0-9]{1,3}):([0-9]{1,3}):([0-9]{1,3})/',$str,$matches))
+        {
+            $result = convert_coords_to_xy($matches[1], $matches[2], $matches[3]);
+            $result['orig'] = $matches[0];
+            /*
+            if($cfg["debugmode"])
+            {
+                echo 'converted xy-coordinates: x => '.$result['x'].', y => '.$result['y'];
+            }
+            */
+        }
+        else
+        {
+            trigger_error('invalid coordinate: '.$str);
+            return FALSE;
+        }
+
+        return $result;
     }
 
     // überprüft ob es sich um eine korrekte DieStämme - Koordinate handelt
