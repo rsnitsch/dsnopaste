@@ -36,6 +36,7 @@
     define('SSQL_INC_CHECK',TRUE);
     require($cfg["incdir"].'/class.simpleMySQL.php');
     require($cfg["incdir"].'/functions.inc.php');
+    require($cfg["incdir"].'/functions.tribalwars.inc.php');
     include($cfg["incdir"].'/mysql.inc.php');
     require($cfg["incdir"].'/class.nopSmarty.php');
     require($cfg["incdir"].'/Session.class.php');
