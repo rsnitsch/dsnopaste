@@ -165,13 +165,6 @@
         return $string;
     }
     
-    // gibt zu einem Boolean-Wert jeweils "Ja" (TRUE) oder "Nein" (FALSE) zurück
-    function boolYesNo($bool)
-    {
-        if($bool) return 'Ja';
-        return 'Nein';
-    }
-    
     // generiert ein Passwort
     function generatePassword($len)
     {

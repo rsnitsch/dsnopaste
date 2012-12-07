@@ -51,6 +51,12 @@
     // den Footer inkludieren
     $output->display('admin.tpl');
     
+    // gibt zu einem Boolean-Wert jeweils "Ja" (TRUE) oder "Nein" (FALSE) zurück
+    function boolYesNo($bool)
+    {
+        if($bool) return 'Ja';
+        return 'Nein';
+    }
     
     function smarty_paginate ($aParam) {
         // {paginate count=30 curr=1 max=10 url=http://here.com/page-::PAGE::}
