@@ -165,15 +165,6 @@
         return $time * $speed;
     }
 
-    // berechnet das Fassungsvermögen des Speichers
-    function calcStorageMax($level) {
-        $data = array(1000,   1229,   1512,   1859,  2285,  2810,   3454,   4247, 5222, 6420,
-                      7893,   9705,   11932,  14670, 18037, 22177,  27266,  33523,
-                      41217,  50675,  62305,  76604, 94184, 115798, 142373, 175047,
-                      215219, 264611, 325337, 400000);
-        return $data[$level-1];
-    }
-
     function cleanCoord($str)
     {
         $coord = parseCoordinate($str);
@@ -227,12 +218,6 @@
         }
 
         return $time*60; // sekunden zurückgeben
-    }
-
-    // gibt das Fassungsvermögen des Verstecks zurück
-    function hideMax($level) {
-        $data = array(0, 150, 200, 267, 356, 474, 632, 843, 1125, 1500, 2000);
-        return $data[$level];
     }
 
     /**
