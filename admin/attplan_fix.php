@@ -9,9 +9,12 @@
 	define('SSQL_INC_CHECK', TRUE);
 	define('CFG_UPLOADED', TRUE);
 	
-	include('../include/class.simpleMySQL.php');
-	include('../include/mysql.inc.php');
-	enableMySQL(TRUE);
+	$root_path = '../';
+	include($root_path.'include/config.inc.php');
+	if (!enableMySQL(true)) {
+		print_r($debuginfo);
+		die("enableMySQL failed");
+	}
 	
 	$all = $mysql->sql_query('SELECT * FROM attplans_actions');
 	
@@ -203,7 +206,7 @@
 		{
 			$result = convert_coords_to_xy($matches[1], $matches[2], $matches[3]);
 			/*
-			if(CFG_DEBUGMODE)
+			if($cfg["debugmode"])
 			{
 				echo 'converted xy-coordinates: x => '.$result['x'].', y => '.$result['y'];
 			}
