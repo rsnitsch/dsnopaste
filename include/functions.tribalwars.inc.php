@@ -103,27 +103,39 @@
 
         // gibt die Minenproduktion zurück auf der jeweiligen Stufe
         function calcMineProduction($level) {
-            switch($this->id) {
-                case 'de34':
-                    $data = array(5,    30,  34,  40,  46,  52,  60,  69,   80,  92, 106,
-                                  121,  140, 161, 185, 212, 244, 281, 323,  371,
-                                  427,  491, 565, 649, 747, 859, 988, 1136, 1306,
-                                  1502, 1727);
-                    break;
-                case 'de52':
-                    $data = array(5,    15,  18,  21,  25,  30,   35,   42,  49, 58, 69, 82,
-                                  97,   115, 136, 161, 191, 227,  269,  318, 377,
-                                  447,  530, 628, 744, 882, 1045, 1238, 1467,
-                                  1739, 2060);
-                    break;
-                default:
-                    $data = array(5,    30,   35,  41,  47,  55,   64,   74,  86, 100, 117,
-                                  136,  158,  184, 214, 249, 289,  337,  391, 455,
-                                  530,  616,  717, 833, 969, 1127, 1311, 1525,
-                                  1774, 2063, 2400);
+            $level = intval($level);
+            if ($level == 0) {
+                return 5;
             }
 
-            return $data[$level];
+            if ($level < 0 || $level > 30) {
+                throw new InvalidArgumentException("level must be in range [0, 30].");
+            }
+
+            /*
+            Notes:
+              Style 6 is equivalent to style 4 in terms of resource production.
+            */
+            $styles = array(
+                "1" => 1.1849947123642790517084558178612437188691209528184791,
+                "3" => 1.1499939473519853323916857783744216678507170787537519,
+                "4" => 1.1631180425542681684944206017852942633987886353007667,
+            );
+
+            // Parse the world's style.
+            $base_config = trim($this->config->game->base_config);
+            if ($base_config == "6") {
+                $base_config = "4";
+            } else if (!in_array($base_config, array_keys($styles))) {
+                $base_config = "4"; // Default.
+                trigger_error("calcMineProduction: Style '".urlencode($base_config)."' is unknown. World: '".urlencode($this->id)."'");
+            }
+
+            // Get parameters based on the world's style.
+            $growth = $styles[$base_config];
+            $base_production = floatval($this->config->game->base_production);
+
+            return intval(round($base_production * pow($growth, $level-1)));
         }
 
         // diese Funktion berechnet die Laufzeit für ein Feld anhand der Truppen... ($units, assoziatives Array)
