@@ -779,10 +779,6 @@
         // Gesamtsumme der Rohstoffe
         $farms[$i]['c_sum'] = $farms[$i]['c_wood'] + $farms[$i]['c_loam'] + $farms[$i]['c_iron'];
         
-        // Truppen, die zum Abtransport der Rohstoffe benötigt werden
-        $farms[$i]['transport_spear'] = ceil($farms[$i]['c_sum'] / 25);
-        $farms[$i]['transport_light'] = ceil($farms[$i]['c_sum'] / 80);
-        
         // relativer Füllstand des Speichers
         $farms[$i]['fill_level'] =  ($farms[$i]['farmable'] > 0) ?
                                     (intval($farms[$i]['c_sum'] / ($farms[$i]['farmable'] * 3) * 100)) :
@@ -791,6 +787,24 @@
         // Entfernung zum Herkunftsdorf
         if($av_filter != 'all') {
             $farms[$i]['distance'] = round(calcDistance($farms[$i]['v_coords'], $av_filter), 1);
+        }
+        
+        // Truppen, die zum Abtransport der Rohstoffe benötigt werden
+        $units_tmp = array("spear" => 25.0, "light" => 80.0);
+        foreach ($units_tmp as $unit => $carry) {
+            $farms[$i]["transport_$unit"] = $farms[$i]['c_sum'] / $carry;
+            
+            // Laufzeit vom Herkunftsdorf berücksichtigen.
+            if ($av_filter != 'all') {
+                $runtime_in_hours = ($oServer->getTimePerField(array($unit => 1)) * $farms[$i]['distance']) / 3600.0;
+                $farms[$i]["transport_$unit"] *= (1.0 + $runtime_in_hours / $hours_gone);
+                
+                // Auf Speicher beschränken.
+                $farms[$i]["transport_$unit"] = min($farms[$i]["transport_$unit"], ($farms[$i]['farmable']*3) / $carry);
+            }
+            
+            // Runden auf ganzzahlige Werte.
+            $farms[$i]["transport_$unit"] = ceil($farms[$i]["transport_$unit"]);
         }
         
         // die Summen...
