@@ -14,8 +14,6 @@
      * @todo: Auch Berichte ohne Späher einlesen können (Farmbericht/Spähbericht einlesen ist zweideutig)
 
      * NORMALE TODOS:
-     * @todo: Link zum Versammlungsplatz für direktes Truppen schicken (erfordert wohl Einbau von Weltdaten)
-     * @todo: Ressourcen, die während der Laufzeit dazukommen, ebenfalls berechnen
      * @todo: Wenn das Herkunftsdorf nicht dem Eigentümer des Farmmanagers gehört,
      *        dann soll das Herkunftsdorf nicht abgespeichert werden
      * @todo: Optimierung (Caching, ggf. Sortierungen komplett clientseitig umsetzen)
@@ -37,6 +35,8 @@
      * @todo: Sortierung nach Entfernung zum gerade gewählten Herkunftsdorf
      * @todo: Checkboxen für die unterschiedlichen Rohstoffboni hinzufügen
      * @todo: farmmanager regelmäßig mit cronjob aufräumen
+     * @todo: Link zum Versammlungsplatz für direktes Truppen schicken (erfordert wohl Einbau von Weltdaten)
+     * @todo: Ressourcen, die während der Laufzeit dazukommen, ebenfalls berechnen
      */
     define('INC_CHECK',true);
     include($root_path.'include/config.inc.php');
