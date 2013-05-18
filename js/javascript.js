@@ -104,6 +104,7 @@ function fm_sendTroops(world_id, from, to, units) {
     }
     
     window.open("sendtroops.php?world="+world_id+
+                "&form=1"+
                 "&from="+from+
                 "&to="+to+
                 target+
