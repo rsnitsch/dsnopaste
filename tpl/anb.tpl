@@ -17,7 +17,7 @@
     Alle Angaben auf Nopaste ohne Gewähr (damit sind in erster Linie die Angaben der Tools gemeint -
     Abweichungen/Ungenauigkeiten oder gar falsche Rechenergebnisse können nicht zu 100%
     ausgeschlossen werden)!<br />
-    Fehler/Ungenauigkeiten können jederzeit <a href="http://forum.np.bmaker.net/">im Forum</a>
+    Fehler/Ungenauigkeiten können jederzeit unter <a href="http://feedback.np.bmaker.net/">http://feedback.np.bmaker.net/</a>
     gemeldet werden!
 </p>
 
