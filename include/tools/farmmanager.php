@@ -267,6 +267,7 @@
     // Das Gameworld-Objekt
     $oServer = new Gameworld($server);
     $smarty->assign('server', $oServer);
+    $smarty->assign('title', $smarty->get_template_vars('title')." (".$oServer->name.")");
     
     // Welche Bonusdörfer kann es auf diesem Server geben?
     $bonus_new = $oServer->bonusNew();

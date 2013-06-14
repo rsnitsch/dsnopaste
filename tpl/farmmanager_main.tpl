@@ -19,9 +19,6 @@ $(document).ready(
 			{$server_url}/tools/farmmanager.php?id={$saveid}
 		</a>
 	</p>
-	<p>
-		Dieser Farmmanager wurde für {$server->name} erstellt.
-	</p>
 </div>
 
 {if !isset($edited_farm)}

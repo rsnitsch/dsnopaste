@@ -153,6 +153,7 @@
                 
                 // server
                 $output->assign('server', $server);
+                $output->assign('title', $output->get_template_vars('title')." (".$server->name.")");
                 
                 // ist der angegebene key korrekt?
                 if(isset($_GET['key']) and $_GET['key']==$key)

@@ -50,8 +50,6 @@
  {$delete}
  </p>
  
- <p>Dieser Angriffsplan wurde für {$server->name} erstellt und verwendet dessen Laufzeiten.</p>
- 
  {if $noadmin}
  <script language="javascript" type="text/javascript">
   setTimeout("alert('Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.');", 1000);
