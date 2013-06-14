@@ -12,10 +12,30 @@
     <input type="submit" value="Versammlungplatz öffnen" />
 </form>
 
+
+<h2>Wichtig: Farmmanager - Erweiterung II (sendtroopshelper) installieren</h2>
+
 <p>
-ACHTUNG: Damit das Formular im Versammlungsplatz automatisch ausgefüllt werden kann musst du dieses Greasemonkey-Script installieren:
-<a href="http://scripts.die-staemme.de/download/50.user.js">Farmmanager - Erweiterung II</a> aus der <a href="http://scripts.die-staemme.de/">Script-DB</a>.
+	Für dieses Feature muss das Userscript <strong>Farmmanager - Erweiterung II (sendtroopshelper)</strong> installiert
+	werden.
 </p>
+
+<p>
+	Jetzt <a href="http://scripts.die-staemme.de/download/50.user.js">Farmmanager - Erweiterung II installieren</a>
+	(aus der <a href="http://scripts.die-staemme.de/">Script-DB</a>).
+<p>
+
+<h3>Was macht das Script?</h3>
+
+<p>Das Script erfüllt die folgenden Funktionen:</p>
+
+<ul>
+	<li>Die Truppen im Versammlungsplatz werden automatisch ausgefüllt.</li>
+	<li>
+		Dieses Popup wird automatisch übersprungen; es öffnet sich also direkt
+		der Versammlungsplatz, ohne dass man auf "Versammlungsplatz öffnen" klicken muss.
+	</li>
+</ul>
 
 </div>
 
