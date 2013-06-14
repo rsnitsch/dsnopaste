@@ -7,7 +7,6 @@
 $(document).ready(
 	function() {
 		fm_updateFormVisible();
-		fm_updateNoAds();
 	}
 );
 </script>
@@ -22,9 +21,6 @@ $(document).ready(
 	</p>
 	<p>
 		Dieser Farmmanager wurde für {$server->name} erstellt.
-	</p>
-	<p id="fm_noads">
-		<span id="fm_noads_state" class="red">Ich habe KEINE Werbefreiheit.</span> (<a href="javascript:fm_toggleNoAds()">Umschalten</a>.)
 	</p>
 </div>
 

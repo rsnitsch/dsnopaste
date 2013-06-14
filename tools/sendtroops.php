@@ -80,35 +80,8 @@
     }
     
     try {
-        if(isset($_GET['form'])) {
-            $twd = TWData::get_db_connection();
-            main();
-        }
-        else {
-            $world_id = $_GET['world'];
-            
-            if(!serverExists($world_id)) {
-                die("Ungültige Welt!");
-            }
-            
-            $server = new Gameworld($world_id);
-            
-            $troops = array();
-            foreach($server->unitnames as $unitname) {
-                if(!empty($_GET[$unitname])) {
-                    $troops[] = array('unitname' => $unitname,
-                                      'count'    => max(0, intval($_GET[$unitname])));
-                }
-            }
-            
-            $smarty->assign('world', $world_id);
-            $smarty->assign('from', intval($_GET['from']));
-            $smarty->assign('to', intval($_GET['to']));
-            
-            $smarty->assign('troops', $troops);
-            
-            $smarty->display("sendtroops.tpl");
-        }
+        $twd = TWData::get_db_connection();
+        main();
     }
     catch(Exception $exc) {
         $errors[] = "Interner Fehler!";
