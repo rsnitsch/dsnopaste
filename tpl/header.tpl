@@ -13,9 +13,9 @@
 
 <!-- Javascripts -->
 {if $cfg.debugmode}
-<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-1.3.2.js"></script>
+<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.js"></script>
 {else}
-<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-1.3.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.min.js"></script>
 {/if}
 <script language="javascript" type="text/javascript" src="{$root_path}js/javascript.js"></script>
 <!-- /Javascripts -->
