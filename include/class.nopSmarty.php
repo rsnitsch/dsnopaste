@@ -4,9 +4,10 @@
     require($cfg["smartydir"].'/Smarty.class.php');
     
     class nopSmarty extends Smarty {
-    
-        function nopSmarty()
+        function __construct()
         {
+            parent::__construct();
+            
             global $root_path, $cfg;
             
             $this->template_dir = $cfg["tpldir"];

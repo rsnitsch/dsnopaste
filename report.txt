@@ -1,0 +1,48 @@
+Weiterleiten		Verschieben 	Löschen 	Exportieren 	>>
+Betreff 	bakerman1980 (Bakery) greift Barbarendorf (478|551) K54 an Umbenennen
+Gesendet	15.06.13 18:30:18
+Der Angreifer hat gewonnen
+Glück (aus Sicht des Angreifers)
+-21.9% 	Pech 	
+			
+	Glück
+Moral: 100%
+Angreifer: 	bakerman1980
+Herkunft: 	Bakery (480|554) K54
+												
+Anzahl: 	0	0	0	0	5	10	0	0	0	0	0	0
+Verluste: 	0	0	0	0	0	0	0	0	0	0	0	0
+
+Verteidiger: 	---
+Ziel: 	Barbarendorf (478|551) K54
+													
+Anzahl: 	0	0	0	0	0	0	0	0	0	0	0	0	0
+Verluste: 	0	0	0	0	0	0	0	0	0	0	0	0	0
+
+Spionage
+Erspähte Rohstoffe:	1 1 1
+Mögliche Rohstoffe: 	26 26 19
+
+Gebäude:	Hauptgebäude (Stufe 6)
+Kaserne (Stufe 1)
+Versammlungsplatz (Stufe 1)
+Statue (Stufe 1)
+Marktplatz (Stufe 3)
+Holzfäller (Stufe 3)
+Lehmgrube (Stufe 3)
+Eisenmine (Stufe 1)
+Bauernhof (Stufe 5)
+Speicher (Stufe 6)
+Versteck (Stufe 2)
+Wall (Stufe 2)
+Einheiten außerhalb:
+											
+0	0	0	0	0	0	0	0	0	0	0	0
+
+Beute: 	12 12 9 	33/800
+
+» Truppen in Simulator einfügen
+» Überlebende Truppen in Simulator einfügen » Dieses Dorf angreifen
+» Mit gleichen Truppen noch einmal angreifen
+» Mit allen Truppen noch einmal angreifen » Diesen Bericht veröffentlichen
+Weiterleiten		Verschieben 	Löschen 	Exportieren 	>>
