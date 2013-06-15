@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 <h3 style="margin-top: 10px;">Konfiguration</h3>
 
@@ -37,4 +38,4 @@
 -->
 {/literal}
 
-{include file='footer.tpl'}
+{/block}

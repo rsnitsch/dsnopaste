@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 <form action="{$world_url}/game.php" method="get" name="sendtroops" id="form_sendtroops" target="_self">
     <input type="hidden" name="village" value="{$from|intval}" />
@@ -36,8 +37,6 @@
 		der Versammlungsplatz, ohne dass man auf "Versammlungsplatz öffnen" klicken muss.
 	</li>
 </ul>
+{/block}
 
-</div>
-
-</body>
-</html>
+{block 'footer'}{/block}

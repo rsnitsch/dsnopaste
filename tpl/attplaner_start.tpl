@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 {if !empty($w_hinweis)}<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>{/if}
 
@@ -24,4 +25,4 @@ ihn dann über einen Link deinem Stamm zeigen. Angriffspläne werden i.d.R. eine
 
 <p style="font-weight: bold;"><span style="color: #DD2121;">Wichtig: </span>Angriffspläne, die keine Aktionen haben, werden spätestens nach 24 Stunden gelöscht!</p>
 
-{include file='footer.tpl'}
+{/block}

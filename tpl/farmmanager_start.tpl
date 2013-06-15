@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 <p>Dies ist der Farmmanager. Hier kannst du bis zu 1000 Farmen verwalten und überwachen.</p>
 
@@ -21,5 +22,4 @@
 
 <p style="font-weight: bold;"><span style="color: #DD2121;">Wichtig: </span>Ungenutzte (=leere) Farmmanager werden spätestens nach 24 Stunden gelöscht!</p>
 
-
-{include file='footer.tpl'}
+{/block}

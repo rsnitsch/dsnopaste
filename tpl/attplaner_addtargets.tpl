@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 {if !empty($w_hinweis)}<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>{/if}
 
@@ -31,4 +32,4 @@
 <p>Oder erstelle einen neuen Angriffsplan für die Dörfer/Ziele:<br />
 <a href="attplaner_addtargets.php?targets={$targets}&amp;planid=-1" target="_self" rel="nofollow">Erstellen</a></p>
 
-{include file='footer.tpl'}
+{/block}

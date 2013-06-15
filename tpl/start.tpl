@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 {if $cfg.enabled}
     <p>
@@ -50,4 +51,4 @@
     Dieser Service ist momentan deaktiviert. Evtl. werden Wartungsarbeiten durchgeführt.
 {/if}
 
-{include file='footer.tpl'}
+{/block}

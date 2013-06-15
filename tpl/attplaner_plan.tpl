@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 <div class="tiny">
  {if !empty($w_hinweis)}<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>{/if}
@@ -204,4 +205,4 @@
 <input type="submit" name="{$action_attack}" value="Speichern" />
 </form>
 
-{include file='footer.tpl'}
+{/block}

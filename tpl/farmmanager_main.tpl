@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 <div id="farmmanager">
 
@@ -229,4 +230,4 @@ $(document).ready(
 
 </div><!-- //<div id="farmmanager"> -->
 
-{include file='footer.tpl'}
+{/block}

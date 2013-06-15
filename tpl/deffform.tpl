@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 	<p>Dieses Tool dient dazu einen übersichtlichen Post zu generieren, in dem alle wichtigen Informationen über einen
 	Angriff für den ganzen Stamm stehen... zur Formatierung wird BBCode verwendet.<br />
@@ -180,4 +181,4 @@
 		{/literal}
 	</script>
 	
-{include file='footer.tpl'}
+{/block}

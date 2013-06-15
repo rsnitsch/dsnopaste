@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 <h3>Warum spenden?</h3>
 
@@ -43,4 +44,4 @@
     Ich lasse euch dann meine Kontodaten zukommen.
 </p>
 
-{include file='footer.tpl'}
+{/block}

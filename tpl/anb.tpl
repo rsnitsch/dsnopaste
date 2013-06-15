@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends 'layout.tpl'}
+{block 'content'}
 
 <h3>Impressum</h3>
 
@@ -23,4 +24,4 @@
 
 <p>siehe auch: <a href="http://www.robertnitsch.de/impressum.html" target="_self">Impressum/Haftungsausschluss</a>.</p>
 
-{include file='footer.tpl'}
+{/block}
