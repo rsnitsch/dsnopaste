@@ -7,7 +7,7 @@
 	$output = new nopSmarty();
 
 	$output->assign('title', 'ANB / Impressum');
-	$output->assign('rootpath', $root_path);
+	$output->assign('root_path', $root_path);
 	
 	
 	// die ANBs anzeigen

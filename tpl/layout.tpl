@@ -26,7 +26,7 @@
     {include file='announcing.tpl'}
 {/if}
 
-{if $dsg_eselsohr}
+{if isset($dsg_eselsohr) && $dsg_eselsohr}
 <div id="corner_small" style="background-image: url('http://dsg.gfx-dose.de/res/corner_small.png'); position: absolute; top: 0px; right: 0px; width: 80px; height: 80px; cursor: pointer; z-index: 99999" onclick="window.location.href = 'http://dsg.gfx-dose.de'" onmouseover="document.getElementById('corner_large').style.display = 'block';"></div>
 <div id="corner_large" style="display: none;background-image: url('http://dsg.gfx-dose.de/res/corner_large.png'); position: absolute; top: 0px; right: 0px; width: 600px; height: 600px;cursor: pointer; z-index: 100001" onclick="window.location.href = 'http://dsg.gfx-dose.de'" onmouseout="this.style.display = 'none';"></div>
 {/if}

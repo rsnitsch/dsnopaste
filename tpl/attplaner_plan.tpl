@@ -51,7 +51,7 @@
  {$delete}
  </p>
  
- {if $noadmin}
+ {if isset($noadmin) && $noadmin}
  <script language="javascript" type="text/javascript">
   setTimeout("alert('Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.');", 1000);
  </script>
@@ -154,10 +154,10 @@
      <th>Typ:</th>
      <td>
       <select id="attplaner_aktion_typ" name="typ">
-       <option id="attplaner_aktion_typ_att" value="att"{if $typ==1} selected="selected"{/if}>Angriff</option>
-       <option id="attplaner_aktion_typ_snob" value="snob"{if $typ==4} selected="selected"{/if}>Adelsgeschlecht</option>
-       <option id="attplaner_aktion_typ_deff" value="deff"{if $typ==2} selected="selected"{/if}>Unterstützung</option>
-       <option id="attplaner_aktion_typ_fake" value="fake"{if $typ==3} selected="selected"{/if}>Fake</option>
+       <option id="attplaner_aktion_typ_att" value="att"{if isset($typ) && $typ==1} selected="selected"{/if}>Angriff</option>
+       <option id="attplaner_aktion_typ_snob" value="snob"{if isset($typ) && $typ==4} selected="selected"{/if}>Adelsgeschlecht</option>
+       <option id="attplaner_aktion_typ_deff" value="deff"{if isset($typ) && $typ==2} selected="selected"{/if}>Unterstützung</option>
+       <option id="attplaner_aktion_typ_fake" value="fake"{if isset($typ) && $typ==3} selected="selected"{/if}>Fake</option>
       </select>
      </td>
     </tr>
@@ -201,7 +201,7 @@
 </table>
 
 <br />
-<input type="hidden" name="oldid" value="{$oldid}" />
+{if isset($oldid)}<input type="hidden" name="oldid" value="{$oldid}" />{/if}
 <input type="submit" name="{$action_attack}" value="Speichern" />
 </form>
 
