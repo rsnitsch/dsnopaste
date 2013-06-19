@@ -140,9 +140,9 @@
 			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_spear.png','img')+'Speerträger: '+bbcode(document.formdeff.verteidiger_speer.value,'')+'\n';
 			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_sword.png','img')+'Schwertkämpfer: '+bbcode(document.formdeff.verteidiger_schwert.value,'')+'\n';
 			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_archer.png','img')+'Bogenschützen: '+bbcode(document.formdeff.verteidiger_bogen.value,'')+'\n';
-            ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
-            ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_knight.png','img')+'Paladin(e): '+bbcode(document.formdeff.verteidiger_paladin.value,'')+'\n';
-            
+			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
+			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_knight.png','img')+'Paladin(e): '+bbcode(document.formdeff.verteidiger_paladin.value,'')+'\n';
+			
 			
 			// werbung ;-)
 			if(!document.formdeff.nolink.checked)

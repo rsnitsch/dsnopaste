@@ -48,14 +48,14 @@ $(document).ready(
 				<input type="checkbox" name="iron" value="yes" checked="checked" /><img src="http://dsgfx.bmaker.net/eisen.png" alt="Eisen" />
 			</td>
 			<td>
-			    <select name="bonus" style="width: 140px;">
-			      <option value="" style="padding-left:20px;" selected="selected">- keine Angabe (alter Wert wird beibehalten) -</option>
-			      <option value="none" style="padding-left:20px;">keiner dieser Boni</option>
-			      <option value="all" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
-			      <option value="wood" style="background-image: url(http://dsgfx.bmaker.net/holz.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Holzproduktion</option>
-			      <option value="loam" style="background-image: url(http://dsgfx.bmaker.net/lehm.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Lehmproduktion</option>
-			      <option value="iron" style="background-image: url(http://dsgfx.bmaker.net/eisen.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Eisenproduktion</option>
-				  {if $bonus_new}<option value="storage" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;">+50% Speicher-Volumen</option>{/if}
+				<select name="bonus" style="width: 140px;">
+					<option value="" style="padding-left:20px;" selected="selected">- keine Angabe (alter Wert wird beibehalten) -</option>
+					<option value="none" style="padding-left:20px;">keiner dieser Boni</option>
+					<option value="all" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
+					<option value="wood" style="background-image: url(http://dsgfx.bmaker.net/holz.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Holzproduktion</option>
+					<option value="loam" style="background-image: url(http://dsgfx.bmaker.net/lehm.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Lehmproduktion</option>
+					<option value="iron" style="background-image: url(http://dsgfx.bmaker.net/eisen.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Eisenproduktion</option>
+					{if $bonus_new}<option value="storage" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;">+50% Speicher-Volumen</option>{/if}
 				</select>
 			</td>
 		</tr>
@@ -67,30 +67,30 @@ $(document).ready(
 <h3><a href="javascript:fm_toggleForm();">Farm bearbeiten</a></h3>
 
 <div id="form">
-    <form action="farmmanager.php?id={$saveid}" method="post">
-    <input type="hidden" name="edit" value="1" />
-    <input type="hidden" name="id" value="{$edited_farm.id}" />
-    <table>
-        <tr>
-            <th>Notiz zu dieser Farm:</th>
-            <th>Bonusdorf?</th>
-        </tr>
-        <tr>
-            <td><input type="text" size="30" name="note" value="{$edited_farm.note|htmlspecialchars}" /></td>
-            <td>
-                <select name="bonus" style="width: 140px;">
-                  <option value="none" style="padding-left:20px;"{if $edited_farm.bonus=='none'} selected="selected"{/if}>keiner dieser Boni</option>
-                  <option value="all" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='all'} selected="selected"{/if}>+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
-                  <option value="wood" style="background-image: url(http://dsgfx.bmaker.net/holz.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='wood'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Holzproduktion</option>
-                  <option value="loam" style="background-image: url(http://dsgfx.bmaker.net/lehm.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='loam'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Lehmproduktion</option>
-                  <option value="iron" style="background-image: url(http://dsgfx.bmaker.net/eisen.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='iron'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Eisenproduktion</option>
-                  {if $bonus_new}<option value="storage" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='storage'} selected="selected"{/if}>+50% Speicher-Volumen</option>{/if}
-                </select>
-            </td>
-        </tr>
-    </table>
-    <input type="submit" style="font-weight: bold;width:500px;height:35px;" value="Speichern" />
-    </form>
+	<form action="farmmanager.php?id={$saveid}" method="post">
+	<input type="hidden" name="edit" value="1" />
+	<input type="hidden" name="id" value="{$edited_farm.id}" />
+	<table>
+		<tr>
+			<th>Notiz zu dieser Farm:</th>
+			<th>Bonusdorf?</th>
+		</tr>
+		<tr>
+			<td><input type="text" size="30" name="note" value="{$edited_farm.note|htmlspecialchars}" /></td>
+			<td>
+				<select name="bonus" style="width: 140px;">
+					<option value="none" style="padding-left:20px;"{if $edited_farm.bonus=='none'} selected="selected"{/if}>keiner dieser Boni</option>
+					<option value="all" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='all'} selected="selected"{/if}>+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
+					<option value="wood" style="background-image: url(http://dsgfx.bmaker.net/holz.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='wood'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Holzproduktion</option>
+					<option value="loam" style="background-image: url(http://dsgfx.bmaker.net/lehm.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='loam'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Lehmproduktion</option>
+					<option value="iron" style="background-image: url(http://dsgfx.bmaker.net/eisen.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='iron'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Eisenproduktion</option>
+					{if $bonus_new}<option value="storage" style="background-image: url(http://dsgfx.bmaker.net/storage.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='storage'} selected="selected"{/if}>+50% Speicher-Volumen</option>{/if}
+				</select>
+			</td>
+		</tr>
+	</table>
+	<input type="submit" style="font-weight: bold;width:500px;height:35px;" value="Speichern" />
+	</form>
 </div>
 {/if}
 
@@ -101,7 +101,7 @@ $(document).ready(
 		<input type="hidden" name="id" value="{$saveid}" />
 		Nach Herkunftsdorf filtern: 
 		<select name="filter" onchange="document.forms.set_filter.submit();">
-		    <option value="all"{if $av_filter=='all'} selected="selected"{/if}>- ALLE -</option>
+			<option value="all"{if $av_filter=='all'} selected="selected"{/if}>- ALLE -</option>
 			{if count($att_villages)>0}
 			{foreach from=$att_villages item=av}
 			<option value="{$av.av_coords}"{if $av_filter==$av.av_coords} selected="selected"{/if}>{$av.av_coords}, {$av.av_name}</option>
@@ -116,15 +116,15 @@ $(document).ready(
 	
 	<table cellspacing="0" cellpadding="3">
 		<tr>
-		    <th><a href="farmmanager.php?id={$saveid}&amp;order=v_coords">XXX|YYY</a></th>
+			<th><a href="farmmanager.php?id={$saveid}&amp;order=v_coords">XXX|YYY</a></th>
 			<th>Dorf</th>
 			<th>Bonus</th>
 			{if $av_filter != 'all'}<th><a href="farmmanager.php?id={$saveid}&amp;order=distance">Entfernung</a></th>{/if}
 			<th>
-		      Aktuelle Ressourcen
-		      (<a href="farmmanager.php?id={$saveid}&amp;order=c_wood" title="Nach Holz sortieren"><img src="http://dsgfx.bmaker.net/holz.png" alt="Holz" /></a>
-		      <a href="farmmanager.php?id={$saveid}&amp;order=c_loam" title="Nach Lehm sortieren"><img src="http://dsgfx.bmaker.net/lehm.png" alt="Lehm" /></a>
-		      <a href="farmmanager.php?id={$saveid}&amp;order=c_iron" title="Nach Eisen sortieren"><img src="http://dsgfx.bmaker.net/eisen.png" alt="Eisen" /></a>)
+				Aktuelle Ressourcen
+				(<a href="farmmanager.php?id={$saveid}&amp;order=c_wood" title="Nach Holz sortieren"><img src="http://dsgfx.bmaker.net/holz.png" alt="Holz" /></a>
+				<a href="farmmanager.php?id={$saveid}&amp;order=c_loam" title="Nach Lehm sortieren"><img src="http://dsgfx.bmaker.net/lehm.png" alt="Lehm" /></a>
+				<a href="farmmanager.php?id={$saveid}&amp;order=c_iron" title="Nach Eisen sortieren"><img src="http://dsgfx.bmaker.net/eisen.png" alt="Eisen" /></a>)
 			</th>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=c_sum"><abbr title="Ressourcen">Ress.</abbr></a></th>
 			<th> / </th>
@@ -141,15 +141,15 @@ $(document).ready(
 			<td>{$farm.v_coords}</td>
 			<td>{$farm.v_name}</td>
 			<td>
-			  {if $farm.bonus != 'none'}
-			      {if $farm.bonus == 'all'}<img src="http://dsgfx.bmaker.net/storage.png" title="+3% erhöhte Rohstoffproduktion" alt="see title" />{/if}
-			      {if $farm.bonus == 'storage'}<img src="http://dsgfx.bmaker.net/storage.png" title="+50% Speicher-Volumen" alt="see title" />{/if}
-				  {if $farm.bonus == 'wood'}<img src="http://dsgfx.bmaker.net/holz.png" title="+10% erhöhte Holzproduktion" alt="see title" />{/if}
-			      {if $farm.bonus == 'loam'}<img src="http://dsgfx.bmaker.net/lehm.png" title="+10% erhöhte Lehmproduktion" alt="see title" />{/if}
-			      {if $farm.bonus == 'iron'}<img src="http://dsgfx.bmaker.net/eisen.png" title="+10% erhöhte Eisenproduktion" alt="see title" />{/if}
-			  {else}
-			      -
-			  {/if}
+				{if $farm.bonus != 'none'}
+					{if $farm.bonus == 'all'}<img src="http://dsgfx.bmaker.net/storage.png" title="+3% erhöhte Rohstoffproduktion" alt="see title" />{/if}
+					{if $farm.bonus == 'storage'}<img src="http://dsgfx.bmaker.net/storage.png" title="+50% Speicher-Volumen" alt="see title" />{/if}
+					{if $farm.bonus == 'wood'}<img src="http://dsgfx.bmaker.net/holz.png" title="+10% erhöhte Holzproduktion" alt="see title" />{/if}
+					{if $farm.bonus == 'loam'}<img src="http://dsgfx.bmaker.net/lehm.png" title="+10% erhöhte Lehmproduktion" alt="see title" />{/if}
+					{if $farm.bonus == 'iron'}<img src="http://dsgfx.bmaker.net/eisen.png" title="+10% erhöhte Eisenproduktion" alt="see title" />{/if}
+				{else}
+					-
+				{/if}
 			</td>
 			{if $av_filter != 'all'}<td>{$farm.distance}</td>{/if}
 			<td>

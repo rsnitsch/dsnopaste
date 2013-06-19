@@ -12,12 +12,12 @@ ihn dann über einen Link deinem Stamm zeigen. Angriffspläne werden i.d.R. eine
 <p>Je nachdem, welchen Server du auswählst werden andere Laufzeiten für die Berechnungen verwendet.</p>
 
 <form action="attplaner.php" method="post">
-        <input type="hidden" name="create" value="1" />
-        Für...
+	<input type="hidden" name="create" value="1" />
+	Für...
 	<select name="server">
-	   {foreach from=$servers item=server}
-           <option value="{$server.id}">{$server.name}</option>
-           {/foreach}
+{foreach from=$servers item=server}
+		<option value="{$server.id}">{$server.name}</option>
+{/foreach}
 	</select>
 	
 	<input type="submit" value="Erstellen" />
