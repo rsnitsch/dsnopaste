@@ -8,12 +8,6 @@
 	Besonders der Angriffsplaner hat sich als exzellentes Werkzeug erwiesen!
 	</p>
 
-		{*
-		{if isset($ad)}
-		<p class="small">Wenn du die Werbung ganz oben nicht mehr sehen möchtest, klicke <a href="index.php?hide_ad">hier</a>.</p>
-		{/if}
-		*}
-
 		<h3>Tools</h3>
 
 		<div id="tool_liste">
