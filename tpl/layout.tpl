@@ -20,15 +20,8 @@
 <script language="javascript" type="text/javascript" src="{$root_path}js/javascript.js"></script>
 <!-- /Javascripts -->
 
-{include file='werbung.tpl'}
-
 {if strlen($global_announcing) > 0}
     {include file='announcing.tpl'}
-{/if}
-
-{if isset($dsg_eselsohr) && $dsg_eselsohr}
-<div id="corner_small" style="background-image: url('http://dsg.gfx-dose.de/res/corner_small.png'); position: absolute; top: 0px; right: 0px; width: 80px; height: 80px; cursor: pointer; z-index: 99999" onclick="window.location.href = 'http://dsg.gfx-dose.de'" onmouseover="document.getElementById('corner_large').style.display = 'block';"></div>
-<div id="corner_large" style="display: none;background-image: url('http://dsg.gfx-dose.de/res/corner_large.png'); position: absolute; top: 0px; right: 0px; width: 600px; height: 600px;cursor: pointer; z-index: 100001" onclick="window.location.href = 'http://dsg.gfx-dose.de'" onmouseout="this.style.display = 'none';"></div>
 {/if}
 
 <div id="dsstyle_body">
@@ -46,11 +39,6 @@
 	<table align="center" border="0" style="vertical-align: bottom; width: 100%;">
 	 <tr>
 	  <td align="left" width="200">
-	   <!--
-		<p>
-		 <a href="http://validator.w3.org/check?uri=referer"><img border="0" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
-		</p>
-	   -->
 	   <p>
 		<a href="{$root_path}spenden.php">
 		 <img src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" alt="Spenden" />
