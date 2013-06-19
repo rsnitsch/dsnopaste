@@ -10,13 +10,13 @@
 
 <form action="farmmanager.php?action=create" method="post">
 	Für...
-	
+
 	<select name="server">
 {foreach from=$activated_servers item=server}
 		<option value="{$server.id}">{$server.name}</option>
 {/foreach}
 	</select>
-	
+
 	<input type="submit" value="Erstellen" />
 </form>
 

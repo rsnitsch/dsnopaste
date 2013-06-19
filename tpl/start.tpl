@@ -7,15 +7,15 @@
 	Diese Website beinhaltet einige Tools für das Browsergame <a href="http://www.die-staemme.de" target="_blank">DieStämme</a>.
 	Besonders der Angriffsplaner hat sich als exzellentes Werkzeug erwiesen!
 	</p>
-		
+
 		{*
 		{if isset($ad)}
 		<p class="small">Wenn du die Werbung ganz oben nicht mehr sehen möchtest, klicke <a href="index.php?hide_ad">hier</a>.</p>
 		{/if}
 		*}
-		
+
 		<h3>Tools</h3>
-		
+
 		<div id="tool_liste">
 				<ul>
 					<li><a id="attplaner" href="tools/attplaner.php" target="_self">Angriffsplaner</a></li>

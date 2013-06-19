@@ -150,7 +150,7 @@
 		<td>
 			<h3 style="margin-top: 5px;">Angriff/Unterstützung {$add_or_edit}</h3>
 			<p style="font-size: 80%;">WICHTIG: <a class="setValue" style="text-decoration: underline;">Unterstrichene</a> Werte bisheriger Aktionen können durch Anklicken ins Formular übernommen werden!</p>
-			
+
 			<table class="dsstyle">
 				<tr>
 					<th>Typ:</th>

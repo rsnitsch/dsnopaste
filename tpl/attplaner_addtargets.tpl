@@ -9,8 +9,8 @@
 
 <form action="attplaner_addtargets.php" method="POST">
 	<input type="hidden" name="targets" value="{$targets}" />
-	
-	
+
+
 	<ul>
 		{foreach from=$plans item=plan}
 		<li>
@@ -19,11 +19,11 @@
 		</li>
 		{/foreach}
 	</ul>
-	
+
 	<input type="submit" value="Hinzufügen" />
-	
-	
-	
+
+
+
 </form>
 {else}
 <br /><i>Sorry, keine Angriffspläne von dir gefunden!</i></p>

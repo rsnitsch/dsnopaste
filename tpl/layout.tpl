@@ -35,7 +35,7 @@
 {block 'footer'}
 	<br />
 	<hr style="margin-top: 20px;" />
-	
+
 	<table align="center" border="0" style="vertical-align: bottom; width: 100%;">
 		<tr>
 			<td align="left" width="200">
@@ -63,9 +63,9 @@
 					&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2012.<br />
 					<a href="http://feedback.np.bmaker.net/">Feedback</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
 					<a href="{$root_path}anb.php" target="_self">ANBs/Impressum</a><br />
-{if $cfg.uploaded && !$cfg.debugmode}			
+{if $cfg.uploaded && !$cfg.debugmode}
 {literal}
-					<!-- Piwik --> 
+					<!-- Piwik -->
 					<script type="text/javascript">
 					var pkBaseURL = (("https:" == document.location.protocol) ? "https://anal.robertnitsch.de/piwik/" : "http://anal.robertnitsch.de/piwik/");
 					document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));

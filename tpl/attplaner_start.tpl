@@ -19,7 +19,7 @@ ihn dann über einen Link deinem Stamm zeigen. Angriffspläne werden i.d.R. eine
 		<option value="{$server.id}">{$server.name}</option>
 {/foreach}
 	</select>
-	
+
 	<input type="submit" value="Erstellen" />
 </form>
 

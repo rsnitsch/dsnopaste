@@ -8,11 +8,11 @@
 		Website hochgeladen: {$cfg_uploaded}<br />
 		Debugmodus aktiviert: {$cfg_debugmode}
 	</p>
-	
+
 <h3 style="margin-top: 10px;">Angriffspläne</h3>
 
 	<p>Anzahl Pläne: {$count}</p>
-	
+
 	<table border="0" class="admin">
 		<tr>
 			<th>ID</th>

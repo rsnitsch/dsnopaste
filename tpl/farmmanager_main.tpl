@@ -99,7 +99,7 @@ $(document).ready(
 	{if count($farms) > 0}
 	<form name="set_filter" action="" method="POST">
 		<input type="hidden" name="id" value="{$saveid}" />
-		Nach Herkunftsdorf filtern: 
+		Nach Herkunftsdorf filtern:
 		<select name="filter" onchange="document.forms.set_filter.submit();">
 			<option value="all"{if $av_filter=='all'} selected="selected"{/if}>- ALLE -</option>
 			{if count($att_villages)>0}
@@ -110,10 +110,10 @@ $(document).ready(
 		</select>
 		<input type="checkbox" id="input_filter_alternative" name="filter_alternative" value="yes" {if $av_filter_alternative}checked="checked" {/if}/>
 		<label for="input_filter_alternative" class="tiny">Nicht filtern, nur Entfernung etc. anzeigen</label>
-		
+
 		<input type="submit" value="OK" />
 	</form>
-	
+
 	<table cellspacing="0" cellpadding="3">
 		<tr>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=v_coords">XXX|YYY</a></th>
@@ -171,14 +171,14 @@ $(document).ready(
 					<img src="http://dsgfx.bmaker.net/unit_axe{if $farm.farmed}_arrowup{/if}.png" title="Als gefarmt markieren bzw. Markierung aufheben" alt="Axt" />
 				</a>
 				&nbsp;
-				
+
 				{if !empty($av_filter_id) && !$farm.farmed && $farm.v_id != 0}
 				<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
 				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$av_filter_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}');">
 					<img src="http://dsgfx.bmaker.net/unit_spy.png" title="Späher schicken & als gefarmt markieren" alt="Späher" />
 				</a>
 				&nbsp;
-				
+
 				<!-- Speerträger schicken (semi-automatisch) und als gefarmt markieren -->
 				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$av_filter_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}&spear={$farm.transport_spear}');">
 					<img src="http://dsgfx.bmaker.net/unit_spear.png" title="Speerträger schicken & als gefarmt markieren" alt="Speer" />
@@ -190,7 +190,7 @@ $(document).ready(
 				</a>
 				&nbsp;
 				{/if}
-				
+
 				<!-- Bearbeiten Farm -->
 				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;edit={$farm.id}">
 					<img src="{$root_path}images/icon_text.gif" border="0" title="Bearbeiten" alt="Text-Icon" width="20" height="20" />
