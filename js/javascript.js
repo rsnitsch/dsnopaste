@@ -39,6 +39,38 @@ function getXMLHttpRequestObject() {
 	return http;
 }
 
+function smartifyCoordInputs(x_elem, y_elem) {
+	x_elem.keyup(function() {
+		var inp = x_elem.val();
+		if (inp.match(/\|$/)) {
+			x_elem.val(inp.substr(0, inp.length-1));
+			y_elem.val("").focus();
+		} else if (inp.match(/\|/)) {
+			var match = inp.match(/(.*)\|(.*)/);
+			if (match) {
+				x_elem.val(match[1]);
+				y_elem.val("").focus().val(match[2]);
+			}
+		} else if (inp.length > 3) {
+			var rest = inp.substr(3);
+			if (rest.substr(0, 1) == "|") rest = rest.substr(1);
+			y_elem.val("").focus().val(rest);
+			x_elem.val(inp.substr(0, 3));
+		}
+	});
+}
+
+function autoSwitchFocus(prev_elem, next_elem, maxLen) {
+	prev_elem.keyup(function() {
+		var inp = prev_elem.val();
+		if (inp.length > maxLen) {
+			var rest = inp.substr(maxLen);
+			next_elem.val("").focus().val(rest);
+			prev_elem.val(inp.substr(0, maxLen));
+		}
+	});
+}
+
 /* ################################# */
 /* Funktionen für den Angriffsplaner */
 

@@ -1,6 +1,16 @@
 {extends 'layout.tpl'}
 {block 'content'}
 
+<script type="text/javascript">
+{literal}// <![CDATA[
+$(document).ready(function() {
+	smartifyCoordInputs($("input[name=from_x]"), $("input[name=from_y]"));
+	smartifyCoordInputs($("input[name=to_x]"), $("input[name=to_y]"));
+	autoSwitchFocus($("input[name=from_y]"), $("input[name=to_x]"), 3);
+});
+// ]]>{/literal}
+</script>
+
 <div class="tiny">
 {if !empty($w_hinweis)}
 	<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>
@@ -164,8 +174,12 @@
 					</td>
 				</tr>
 				<tr>
-					<th>Absende-/<br />Zielkoord.:</th>
-					<td><input type="text" name="from" value="{$from}" size="5" /> / <input type="text" name="to" value="{$to}" size="5" /></td>
+					<th>Absendekoordinaten:</th>
+					<td>x: <input type="text" name="from_x" value="{$from.x}" size="5" /> y: <input type="text" name="from_y" value="{$from.y}" size="5" /></td>
+				</tr>
+				<tr>
+					<th>Zielkoordinaten:</th>
+					<td>x: <input type="text" name="to_x" value="{$to.x}" size="5" /> y: <input type="text" name="to_y" value="{$to.y}" size="5" /></td>
 				</tr>
 				<tr>
 					<th>Ankunft:</th>
