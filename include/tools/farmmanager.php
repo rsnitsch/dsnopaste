@@ -326,6 +326,7 @@
         
         // cookie neu setzen
         setcookie("filter_$saveid", "$source_village,$filter_source_village,$filter_min_ress", time()+86400*30, '', $_SERVER['HTTP_HOST']);
+        exit();
     }
     
     //var_dump($_COOKIE["filter_$saveid"]);
