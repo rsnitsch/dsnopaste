@@ -1,37 +1,37 @@
 // Setzt einen Cookie
-//   expires: Das Ablaufdatum als Millisekunden-Timestamp (default: 1 Monat)
+//	 expires: Das Ablaufdatum als Millisekunden-Timestamp (default: 1 Monat)
 function setCookie(name, value, expires) {
-    var date = new Date();
-    date.setTime(expires != null ? expires : date.getTime() + 24*3600*30*1000);
-    document.cookie = name+"="+value+";expires="+date.toGMTString();
+	var date = new Date();
+	date.setTime(expires != null ? expires : date.getTime() + 24*3600*30*1000);
+	document.cookie = name+"="+value+";expires="+date.toGMTString();
 }
 
 // Gibt den Inhalt eines Cookies zurück
-//    defaultValue: der Rückgabewert, falls der Cookie nicht gesetzt ist
+//	  defaultValue: der Rückgabewert, falls der Cookie nicht gesetzt ist
 function getCookie(cookieName, defaultValue) {
-    var allCookies=""+document.cookie;
+	var allCookies=""+document.cookie;
 
-    var ind=allCookies.indexOf(cookieName);
-    if (ind==-1 || cookieName=="" || allCookies.charAt(ind+cookieName.length) != '=')
-        return defaultValue;
-    if(ind > 0 && allCookies.charAt(ind-1) != ' ')
-        return defaultValue;
+	var ind=allCookies.indexOf(cookieName);
+	if (ind==-1 || cookieName=="" || allCookies.charAt(ind+cookieName.length) != '=')
+		return defaultValue;
+	if(ind > 0 && allCookies.charAt(ind-1) != ' ')
+		return defaultValue;
 
-    var ind1=allCookies.indexOf(';',ind);
-    if (ind1==-1)
-        ind1=allCookies.length;
+	var ind1=allCookies.indexOf(';',ind);
+	if (ind1==-1)
+		ind1=allCookies.length;
 
-    return unescape(allCookies.substring(ind+cookieName.length+1,ind1));
+	return unescape(allCookies.substring(ind+cookieName.length+1,ind1));
 }
 
 function getXMLHttpRequestObject() {
 	var http = null;
 
-    if (window.XMLHttpRequest) {
-        http = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        http = new ActiveXObject("Microsoft.XMLHTTP");
-    }
+	if (window.XMLHttpRequest) {
+		http = new XMLHttpRequest();
+	} else if (window.ActiveXObject) {
+		http = new ActiveXObject("Microsoft.XMLHTTP");
+	}
 
 	return http;
 }
