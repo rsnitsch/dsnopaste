@@ -720,6 +720,7 @@
     $smarty->assign('bonus_res_one', ($bonus_res_one_factor-1)*100);
     
     // interessante Variablen, die die Summen der Werte der einzelnen Farmen enthalten
+    $total_farms = 0;
     $count_farmed = 0; // Anzahl der gefarmten Farms (die grün markierten)
     $total_wood = 0;
     $total_loam = 0;
@@ -812,6 +813,7 @@
         
         // die Summen...
         if (!$farms[$i]['filter']) {
+            $total_farms++;
             if ($farms[$i]["farmed"]) $count_farmed++;
             $total_wood += $farms[$i]['c_wood'];            // Gesamt-Holz
             $total_loam += $farms[$i]['c_loam'];            // Gesamt-Lehm
@@ -892,6 +894,7 @@
         usort($farms,"_cmpCallback");
     }
     
+    $smarty->assign('total_farms', $total_farms);
     $smarty->assign('count_farmed', $count_farmed);
     $smarty->assign('total_wood', $total_wood);
     $smarty->assign('total_loam', $total_loam);

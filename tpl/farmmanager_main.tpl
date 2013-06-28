@@ -245,7 +245,7 @@ $(document).ready(
 	<p class="italic">Noch keine Farmen erfasst!</p>
 	{/if}
 
-<p>Gefarmt: <span class="green">{$count_farmed}</span>/{$farms|@count}</p>
+<p>Gefarmt: <span class="green">{$count_farmed}</span>/{$total_farms}</p>
 </div><!-- //<div id="farmmanager"> -->
 
 {/block}
