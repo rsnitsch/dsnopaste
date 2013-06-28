@@ -1,24 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+{block 'head'}
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="http://www.die-staemme.de/favicon.ico" />
 	<title>DS NoPaste - {$title}</title>
 	<meta name="author" content="Robert 'bmaker' Nitsch" />
 	<meta name="keywords" content="browsergame, angriffsplaner, planer, farmmanager, manager, tools, stämme, staemme, diestämme, diestaemme, tribal wars" />
 	<link rel="stylesheet" type="text/css" href="{$root_path}styles.css" />
+{if $cfg.debugmode}
+	<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.js"></script>
+{else}
+	<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.min.js"></script>
+{/if}
+	<script language="javascript" type="text/javascript" src="{$root_path}js/general.js"></script>
+{/block}
 </head>
 
 <body>
-
-<!-- Javascripts -->
-{if $cfg.debugmode}
-<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.js"></script>
-{else}
-<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.min.js"></script>
-{/if}
-<script language="javascript" type="text/javascript" src="{$root_path}js/general.js"></script>
-<!-- /Javascripts -->
 
 {if strlen($global_announcing) > 0}
 	{include file='announcing.tpl'}

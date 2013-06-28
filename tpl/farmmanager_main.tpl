@@ -1,7 +1,10 @@
 {extends 'layout.tpl'}
-{block 'content'}
-<script language="javascript" type="text/javascript" src="{$root_path}js/farmmanager.js"></script>
+{block 'head'}
+{$smarty.block.parent}
+	<script language="javascript" type="text/javascript" src="{$root_path}js/farmmanager.js"></script>
+{/block}
 
+{block 'content'}
 <div id="farmmanager">
 
 {literal}
