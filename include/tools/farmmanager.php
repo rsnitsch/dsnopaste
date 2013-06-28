@@ -110,14 +110,14 @@
     function _getFarms($saveid) {
         global $mysql;
         global $hours_gone, $speed;
-        global $av_filter, $av_filter_alternative;
+        global $source_village, $filter_source_village;
         global $oServer;
         
-        $_av_filter = (empty($av_filter) or $av_filter=='all' or $av_filter_alternative) ? '' : "AND av_coords='$av_filter'";
+        $sql_filter_source_village = (!$source_village || !$filter_source_village) ? '' : "AND av_coords='$source_village'";
         
         $sql = 'SELECT *,'.
                 'farmable*3 AS storage_max '.
-                'FROM farms WHERE saveid="'.$mysql->escape($saveid).'" '.$_av_filter.
+                'FROM farms WHERE saveid="'.$mysql->escape($saveid).'" '.$sql_filter_source_village.
                 ' ORDER BY farmed ASC,time ASC';
         $res = $mysql->sql_query($sql);
         
@@ -304,52 +304,53 @@
     }
     
     // Herkunftsdorf-Filter
-    $av_filter = 'all';
-    $av_filter_alternative = false;
+    $source_village = null;
+    $filter_source_village = false;
     if(!empty($_COOKIE["filter_$saveid"])) {
         $tmp = $_COOKIE["filter_$saveid"];
         
         if(strpos($tmp, ",") !== false) {
-            list($av_filter, $av_filter_alternative) = explode(",", $tmp, 2);
-            $av_filter_alternative = (bool)intval($av_filter_alternative);
+            list($source_village, $filter_source_village) = explode(",", $tmp, 2);
+            $filter_source_village = (bool)intval($filter_source_village);
             
-            // valid av_filter value given by the cookie?
-            if($av_filter != 'all' && !inArrayColumn($av_filter, $att_villages, "av_coords")) {
-                $av_filter = 'all';
+            // validate source village
+            if(!inArrayColumn($source_village, $att_villages, "av_coords")) {
+                $source_village = null;
             }
         }
     }
-    //$av_filter = (!empty($_COOKIE["filter_$saveid"]) && inArrayColumn($_COOKIE["filter_$saveid"], $att_villages, "av_coords")) ? $_COOKIE["filter_$saveid"] : 'all';
-    if(!empty($_POST["filter"])) {
-        $new_av_filter = $_POST["filter"];
-        $new_av_filter_alternative = intval(!empty($_POST["filter_alternative"]) && $_POST["filter_alternative"] == "yes");
+    if(!empty($_POST["source_village"])) {
+        $new_source_village = $_POST["source_village"];
+        $new_filter_source_village = intval(!empty($_POST["filter_source_village"]) && $_POST["filter_source_village"] == "yes");
         
-        if($new_av_filter=='all' or inArrayColumn($new_av_filter, $att_villages, "av_coords")) {
-            // filter setzen (nicht unbedingt nötig wegen redirect)
-            $av_filter = $new_av_filter;
-            
-            _redirect(false);
-            
-            // cookie neu setzen
-            setcookie("filter_$saveid", "$new_av_filter,$new_av_filter_alternative", time()+86400*30, '', $_SERVER['HTTP_HOST']);
+        if (!inArrayColumn($new_source_village, $att_villages, "av_coords")) {
+            $new_source_village = null;
         }
+        
+        // filter setzen (nicht unbedingt nötig wegen redirect)
+        $source_village = $new_source_village;
+        
+        _redirect(false);
+        
+        // cookie neu setzen
+        setcookie("filter_$saveid", "$new_source_village,$new_filter_source_village", time()+86400*30, '', $_SERVER['HTTP_HOST']);
     }
     
     //var_dump($_COOKIE["filter_$saveid"]);
     
-    $smarty->assign('av_filter', $av_filter);
-    $smarty->assign('av_filter_alternative', $av_filter_alternative);
-    if($av_filter != 'all') {
-        list($av_x, $av_y) = explode("|", $av_filter);
+    $smarty->assign('source_village', $source_village);
+    $smarty->assign('filter_source_village', $filter_source_village);
+    if($source_village) {
+        list($av_x, $av_y) = explode("|", $source_village);
         $result = $twd->query("SELECT id FROM {$server}_village".
                               " WHERE x=".$twd->quote($av_x).
                               " AND y=".$twd->quote($av_y)." LIMIT 1")->fetch();
         
         if(!$result) {
-            trigger_error("Invalid attacking village.");
+            trigger_error("Invalid source village.");
         }
         else {
-            $smarty->assign('av_filter_id', $result['id']);
+            $smarty->assign('source_village_id', $result['id']);
         }
     }
     
@@ -787,8 +788,8 @@
                                     0;
         
         // Entfernung zum Herkunftsdorf
-        if($av_filter != 'all') {
-            $farms[$i]['distance'] = round(calcDistance($farms[$i]['v_coords'], $av_filter), 1);
+        if($source_village) {
+            $farms[$i]['distance'] = round(calcDistance($farms[$i]['v_coords'], $source_village), 1);
         }
         
         // Truppen, die zum Abtransport der Rohstoffe benötigt werden
@@ -797,7 +798,7 @@
             $farms[$i]["transport_$unit"] = $farms[$i]['c_sum'] / $carry;
             
             // Laufzeit vom Herkunftsdorf berücksichtigen.
-            if ($av_filter != 'all') {
+            if ($source_village) {
                 $runtime_in_hours = ($oServer->getTimePerField(array($unit => 1)) * $farms[$i]['distance']) / 3600.0;
                 $farms[$i]["transport_$unit"] *= (1.0 + $runtime_in_hours / $hours_gone);
                 
@@ -821,7 +822,7 @@
     }
     
     // ggf. die Farmen sortieren (sind bereits nach dem letzten Bericht vorsortiert durch die SQL-Abfrage)
-    if($order != 'lastreport' && !($order=='distance' && $av_filter=='all')) {
+    if($order != 'lastreport' && !($order=='distance' && !$source_village)) {
         $cmp_key = '';
         $dir = 'desc';
         

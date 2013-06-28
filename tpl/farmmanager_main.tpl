@@ -100,30 +100,39 @@ $(document).ready(
 
 <h3>Farmenübersicht</h3>
 
-	{if count($farms) > 0}
-	<form name="set_filter" action="" method="POST">
+	<form name="update_settings" action="" method="POST">
 		<input type="hidden" name="id" value="{$saveid}" />
-		Nach Herkunftsdorf filtern:
-		<select name="filter" onchange="document.forms.set_filter.submit();">
-			<option value="all"{if $av_filter=='all'} selected="selected"{/if}>- ALLE -</option>
+		
+		<p>
+		Herkunftsdorf auswählen:
+		<select name="source_village">
+			<option value="all"{if !$source_village} selected="selected"{/if}>- ALLE -</option>
 			{if count($att_villages)>0}
 			{foreach from=$att_villages item=av}
-			<option value="{$av.av_coords}"{if $av_filter==$av.av_coords} selected="selected"{/if}>{$av.av_coords}, {$av.av_name}</option>
+			<option value="{$av.av_coords}"{if $source_village==$av.av_coords} selected="selected"{/if}>{$av.av_coords}, {$av.av_name}</option>
 			{/foreach}
 			{/if}
 		</select>
-		<input type="checkbox" id="input_filter_alternative" name="filter_alternative" value="yes" {if $av_filter_alternative}checked="checked" {/if}/>
-		<label for="input_filter_alternative" class="tiny">Nicht filtern, nur Entfernung etc. anzeigen</label>
-
-		<input type="submit" value="OK" />
+		</p>
+		
+		<span class="bold">Farmen filtern:</span><br />
+		
+		<table>
+			<tr>
+				<td><label for="filter_source_village">Nach Herkunftsdorf filtern</label></td>
+				<td><input type="checkbox" id="filter_source_village" name="filter_source_village" value="yes" {if $filter_source_village}checked="checked" {/if}/></td>
+			</tr>
+		</table>
+		<input type="submit" value="Aktualisieren" />
 	</form>
-
-	<table cellspacing="0" cellpadding="3">
+	
+	{if count($farms) > 0}
+	<table cellspacing="0" cellpadding="3" id="farmmanager_farms">
 		<tr>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=v_coords">XXX|YYY</a></th>
 			<th>Dorf</th>
 			<th>Bonus</th>
-			{if $av_filter != 'all'}<th><a href="farmmanager.php?id={$saveid}&amp;order=distance">Entfernung</a></th>{/if}
+			{if $source_village}<th><a href="farmmanager.php?id={$saveid}&amp;order=distance">Entfernung</a></th>{/if}
 			<th>
 				Aktuelle Ressourcen
 				(<a href="farmmanager.php?id={$saveid}&amp;order=c_wood" title="Nach Holz sortieren"><img src="http://dsgfx.bmaker.net/holz.png" alt="Holz" /></a>
@@ -155,7 +164,7 @@ $(document).ready(
 					-
 				{/if}
 			</td>
-			{if $av_filter != 'all'}<td>{$farm.distance}</td>{/if}
+			{if $source_village}<td>{$farm.distance}</td>{/if}
 			<td>
 				<img src="http://dsgfx.bmaker.net/holz.png" alt="Holz" />{$farm.c_wood}
 				<img src="http://dsgfx.bmaker.net/lehm.png" alt="Lehm" />{$farm.c_loam}
@@ -176,20 +185,20 @@ $(document).ready(
 				</a>
 				&nbsp;
 
-				{if !empty($av_filter_id) && !$farm.farmed && $farm.v_id != 0}
+				{if isset($source_village_id) && !$farm.farmed && $farm.v_id != 0}
 				<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$av_filter_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}');">
 					<img src="http://dsgfx.bmaker.net/unit_spy.png" title="Späher schicken & als gefarmt markieren" alt="Späher" />
 				</a>
 				&nbsp;
 
 				<!-- Speerträger schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$av_filter_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}&spear={$farm.transport_spear}');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}&spear={$farm.transport_spear}');">
 					<img src="http://dsgfx.bmaker.net/unit_spear.png" title="Speerträger schicken & als gefarmt markieren" alt="Speer" />
 				</a>
 				&nbsp;
 				<!-- Leichte Kavallerie schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$av_filter_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}&light={$farm.transport_light}');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}&light={$farm.transport_light}');">
 					<img src="http://dsgfx.bmaker.net/unit_light.png" title="Leichte Kavallerie schicken & als gefarmt markieren" alt="Leichte Kavallerie" />
 				</a>
 				&nbsp;
@@ -211,7 +220,7 @@ $(document).ready(
 			<td>Summe</td>
 			<td>-</td>
 			<td>-</td>
-			{if $av_filter != 'all'}<td>-</td>{/if}
+			{if $source_village}<td>-</td>{/if}
 			<td class="tiny">
 				<img src="http://dsgfx.bmaker.net/holz.png" width="11" height="11" alt="Holz" />{$total_wood}
 				<img src="http://dsgfx.bmaker.net/lehm.png" width="11" height="11" alt="Lehm" />{$total_loam}
