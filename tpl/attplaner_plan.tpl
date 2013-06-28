@@ -1,6 +1,6 @@
 {extends 'layout.tpl'}
 {block 'content'}
-
+<script language="javascript" type="text/javascript" src="{$root_path}js/attplaner.js"></script>
 <script type="text/javascript">
 {literal}// <![CDATA[
 $(document).ready(function() {

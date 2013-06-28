@@ -1,5 +1,6 @@
 {extends 'layout.tpl'}
 {block 'content'}
+<script language="javascript" type="text/javascript" src="{$root_path}js/farmmanager.js"></script>
 
 <div id="farmmanager">
 

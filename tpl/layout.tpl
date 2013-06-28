@@ -17,7 +17,7 @@
 {else}
 <script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.min.js"></script>
 {/if}
-<script language="javascript" type="text/javascript" src="{$root_path}js/javascript.js"></script>
+<script language="javascript" type="text/javascript" src="{$root_path}js/general.js"></script>
 <!-- /Javascripts -->
 
 {if strlen($global_announcing) > 0}
