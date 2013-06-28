@@ -303,43 +303,36 @@
         }
     }
     
-    // Herkunftsdorf-Filter
+    // Herkunftsdorf-Auswahl und Filter
     $source_village = null;
     $filter_source_village = false;
+    $filter_min_ress = 0;
     if(!empty($_COOKIE["filter_$saveid"])) {
         $tmp = $_COOKIE["filter_$saveid"];
+        $parts = explode(",", $tmp);
         
-        if(strpos($tmp, ",") !== false) {
-            list($source_village, $filter_source_village) = explode(",", $tmp, 2);
-            $filter_source_village = (bool)intval($filter_source_village);
-            
-            // validate source village
-            if(!inArrayColumn($source_village, $att_villages, "av_coords")) {
-                $source_village = null;
-            }
+        if(count($parts) == 3) {
+            $source_village = inArrayColumn($parts[0], $att_villages, "av_coords") ? $parts[0] : null;
+            $filter_source_village = intval($parts[1]);
+            $filter_min_ress = intval($parts[2]);
         }
     }
     if(!empty($_POST["source_village"])) {
-        $new_source_village = $_POST["source_village"];
-        $new_filter_source_village = intval(!empty($_POST["filter_source_village"]) && $_POST["filter_source_village"] == "yes");
-        
-        if (!inArrayColumn($new_source_village, $att_villages, "av_coords")) {
-            $new_source_village = null;
-        }
-        
-        // filter setzen (nicht unbedingt nötig wegen redirect)
-        $source_village = $new_source_village;
+        $source_village = inArrayColumn($_POST["source_village"], $att_villages, "av_coords") ? $_POST["source_village"] : null;
+        $filter_source_village = intval(!empty($_POST["filter_source_village"]) && $_POST["filter_source_village"] == "yes");
+        $filter_min_ress = !empty($_POST["filter_min_ress"]) ? intval($_POST["filter_min_ress"]) : 0;
         
         _redirect(false);
         
         // cookie neu setzen
-        setcookie("filter_$saveid", "$new_source_village,$new_filter_source_village", time()+86400*30, '', $_SERVER['HTTP_HOST']);
+        setcookie("filter_$saveid", "$source_village,$filter_source_village,$filter_min_ress", time()+86400*30, '', $_SERVER['HTTP_HOST']);
     }
     
     //var_dump($_COOKIE["filter_$saveid"]);
     
     $smarty->assign('source_village', $source_village);
     $smarty->assign('filter_source_village', $filter_source_village);
+    $smarty->assign('filter_min_ress', $filter_min_ress);
     if($source_village) {
         list($av_x, $av_y) = explode("|", $source_village);
         $result = $twd->query("SELECT id FROM {$server}_village".
@@ -810,15 +803,23 @@
             $farms[$i]["transport_$unit"] = ceil($farms[$i]["transport_$unit"]);
         }
         
+        // Filtern? (Also ausschließen?)
+        $farms[$i]['filter'] = false;
+        if ($farms[$i]['c_sum'] < $filter_min_ress) {
+            $farms[$i]['filter'] = true;
+        }
+        
         // die Summen...
-        if ($farms[$i]["farmed"]) $count_farmed++;
-        $total_wood += $farms[$i]['c_wood'];            // Gesamt-Holz
-        $total_loam += $farms[$i]['c_loam'];            // Gesamt-Lehm
-        $total_iron += $farms[$i]['c_iron'];            // Gesamt-Eisen
-        $total_sum += $farms[$i]['c_sum'];              // Gesamt-Ressourcen
-        $total_storage += $farms[$i]['storage_max'];    // Gesamt-Speichervolumen
-        $total_spear += $farms[$i]['transport_spear'];  // Gesamt-Speerträger-Bedarf
-        $total_light += $farms[$i]['transport_light'];  // Gesamt-LKav-Bedarf
+        if (!$farms[$i]['filter']) {
+            if ($farms[$i]["farmed"]) $count_farmed++;
+            $total_wood += $farms[$i]['c_wood'];            // Gesamt-Holz
+            $total_loam += $farms[$i]['c_loam'];            // Gesamt-Lehm
+            $total_iron += $farms[$i]['c_iron'];            // Gesamt-Eisen
+            $total_sum += $farms[$i]['c_sum'];              // Gesamt-Ressourcen
+            $total_storage += $farms[$i]['storage_max'];    // Gesamt-Speichervolumen
+            $total_spear += $farms[$i]['transport_spear'];  // Gesamt-Speerträger-Bedarf
+            $total_light += $farms[$i]['transport_light'];  // Gesamt-LKav-Bedarf
+        }
     }
     
     // ggf. die Farmen sortieren (sind bereits nach dem letzten Bericht vorsortiert durch die SQL-Abfrage)

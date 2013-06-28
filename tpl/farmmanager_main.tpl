@@ -122,6 +122,10 @@ $(document).ready(
 				<td><label for="filter_source_village">Nach Herkunftsdorf filtern</label></td>
 				<td><input type="checkbox" id="filter_source_village" name="filter_source_village" value="yes" {if $filter_source_village}checked="checked" {/if}/></td>
 			</tr>
+			<tr>
+				<td>Mindest-Ressourcen</td>
+				<td><input type="text" name="filter_min_ress" value="{$filter_min_ress}" /></td>
+			</tr>
 		</table>
 		<input type="submit" value="Aktualisieren" />
 	</form>
@@ -149,7 +153,7 @@ $(document).ready(
 			<th>Notiz</th>
 			<th class="align_right">Aktionen (<a href="javascript:fm_actionDescription()">Info</a>)</th>
 		</tr>
-	{foreach from=$farms item=farm}
+	{foreach from=$farms item=farm}{if !$farm.filter}
 		<tr {if $farm.farmed}class="green"{/if} style="background-color: {cycle values="#F1EBDD,#E7E2D5"};">
 			<td>{$farm.v_coords}</td>
 			<td>{$farm.v_name}</td>
@@ -215,7 +219,7 @@ $(document).ready(
 				</a>
 			</td>
 		</tr>
-	{/foreach}
+	{/if}{/foreach}
 		<tr class="bold brown_bg">
 			<td>Summe</td>
 			<td>-</td>
