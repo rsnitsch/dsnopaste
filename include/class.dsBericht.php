@@ -374,9 +374,9 @@ class dsBericht {
             'catapult_building' => (isset($this->report['catapult']['building']) ? $this->report['catapult']['building'] : ''),
             /* spied resources */
             'spied' => ($this->report['spied'] ? 1 : 0),
-            'spied_wood' => (isset($this->report['spied']['wood']) ? intval(str_replace('.','',$this->report['spied']['wood'])) : 0),
-            'spied_loam' => (isset($this->report['spied']['loam']) ? intval(str_replace('.','',$this->report['spied']['loam'])) : 0),
-            'spied_iron' => (isset($this->report['spied']['iron']) ? intval(str_replace('.','',$this->report['spied']['iron'])) : 0),
+            'spied_wood' => (isset($this->report['spied']['wood']) ? $this->report['spied']['wood'] : 0),
+            'spied_loam' => (isset($this->report['spied']['loam']) ? $this->report['spied']['loam'] : 0),
+            'spied_iron' => (isset($this->report['spied']['iron']) ? $this->report['spied']['iron'] : 0),
             /* buildings */
             'buildings' => (is_array($this->report['buildings']) ? 1 : 0),
             'buildings_main' => (isset($this->report['buildings']['main']) ? $this->report['buildings']['main'] : 0),
@@ -397,11 +397,11 @@ class dsBericht {
             'buildings_wall' => (isset($this->report['buildings']['wall']) ? $this->report['buildings']['wall'] : 0),
             /* booty */
             'booty' => ($this->report['booty'] ? 1 : 0),
-            'booty_wood' => (isset($this->report['booty']['wood']) ? intval(str_replace('.','',$this->report['booty']['wood'])) : 0),
-            'booty_loam' => (isset($this->report['booty']['loam']) ? intval(str_replace('.','',$this->report['booty']['loam'])) : 0),
-            'booty_iron' => (isset($this->report['booty']['iron']) ? intval(str_replace('.','',$this->report['booty']['iron'])) : 0),
-            'booty_all' => (isset($this->report['booty']['all']) ? intval(str_replace('.','',$this->report['booty']['all'])) : 0),
-            'booty_max' => (isset($this->report['booty']['max']) ? intval(str_replace('.','',$this->report['booty']['max'])) : 0),
+            'booty_wood' => (isset($this->report['booty']['wood']) ? $this->report['booty']['wood'] : 0),
+            'booty_loam' => (isset($this->report['booty']['loam']) ? $this->report['booty']['loam'] : 0),
+            'booty_iron' => (isset($this->report['booty']['iron']) ? $this->report['booty']['iron'] : 0),
+            'booty_all' => (isset($this->report['booty']['all']) ? $this->report['booty']['all'] : 0),
+            'booty_max' => (isset($this->report['booty']['max']) ? $this->report['booty']['max'] : 0),
             /* mood */
             'mood' => ($this->report['mood'] ? 1 : 0),
             'mood_before' => (isset($this->report['mood']['before']) ? $this->report['mood']['before'] : 0),
@@ -639,7 +639,7 @@ class dsBericht {
         {
             $spied=array('wood' => 0, 'loam' => 0, 'iron' => 0);
             for ($i = 0; $i < count($this->spied_resources); ++$i) {
-                $spied[$this->spied_resources[$i]] = $this->match($i+1);
+                $spied[$this->spied_resources[$i]] = str_replace(".", "", $this->match($i+1));
             }
             return $spied;
         }
@@ -739,11 +739,11 @@ class dsBericht {
         $booty=FALSE;
         if($this->preg_match_std($this->patterns['booty']))
         {
-            $booty['wood']=$this->match(1);
-            $booty['loam']=$this->match(2);
-            $booty['iron']=$this->match(3);
-            $booty['all']=$this->match(4);
-            $booty['max']=$this->match(5);
+            $booty['wood']=str_replace(".", "", $this->match(1));
+            $booty['loam']=str_replace(".", "", $this->match(2));
+            $booty['iron']=str_replace(".", "", $this->match(3));
+            $booty['all']=str_replace(".", "", $this->match(4));
+            $booty['max']=str_replace(".", "", $this->match(5));
         }
 
         return $booty;
