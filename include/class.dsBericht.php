@@ -388,18 +388,18 @@ class dsBericht {
 
         foreach($this->units as $unit)
         {
-            $assoc['troops_att_'.$unit->iname] = isset($this->report['troops']['att_'.$unit->iname]) ? $this->report['troops']['att_'.$unit->iname] : 0;
-            $assoc['troops_attl_'.$unit->iname] = isset($this->report['troops']['attl_'.$unit->iname]) ? $this->report['troops']['attl_'.$unit->iname] : 0;
-            $assoc['troops_def_'.$unit->iname] = isset($this->report['troops']['def_'.$unit->iname]) ? $this->report['troops']['def_'.$unit->iname] : 0;
-            $assoc['troops_defl_'.$unit->iname] = isset($this->report['troops']['defl_'.$unit->iname]) ? $this->report['troops']['defl_'.$unit->iname] : 0;
+            $assoc['troops_att_'.$unit] = isset($this->report['troops']['att_'.$unit]) ? $this->report['troops']['att_'.$unit] : 0;
+            $assoc['troops_attl_'.$unit] = isset($this->report['troops']['attl_'.$unit]) ? $this->report['troops']['attl_'.$unit] : 0;
+            $assoc['troops_def_'.$unit] = isset($this->report['troops']['def_'.$unit]) ? $this->report['troops']['def_'.$unit] : 0;
+            $assoc['troops_defl_'.$unit] = isset($this->report['troops']['defl_'.$unit]) ? $this->report['troops']['defl_'.$unit] : 0;
         }
         foreach($this->units as $unit)
         {
-            $assoc['spied_troops_out_'.$unit->iname] = isset($this->report['spied_troops_out'][$unit->iname]) ? $this->report['spied_troops_out'][$unit->iname] : 0;
+            $assoc['spied_troops_out_'.$unit] = isset($this->report['spied_troops_out'][$unit]) ? $this->report['spied_troops_out'][$unit] : 0;
         }
         foreach($this->units as $unit)
         {
-            $assoc['troops_out_'.$unit->iname] = isset($this->report['troops_out'][$unit->iname]) ? $this->report['troops_out'][$unit->iname] : 0;
+            $assoc['troops_out_'.$unit] = isset($this->report['troops_out'][$unit]) ? $this->report['troops_out'][$unit] : 0;
         }
 
         return $assoc;
@@ -573,10 +573,10 @@ class dsBericht {
         $troops = array();
         foreach($this->units as $unit)
         {
-            $troops['att_'.$unit->iname] =   $data[$count][0];
-            $troops['attl_'.$unit->iname] =  $data[$count][1];
-            $troops['def_'.$unit->iname] =  $data[$count][2];
-            $troops['defl_'.$unit->iname] = $data[$count][3];
+            $troops['att_'.$unit] =   $data[$count][0];
+            $troops['attl_'.$unit] =  $data[$count][1];
+            $troops['def_'.$unit] =  $data[$count][2];
+            $troops['defl_'.$unit] = $data[$count][3];
             $count++;
         }
 
@@ -638,7 +638,7 @@ class dsBericht {
             $spied_troops = array();
             foreach($this->units as $unit)
             {
-                $spied_troops[$unit->iname] = $this->match($count);
+                $spied_troops[$unit] = $this->match($count);
                 $count++;
             }
         }
@@ -714,7 +714,7 @@ class dsBericht {
             $troops_out = array();
             foreach($this->units as $unit)
             {
-                $troops_out[$unit->iname] = $this->match($count);
+                $troops_out[$unit] = $this->match($count);
                 $count++;
             }
         }
