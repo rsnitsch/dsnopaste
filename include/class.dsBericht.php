@@ -45,6 +45,7 @@ class dsBericht {
                                                     'defender' => '/Verteidiger:\s+(.*)\nDorf:\s+(.*)\n/',
                                                     'wall' => '/Schaden durch (Rammen|Rammb.{1,2}cke):\s+Wall besch.{1,2}digt von Level ([0-9]+) auf Level ([0-9]+)/',
                                                     'catapult' => '/Schaden durch Katapultbeschuss:\s+([A-Za-zäöü]+) besch.{1,2}digt von Level ([0-9]+) auf Level ([0-9]+)/',
+                                                    'espionage' => '/Spionage/',
                                                     'spied' => '/Ersp.{1,2}hte Rohstoffe:\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)/',
                                                     'buildings' => '/Geb.{1,2}ude/',
                                                     'b_main' => '/Hauptgeb.{1,2}ude\s+\(Stufe ([0-9]+)\)/',
@@ -84,6 +85,7 @@ class dsBericht {
                                                     'defender' => '/Defender:\s+(.*)\nVillage:\s+(.*)\n/',
                                                     'wall' => '/Damage by rams:\s+The wall has been damaged and downgraded from level ([0-9]+) to level ([0-9]+)/',
                                                     'catapult' => '/Damage by catapult bombardment:\s+([A-Za-zäöü]+) has been damaged and downgraded from level ([0-9]+) to level ([0-9]+)/',
+                                                    'espionage' => '/Espionage/', /* TODO: is this regex correct? */
                                                     'spied' => '/Resources scouted:\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)/',
                                                     'buildings' => '/Buildings/',
                                                     'b_main' => '/Headquarters\s+\(Level ([0-9]+)\)/',
@@ -190,7 +192,7 @@ class dsBericht {
         $this->report['troops']     = $this->parse_troops();
         $this->report['wall']       = $this->parse_wall();
         $this->report['catapult']   = $this->parse_catapult();
-        if($this->preg_match_std('/Spionage/'))
+        if($this->preg_match_std($this->patterns['espionage']))
         {
             $this->report['spied']        = $this->parse_spied();
             $this->report['buildings']    = $this->parse_buildings();
