@@ -9,14 +9,14 @@
 <h2>Farmmanager erstellen</h2>
 
 <form action="farmmanager.php?action=create" method="post">
-    Für...
-    
+	Für...
+
 	<select name="server">
-	{foreach from=$activated_servers item=server}
-       	<option value="{$server.id}">{$server.name}</option>
-   	{/foreach}
+{foreach from=$activated_servers item=server}
+		<option value="{$server.id}">{$server.name}</option>
+{/foreach}
 	</select>
-	
+
 	<input type="submit" value="Erstellen" />
 </form>
 

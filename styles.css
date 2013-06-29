@@ -104,6 +104,10 @@ div#farmmanager h3 {
 	margin-top: 20px;
 }
 
+#farmmanager_farms {
+	margin-top: 10px;
+}
+
 /* der gesamte Seiteninhalt wird hierin dargestellt */
 #dsstyle_body
 {

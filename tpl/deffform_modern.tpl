@@ -5,9 +5,9 @@
 	Angriff für den ganzen Stamm stehen... zur Formatierung wird BBCode verwendet.<br />
 	<b>Wichtig: </b>Javascript muss aktiviert sein!</p>
 	<br />
-	
+
 	<form action="" name="formdeff" method="get">
-		
+
 		<table border="0" class="dsstyle" id="deffform" style="width: 800px;">
 			<tr>
 				<th>Info über den Angreifer</th>
@@ -117,7 +117,7 @@
 		{
 			var ergebnis=document.formdeff.ergebnis;
 			ergebnis.value='';
-			
+
 			// info über angreifer
 			ergebnis.value += '[u][b]Info über den Angreifer[/b][/u]\n';
 			ergebnis.value += 'Angreifer: '+bbcode(document.formdeff.angreifer_nick.value,'player')+'\n';
@@ -125,7 +125,7 @@
 			ergebnis.value += 'Stamm: '+bbcode(document.formdeff.angreifer_stamm.value,'ally')+'\n';
 			ergebnis.value += 'Punkte: '+bbcode(document.formdeff.angreifer_punkte.value,'')+'\n';
 			ergebnis.value += 'Angriffe: '+bbcode(document.formdeff.angreifer_angriffe.value,'')+'\n';
-		
+
 			// info über sich selbst
 			ergebnis.value += '\n';
 			ergebnis.value += '[u][b]Info über sich selbst (welches Dorf angegriffen wird...):[/b][/u]\n';
@@ -133,26 +133,26 @@
 			ergebnis.value += 'Wall: '+bbcode(document.formdeff.verteidiger_wall.value,'')+'\n';
 			ergebnis.value += 'Ankunft: '+bbcode(document.formdeff.verteidiger_ankunft.value,'')+'\n';
 			ergebnis.value += 'Ziel: '+bbcode(document.formdeff.verteidiger_ziel.value,'village')+'\n';
-			
+
 			// info über angegriffenes Dorf
 			ergebnis.value += '\n';
 			ergebnis.value += '[u][b]Info über das angegriffene Dorf (Truppen...):[/b][/u]\n';
 			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_spear.png','img')+'Speerträger: '+bbcode(document.formdeff.verteidiger_speer.value,'')+'\n';
 			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_sword.png','img')+'Schwertkämpfer: '+bbcode(document.formdeff.verteidiger_schwert.value,'')+'\n';
 			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_archer.png','img')+'Bogenschützen: '+bbcode(document.formdeff.verteidiger_bogen.value,'')+'\n';
-            ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
-            ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_knight.png','img')+'Paladin(e): '+bbcode(document.formdeff.verteidiger_paladin.value,'')+'\n';
-            
-			
+			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
+			ergebnis.value += bbcode('http://dsgfx.bmaker.net/unit_knight.png','img')+'Paladin(e): '+bbcode(document.formdeff.verteidiger_paladin.value,'')+'\n';
+
+
 			// werbung ;-)
 			if(!document.formdeff.nolink.checked)
 				ergebnis.value += '\n\ngeneriert mit dem [url=http://np.bmaker.net]Deffformular[/url]';
-				
+
 			// das Ergebnis direkt auswählen
 			document.formdeff.ergebnis.select();
 		}
-		
-		
+
+
 		function bbcode(str, tag)
 		{
 			if(document.formdeff.simplebb.checked)
@@ -160,13 +160,13 @@
 				if(tag=='player' || tag=='village' || tag=='ally')
 					return str;
 			}
-			
+
 			if(document.formdeff.noimg.checked)
 			{
 				if(tag=='img')
 					return '';
 			}
-			
+
 			if(tag != '')
 				return '['+tag+']'+str+'[/'+tag+']';
 			else
@@ -174,5 +174,5 @@
 		}
 		{/literal}
 	</script>
-	
+
 {/block}

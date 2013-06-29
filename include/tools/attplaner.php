@@ -595,8 +595,8 @@
                             {
                                 // DATEN DES ANGRIFFS BZW. DER UNTERSTÜTZUNG
                                 $output->assign('arrival',date('d.m.Y H:i:s', $mysql->sql_result($attdata, 0, 'arrive')));
-                                $output->assign('from',        $mysql->sql_result($attdata, 0, 'from'));
-                                $output->assign('to',        $mysql->sql_result($attdata, 0, 'to'));
+                                $output->assign('from',        parseCoordinate($mysql->sql_result($attdata, 0, 'from')));
+                                $output->assign('to',        parseCoordinate($mysql->sql_result($attdata, 0, 'to')));
                                 $output->assign('note',        $mysql->sql_result($attdata, 0, 'note'));
                                 // welcher Typ ausgewählt ist
                                 $typ=$mysql->sql_result($attdata, 0, 'typ');
@@ -645,8 +645,8 @@
                             	
                                 if($server->coordSystem() == 'modern')
                                 {
-                                    $output->assign('from','500|500');
-                                    $output->assign('to','501|501');
+                                    $output->assign('from', parseCoordinate('500|500'));
+                                    $output->assign('to', parseCoordinate('501|501'));
                                 }
                                 else
                                 {
@@ -656,8 +656,8 @@
                             } else {
                             	$output->assign('arrival',date('d.m.Y H:i:s', $last_action['arrive']));
                             	
-                                $output->assign('from', $last_action['from']);
-                                $output->assign('to', $last_action['to']);
+                                $output->assign('from', parseCoordinate($last_action['from']));
+                                $output->assign('to', parseCoordinate($last_action['to']));
                             }
                             
                             $output->assign('typ1',''); // welcher Typ ausgewählt ist
@@ -728,7 +728,7 @@
 		}
         
         // Überprfen ob alle Parameter gesetzt wurden
-        if(!empty($_POST['typ']) and !empty($_POST['from']) and !empty($_POST['to']) and !empty($_POST['arrival']))
+        if(!empty($_POST['typ']) and !empty($_POST['from_x']) and !empty($_POST['from_y']) and !empty($_POST['to_x']) and !empty($_POST['to_y']) and !empty($_POST['arrival']))
         {
             $typ=0;
             switch ($_POST['typ'])
@@ -751,14 +751,16 @@
             }
             
             // Absendekoordinate
-            if(validCoord($_POST['from']))
-                $from = cleanCoord($_POST['from']);
+            $_from = $_POST['from_x']."|".$_POST['from_y'];
+            if(validCoord($_from))
+                $from = cleanCoord($_from);
             else
                 $errors[]='Ungültige Absendekoordinate!';
             
             // Zielkoordinate
-            if(validCoord($_POST['to']))
-                $to = cleanCoord($_POST['to']);
+            $_to = $_POST['to_x']."|".$_POST['to_y'];
+            if(validCoord($_to))
+                $to = cleanCoord($_to);
             else
                 $errors[]='Ungültige Zielkoordinate!';
                 
