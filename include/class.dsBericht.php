@@ -448,7 +448,7 @@ class dsBericht {
         if($this->preg_match_std($this->patterns['forwarded']))
         {
             $forwarded['time'] = mktime($this->match(4), $this->match(5), 0, $this->match(2), $this->match(1), $this->match(3));
-            $forwarded['sender'] = $this->match(6);
+            $forwarded['sender'] = trim($this->match(6));
         }
 
         return $forwarded;
@@ -499,7 +499,7 @@ class dsBericht {
         $attacker=FALSE;
         if($this->preg_match_std($this->patterns['attacker']))
         {
-            $attacker['nick']=$this->match(1);
+            $attacker['nick']=trim($this->match(1));
 
             if(preg_match($this->patterns['village_con_check'], $this->match(2)))
             {
@@ -526,7 +526,7 @@ class dsBericht {
         $defender=FALSE;
         if($this->preg_match_std($this->patterns['defender']))
         {
-            $defender['nick']=$this->match(1);
+            $defender['nick']=trim($this->match(1));
 
             if(preg_match('/\)\s+K[0-9]{1,3}\s*$/', $this->match(2)))
             {
@@ -624,7 +624,7 @@ class dsBericht {
         $catapult=FALSE;
         if($this->preg_match_std($this->patterns['catapult']))
         {
-            $catapult['building']=$this->match(1);
+            $catapult['building']=trim($this->match(1));
             $catapult['before']=intval($this->match(2));
             $catapult['after']=intval($this->match(3));
         }
