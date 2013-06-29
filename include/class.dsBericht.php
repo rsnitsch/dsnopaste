@@ -697,23 +697,11 @@ class dsBericht {
             );
 
             // parse all buildings...
-            if($this->preg_match_std($this->patterns['b_main']))        $buildings['main']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_barracks']))    $buildings['barracks']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_stable']))      $buildings['stable']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_garage']))      $buildings['garage']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_snob']))        $buildings['snob']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_smith']))       $buildings['smith']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_place']))       $buildings['place']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_statue']))      $buildings['statue']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_market']))      $buildings['market']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_wood']))        $buildings['wood']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_stone']))       $buildings['stone']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_iron']))        $buildings['iron']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_farm']))        $buildings['farm']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_storage']))     $buildings['storage']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_hide']))        $buildings['hide']=$this->match(1);
-            if($this->preg_match_std($this->patterns['b_wall']))        $buildings['wall']=$this->match(1);
-
+            foreach ($buildings as $name => $level) {
+                if($this->preg_match_std($this->patterns["b_$name"])) {
+                    $buildings[$name] = $this->match(1);
+                }
+            }
 
             return $buildings;
         }
