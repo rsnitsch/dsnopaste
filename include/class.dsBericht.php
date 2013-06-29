@@ -475,7 +475,7 @@ class dsBericht {
         $luck=FALSE;
         if($this->preg_match_std($this->patterns['luck']))
         {
-            $luck=$this->match(1);
+            $luck=floatval($this->match(1));
         }
 
         return $luck;
@@ -487,7 +487,7 @@ class dsBericht {
         $moral=FALSE;
         if($this->preg_match_std($this->patterns['moral']))
         {
-            $moral=$this->match(1);
+            $moral=floatval($this->match(1));
         }
 
         return $moral;
@@ -506,7 +506,7 @@ class dsBericht {
                 $village = $this->preg_match_std($this->patterns['village_con'], $this->match(2));
                 $attacker['village'] = trim($this->match(1));
                 $attacker['coords'] = $this->match(2);
-                $attacker['continent']  = $this->match(3);
+                $attacker['continent']  = intval($this->match(3));
             }
             else
             {
@@ -533,7 +533,7 @@ class dsBericht {
                 $village = $this->preg_match_std("/^(.*)\(([0-9]{1,3}\|[0-9]{1,3})\)\s+K([0-9]{1,3}).*$/", $this->match(2));
                 $defender['village'] = trim($this->match(1));
                 $defender['coords'] = $this->match(2);
-                $defender['continent']  = $this->match(3);
+                $defender['continent']  = intval($this->match(3));
             }
             else
             {
@@ -611,8 +611,8 @@ class dsBericht {
         $wall=FALSE;
         if($this->preg_match_std($this->patterns['wall']))
         {
-            $wall['before']=$this->match(2);
-            $wall['after']=$this->match(3);
+            $wall['before']=intval($this->match(2));
+            $wall['after']=intval($this->match(3));
         }
 
         return $wall;
@@ -625,8 +625,8 @@ class dsBericht {
         if($this->preg_match_std($this->patterns['catapult']))
         {
             $catapult['building']=$this->match(1);
-            $catapult['before']=$this->match(2);
-            $catapult['after']=$this->match(3);
+            $catapult['before']=intval($this->match(2));
+            $catapult['after']=intval($this->match(3));
         }
 
         return $catapult;
@@ -639,7 +639,7 @@ class dsBericht {
         {
             $spied=array('wood' => 0, 'loam' => 0, 'iron' => 0);
             for ($i = 0; $i < count($this->spied_resources); ++$i) {
-                $spied[$this->spied_resources[$i]] = str_replace(".", "", $this->match($i+1));
+                $spied[$this->spied_resources[$i]] = intval(str_replace(".", "", $this->match($i+1)));
             }
             return $spied;
         }
@@ -660,7 +660,7 @@ class dsBericht {
             $spied_troops = array();
             foreach($this->units as $unit)
             {
-                $spied_troops[$unit] = $this->match($count);
+                $spied_troops[$unit] = intval($this->match($count));
                 $count++;
             }
         }
@@ -699,7 +699,7 @@ class dsBericht {
             // parse all buildings...
             foreach ($buildings as $name => $level) {
                 if($this->preg_match_std($this->patterns["b_$name"])) {
-                    $buildings[$name] = $this->match(1);
+                    $buildings[$name] = intval($this->match(1));
                 }
             }
 
@@ -724,7 +724,7 @@ class dsBericht {
             $troops_out = array();
             foreach($this->units as $unit)
             {
-                $troops_out[$unit] = $this->match($count);
+                $troops_out[$unit] = intval($this->match($count));
                 $count++;
             }
         }
@@ -739,11 +739,11 @@ class dsBericht {
         $booty=FALSE;
         if($this->preg_match_std($this->patterns['booty']))
         {
-            $booty['wood']=str_replace(".", "", $this->match(1));
-            $booty['loam']=str_replace(".", "", $this->match(2));
-            $booty['iron']=str_replace(".", "", $this->match(3));
-            $booty['all']=str_replace(".", "", $this->match(4));
-            $booty['max']=str_replace(".", "", $this->match(5));
+            $booty['wood']=intval(str_replace(".", "", $this->match(1)));
+            $booty['loam']=intval(str_replace(".", "", $this->match(2)));
+            $booty['iron']=intval(str_replace(".", "", $this->match(3)));
+            $booty['all']=intval(str_replace(".", "", $this->match(4)));
+            $booty['max']=intval(str_replace(".", "", $this->match(5)));
         }
 
         return $booty;
@@ -755,8 +755,8 @@ class dsBericht {
         $mood=FALSE;
         if($this->preg_match_std($this->patterns['mood']))
         {
-            $mood['before']=$this->match(1);
-            $mood['after']=$this->match(2);
+            $mood['before']=intval($this->match(1));
+            $mood['after']=intval($this->match(2));
         }
 
         return $mood;
