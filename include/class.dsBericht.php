@@ -27,7 +27,7 @@ class dsBericht {
     private $spied_troops_pattern;
     private $troops_out_pattern;
 
-    function __construct($units, $lng='de')
+    function __construct($units, $spied_resources=array('wood', 'loam', 'iron'), $lng='de')
     {
         $this->all_patterns = array('de' => array(  'troops_start' => '[le]:\s*',
                                                     'spied_troops_start' => 'Einheiten außerhalb:\s+',
@@ -46,7 +46,7 @@ class dsBericht {
                                                     'wall' => '/Schaden durch (Rammen|Rammb.{1,2}cke):\s+Wall besch.{1,2}digt von Level ([0-9]+) auf Level ([0-9]+)/',
                                                     'catapult' => '/Schaden durch Katapultbeschuss:\s+([A-Za-zäöü]+) besch.{1,2}digt von Level ([0-9]+) auf Level ([0-9]+)/',
                                                     'espionage' => '/Spionage/',
-                                                    'spied' => '/Ersp.{1,2}hte Rohstoffe:\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)/',
+                                                    'spied_resources_start' => '/Ersp.{1,2}hte Rohstoffe:\s+',
                                                     'buildings' => '/Geb.{1,2}ude/',
                                                     'b_main' => '/Hauptgeb.{1,2}ude\s+\(Stufe ([0-9]+)\)/',
                                                     'b_barracks' => '/Kaserne\s+\(Stufe ([0-9]+)\)/',
@@ -86,7 +86,7 @@ class dsBericht {
                                                     'wall' => '/Damage by rams:\s+The wall has been damaged and downgraded from level ([0-9]+) to level ([0-9]+)/',
                                                     'catapult' => '/Damage by catapult bombardment:\s+([A-Za-zäöü]+) has been damaged and downgraded from level ([0-9]+) to level ([0-9]+)/',
                                                     'espionage' => '/Espionage/', /* TODO: is this regex correct? */
-                                                    'spied' => '/Resources scouted:\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)/',
+                                                    'spied_resources_start' => '/Resources scouted:\s+/',
                                                     'buildings' => '/Buildings/',
                                                     'b_main' => '/Headquarters\s+\(Level ([0-9]+)\)/',
                                                     'b_barracks' => '/Barracks\s+\(Level ([0-9]+)\)/',
@@ -115,6 +115,7 @@ class dsBericht {
         $this->reset();
 
         $this->set_units($units);
+        $this->set_spied_resources($spied_resources);
     }
 
     function reset()
@@ -143,6 +144,15 @@ class dsBericht {
         );
     }
 
+    function set_spied_resources($spied_res)
+    {
+        if (!is_array($spied_res)) {
+            throw new InvalidArgumentException("Expected an array");
+        }
+        $this->spied_resources = $spied_res;
+        $this->build_spied_resources_pattern();
+    }
+
     function set_units($units)
     {
         if(is_array($units) && count($units) > 0)
@@ -154,6 +164,18 @@ class dsBericht {
         }
         else
             trigger_error('ERROR: invalid argument $units', E_USER_ERROR);
+    }
+
+    function build_spied_resources_pattern()
+    {
+        $this->spied_resources_pattern = $this->patterns['spied_resources_start'];
+        if (count($this->spied_resources) > 0) {
+            for ($i = 0; $i < count($this->spied_resources)-1; ++$i) {
+                $this->spied_resources_pattern .= '([0-9\.]+)\s+';
+            }
+            $this->spied_resources_pattern .= '([0-9\.]+)';
+        }
+        $this->spied_resources_pattern .= '/';
     }
 
     function build_troops_patterns()
@@ -194,7 +216,7 @@ class dsBericht {
         $this->report['catapult']   = $this->parse_catapult();
         if($this->preg_match_std($this->patterns['espionage']))
         {
-            $this->report['spied']        = $this->parse_spied();
+            $this->report['spied_resources'] = $this->parse_spied_resources();
             $this->report['buildings']    = $this->parse_buildings();
             $this->report['spied_troops_out'] = $this->parse_spied_troops();
         }
@@ -611,17 +633,17 @@ class dsBericht {
     }
 
     // spied resources
-    function parse_spied()
+    function parse_spied_resources()
     {
-        $spied=FALSE;
-        if($this->preg_match_std($this->patterns['spied']))
+        if($this->preg_match_std($this->spied_resources_pattern))
         {
-            $spied['wood']=$this->match(1);
-            $spied['loam']=$this->match(2);
-            $spied['iron']=$this->match(3);
+            $spied=array('wood' => 0, 'loam' => 0, 'iron' => 0);
+            for ($i = 0; $i < count($this->spied_resources); ++$i) {
+                $spied[$this->spied_resources[$i]] = $this->match($i+1);
+            }
+            return $spied;
         }
-
-        return $spied;
+        return false;
     }
 
     // troops, which have been out while spying
