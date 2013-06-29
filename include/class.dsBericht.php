@@ -33,7 +33,7 @@ class dsBericht {
                                                     'spied_troops_start' => 'Einheiten außerhalb:\s+',
                                                     'troops_out_start' => 'Truppen des Verteidigers, die unterwegs waren\s+',
                                                     'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+)/',
-                                                                     //Weitergeleitet am:	13.07.07 18:38Weitergeleitet von:	Shiver@
+                                                                     //Weitergeleitet am:   13.07.07 18:38Weitergeleitet von:   Shiver@
                                                     'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+).*Weitergeleitet von:\s+([^\n]*)\n/s',
                                                     'winner' => '/Der (Angreifer|Verteidiger) hat gewonnen/',
                                                     'luck' => '/Gl.{1,2}ck \(aus Sicht des Angreifers\).*\s+([\-0-9]*[0-9]+\.[0-9]+)%/s',
@@ -72,7 +72,7 @@ class dsBericht {
                                                     'spied_troops_start' => 'Units outside of village:\s+',
                                                     'troops_out_start' => "Defender's".' troops, that were in transit\s+',
                                                     'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+)/',
-                                                                     //Weitergeleitet am:	13.07.07 18:38Weitergeleitet von:	Shiver@
+                                                                     //Weitergeleitet am:   13.07.07 18:38Weitergeleitet von:   Shiver@
                                                     'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+).*Weitergeleitet von:\s+([^\n]*)\n/s',
                                                     'winner' => '/The (attacker|defender) has won/',
                                                     'luck' => '/Luck \(from attacker\'s point of view\).*\s+([\-0-9]*[0-9]+\.[0-9]+)%/s',
@@ -106,9 +106,9 @@ class dsBericht {
                                                     'mood' => '/Loyalty loss from ([0-9]+) to ([\-0-9]+)/',
                                              );
         if(is_array($this->all_patterns[$lng]))
-			$this->patterns = $this->all_patterns[$lng];
-		else
-			$this->patterns = $this->all_patterns['de'];
+            $this->patterns = $this->all_patterns[$lng];
+        else
+            $this->patterns = $this->all_patterns['de'];
 
         $this->reset();
 
