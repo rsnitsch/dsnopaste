@@ -20,7 +20,7 @@ class dsBericht {
     private $matches;
     public $report;
     public $units;
-    
+
     private $patterns;
     private $all_patterns;
     private $troops_pattern;
@@ -67,7 +67,7 @@ class dsBericht {
                                                     'mood' => '/Zustimmung gesunken von ([0-9]+) auf ([\-0-9]+)/',
                                              )
                                );
-        
+
         $this->all_patterns["en"] = array(  'troops_start' => '[le]:\s*',
                                                     'spied_troops_start' => 'Units outside of village:\s+',
                                                     'troops_out_start' => "Defender's".' troops, that were in transit\s+',
@@ -104,14 +104,14 @@ class dsBericht {
                                                     'b_wall' => '/Wall\s+\(Level ([0-9]+)\)/',
                                                     'booty' => '/Haul:\s+([\.0-9]+)\s([\.0-9]+)\s([\.0-9]+)\s+([\.0-9]+)\/([\.0-9]+)/',
                                                     'mood' => '/Loyalty loss from ([0-9]+) to ([\-0-9]+)/',
-                                             );                   
+                                             );
         if(is_array($this->all_patterns[$lng]))
 			$this->patterns = $this->all_patterns[$lng];
 		else
 			$this->patterns = $this->all_patterns['de'];
-        
+
         $this->reset();
-        
+
         $this->set_units($units);
     }
 
@@ -146,14 +146,14 @@ class dsBericht {
         if(is_array($units) && count($units) > 0)
         {
             $this->units = $units;
-            
+
             // build the troops_patterns
             $this->build_troops_patterns();
         }
         else
             trigger_error('ERROR: invalid argument $units', E_USER_ERROR);
     }
-    
+
     function build_troops_patterns()
     {
         $this->troops_pattern = $this->patterns['troops_start'];
@@ -165,16 +165,16 @@ class dsBericht {
                 $this->spied_troops_pattern .= '([0-9x]+)\s+';
                 $this->troops_out_pattern .= '([0-9x]+)\s+';
         }
-        
+
         $this->troops_pattern .= '([0-9x]+)';
         $this->spied_troops_pattern .= '([0-9x]+)';
         $this->troops_out_pattern .= '([0-9x]+)';
-        
+
         $this->troops_pattern = '/'.$this->troops_pattern.'/';
         $this->spied_troops_pattern = '/'.$this->spied_troops_pattern.'/';
         $this->troops_out_pattern = '/'.$this->troops_out_pattern.'/';
     }
-    
+
     // parses a complete report...
     function parse($data, $server='')
     {
@@ -253,7 +253,7 @@ class dsBericht {
         $this->currentPattern($pattern);
 
         $this->matches = FALSE;
-        
+
         if(preg_match($pattern, (!empty($data) ? $data : $this->data), $this->matches))
         {
             $this->currentPattern_found(true);
@@ -303,31 +303,31 @@ class dsBericht {
     function buildSQL($table, $extra_columns=false)
     {
         if(!$this->data) return '';
-        
+
         // alle Daten zunächst in einem Array ablegen
         $data = $this->buildAssoc();
         if($extra_columns !== false)
             $data = array_merge($extra_columns, $data);
-        
+
         $keys = '';
         $values = '';
         foreach($data as $key => $value)
         {
             $keys .= '`'.$key.'`';
             $keys .= ',';
-            
+
             $values .= "'$value', ";
             $values .= "\n";
         }
-        
+
         $values = trim($values);
         $values = trim($values, ",");
         $keys = trim($keys);
         $keys = trim($keys, ",");
-        
+
         return 'INSERT INTO '.$table.' ('.$keys.') VALUES ('.$values.')';
     }
-    
+
     // builds an associative array containing all data of the report
     function buildAssoc()
     {
@@ -399,7 +399,7 @@ class dsBericht {
             'mood_before' => (isset($this->report['mood']['before']) ? $this->report['mood']['before'] : 0),
             'mood_after' => (isset($this->report['mood']['after']) ? $this->report['mood']['after'] : 0)
             );
-        
+
         foreach($this->units as $unit)
         {
             $assoc['troops_att_'.$unit->iname] = isset($this->report['troops']['att_'.$unit->iname]) ? $this->report['troops']['att_'.$unit->iname] : 0;
@@ -415,7 +415,7 @@ class dsBericht {
         {
             $assoc['troops_out_'.$unit->iname] = isset($this->report['troops_out'][$unit->iname]) ? $this->report['troops_out'][$unit->iname] : 0;
         }
-        
+
         return $assoc;
     }
 
@@ -433,7 +433,7 @@ class dsBericht {
 
         return $time;
     }
-    
+
     function parse_forwarded()
     {
         $forwarded = FALSE;
@@ -442,8 +442,8 @@ class dsBericht {
             $forwarded['time'] = mktime($this->match(4), $this->match(5), 0, $this->match(2), $this->match(1), $this->match(3));
             $forwarded['sender'] = $this->match(6);
         }
-        
-        return $forwarded;    
+
+        return $forwarded;
     }
 
     // parses the winner
@@ -492,7 +492,7 @@ class dsBericht {
         if($this->preg_match_std($this->patterns['attacker']))
         {
             $attacker['nick']=$this->match(1);
-            
+
             if(preg_match($this->patterns['village_con_check'], $this->match(2)))
             {
                 $village = $this->preg_match_std($this->patterns['village_con'], $this->match(2));
@@ -519,7 +519,7 @@ class dsBericht {
         if($this->preg_match_std($this->patterns['defender']))
         {
             $defender['nick']=$this->match(1);
-            
+
             if(preg_match('/\)\s+K[0-9]{1,3}\s*$/', $this->match(2)))
             {
                 $village = $this->preg_match_std("/^(.*)\(([0-9]{1,3}\|[0-9]{1,3})\)\s+K([0-9]{1,3}).*$/", $this->match(2));
@@ -544,9 +544,9 @@ class dsBericht {
     {
         $troops=FALSE;
         $this->matches=FALSE;
-        
+
         $troops_pattern = $this->troops_pattern;
-        
+
         $this->currentPattern($troops_pattern);
 
         if(preg_match_all($troops_pattern, $this->data, $this->matches))
@@ -570,7 +570,7 @@ class dsBericht {
                     print_r($this->matches);
                     echo '</span>';
                 }
-                
+
                 return false;
             }
         }
@@ -582,7 +582,7 @@ class dsBericht {
 
         // make an associative array
         $data = $this->matches;
-        
+
         $count = 1;
         $troops = array();
         foreach($this->units as $unit)
@@ -593,7 +593,7 @@ class dsBericht {
             $troops['defl_'.$unit->iname] = $data[$count][3];
             $count++;
         }
-        
+
         return $troops;
     }
 
@@ -637,14 +637,14 @@ class dsBericht {
 
         return $spied;
     }
-    
+
     // troops, which have been out while spying
     function parse_spied_troops()
     {
         $spied_troops = FALSE;
-        
+
         $spied_troops_pattern = $this->spied_troops_pattern;
-        
+
         if($this->preg_match_std($spied_troops_pattern))
         {
             // make an associative array
@@ -656,7 +656,7 @@ class dsBericht {
                 $count++;
             }
         }
-        
+
         return $spied_troops;
     }
 
@@ -720,7 +720,7 @@ class dsBericht {
         $troops_out=FALSE;
 
         $troops_pattern = $this->troops_out_pattern;
-        
+
         if($this->preg_match_std($troops_pattern))
         {
             // make an associative array
