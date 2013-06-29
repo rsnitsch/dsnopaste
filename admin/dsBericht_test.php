@@ -1,5 +1,5 @@
 <?php
-    // copyright by Robert Nitsch, 2006
+    // copyright by Robert Nitsch (2006, 2013)
     
     /*
         Description:
@@ -9,8 +9,7 @@
     
     define('INC_CHECK_DSBERICHT',TRUE);
     define('DSBERICHT_DEBUG',TRUE); // activates the class' own debug mode
-    require('include/class.dsBericht.php');
-    require('include/class.DSUnit.php');
+    require_once('../include/class.dsBericht.php');
 ?>
 <html>
 <head>
@@ -20,18 +19,21 @@
 
 <form action="" method="post">
     Bericht:<br />
-    <textarea name="report" cols="70" rows="20"><?php if(isset($_POST['report'])) echo $_POST['report']; ?></textarea>
+    <textarea name="report" cols="100" rows="20"><?php if(isset($_POST['report'])) echo $_POST['report']; ?></textarea>
     <br />
     <select name="server">
-       <option value="normal">normal</option>
-       <option value="modern">modern</option>
-       <option value="s4">s4</option>
+       <option value="normal" <?php if ($_POST['server'] == 'normal') { ?>selected="selected"<?php } ?>>normal</option>
+       <option value="modern" <?php if (empty($_POST['server']) || $_POST['server'] == 'modern') { ?>selected="selected"<?php } ?>>modern</option>
+       <option value="s4" <?php if ($_POST['server'] == 's4') { ?>selected="selected"<?php } ?>>s4</option>
     </select>
-    <input type="submit" value="Einlesen (testen)" />
+    <input type="checkbox" id="wood" name="wood" value="yes" <?php if (empty($_POST['wood']) || $_POST['wood'] == 'yes') { ?>checked="checked"<?php } ?> /><label for="wood">Holz</label>
+    <input type="checkbox" id="loam" name="loam" value="yes" <?php if (empty($_POST['loam']) || $_POST['loam'] == 'yes') { ?>checked="checked"<?php } ?> /><label for="loam">Lehm</label>
+    <input type="checkbox" id="iron" name="iron" value="yes" <?php if (empty($_POST['iron']) || $_POST['iron'] == 'yes') { ?>checked="checked"<?php } ?> /><label for="iron">Eisen</label>
+    <input type="submit" value="Einlesen" />
 </form>
 
 <hr />
-<p>Result with dsBericht class version <?php echo DSBERICHT_VERSION; ?> of <?php echo DSBERICHT_DATE; ?>:</p>
+<p>Result with dsBericht class version <?php echo DSBERICHT_VERSION; ?>:</p>
 <pre>
 <?php
     if(isset($_POST['report']))
@@ -40,49 +42,23 @@
         switch($_POST['server'])
         {
             case 'normal':
-                $units = array(
-                    new DSUnit('spear', 'Speerträger'),
-                    new DSUnit('sword', 'Schwertkämpfer'),
-                    new DSUnit('axe', 'Axtkämpfer'),
-                    new DSUnit('spy', 'Späher'),
-                    new DSUnit('light', 'Leichte Kavallerie'),
-                    new DSUnit('heavy', 'Schwere Kavallerie'),
-                    new DSUnit('ram', 'Rammbock'),
-                    new DSUnit('catapult', 'Katapult'),
-                    new DSUnit('snob', 'Adelsgeschlecht'));
+                $units = array('spear', 'sword', 'axe', 'spy', 'light', 'heavy', 'ram', 'catapult', 'snob');
                 break;
             case 'modern':
-                $units = array(
-                    new DSUnit('spear', 'Speerträger'),
-                    new DSUnit('sword', 'Schwertkämpfer'),
-                    new DSUnit('axe', 'Axtkämpfer'),
-                    new DSUnit('archer', 'Bogenschütze'),
-                    new DSUnit('spy', 'Späher'),
-                    new DSUnit('light', 'Leichte Kavallerie'),
-                    new DSUnit('marcher', 'Berittener Bogenschütze'),
-                    new DSUnit('heavy', 'Schwere Kavallerie'),
-                    new DSUnit('ram', 'Rammbock'),
-                    new DSUnit('catapult', 'Katapult'),
-                    new DSUnit('knight', 'Paladin'),
-                    new DSUnit('snob', 'Adelsgeschlecht'));
+                $units = array('spear', 'sword', 'axe', 'archer', 'spy', 'light', 'marcher', 'heavy', 'ram', 'catapult', 'knight', 'snob');
                 break;
             case 's4':
-                $units = array(
-                            new DSUnit('spear', 'Speerträger'),
-                            new DSUnit('sword', 'Schwertkämpfer'),
-                            new DSUnit('axe', 'Axtkämpfer'),
-                            new DSUnit('spy', 'Späher'),
-                            new DSUnit('light', 'Leichte Kavallerie'),
-                            new DSUnit('heavy', 'Schwere Kavallerie'),
-                            new DSUnit('ram', 'Rammbock'),
-                            new DSUnit('catapult', 'Katapult'),
-                            new DSUnit('knight', 'Priester'),
-                            new DSUnit('snob', 'Adelsgeschlecht'));
+                $units = array('spear', 'sword', 'axe', 'spy', 'light', 'heavy', 'ram', 'catapult', 'knight', 'snob');
+                break;
             default:
                 die("ungültiger server typ");
         }
         
-        $parser=new dsBericht($units);
+        $spied_resources = array();
+        if ($_POST['wood'] == 'yes') $spied_resources[] = 'wood';
+        if ($_POST['loam'] == 'yes') $spied_resources[] = 'loam';
+        if ($_POST['iron'] == 'yes') $spied_resources[] = 'iron';
+        $parser=new dsBericht($units, $spied_resources);
         $parser->parse($_POST['report']);
     }
 ?>
