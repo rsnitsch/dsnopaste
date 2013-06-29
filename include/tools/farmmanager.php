@@ -39,7 +39,9 @@
      * @todo: Ressourcen, die während der Laufzeit dazukommen, ebenfalls berechnen
      */
     define('INC_CHECK',true);
+    define('INC_CHECK_DSBERICHT', true);
     include($root_path.'include/config.inc.php');
+    require_once($root_path.'include/class.dsBericht.php');
     require_once($cfg["twdata_include"]);
     
     $smarty = new nopSmarty();
@@ -131,30 +133,6 @@
         }
         
         return $farms;
-    }
-    
-    // noExit:  das Skript wird nicht abgebrochen, wenn das Pattern nicht matcht.
-    //          es wird dann einfach FALSE zurückgegeben
-    function _pregMatch($pattern, $string, $err="", $noExit=false) {
-        global $matches, $errors, $debugs;
-        
-        if(!preg_match($pattern, $string, $matches)) {
-            if($noExit)
-                return false;
-                
-            if(!_isAjaxRequest())
-                $errors[] = 'Ungültiger Bericht oder falscher Ausdruck. Denk daran, den Bericht komplett zu kopieren (einschließlich: Gesendet: (...))!';
-            
-            if($err != "")
-                $errors[] = 'Info: '.$err;
-                
-            $errors[] = 'Hast du vielleicht vergessen, einen Späher mitzuschicken?';
-            
-            $debugs[] = "Pattern: ".$pattern;
-            _displayErrors();
-        }
-        
-        return true;
     }
     
     function _redirect($exit=true) {
@@ -384,111 +362,61 @@
         if(!empty($_POST['note']))
             $data['note'] = $_POST['note'];
         
-        // Zeitpunkt des Berichtes
-        // Beispiel: "Gesendet:        28.01.12 15:48:23"
-        _pregMatch('/Gesendet\s+(\d+)\.(\d+)\.(\d+)\s+(\d+):(\d+):(\d+)/', $report, "'Gesendet'-Teil konnte nicht eingelesen werden.");
-        $data['time'] = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[1], $matches[3]);
-        
         // die Ressourcen, die gespäht wurden
+        $spied_resources = array();
         $wood = (!empty($_POST['wood']) && $_POST['wood'] == 'yes');
         $loam = (!empty($_POST['loam']) && $_POST['loam'] == 'yes');
         $iron = (!empty($_POST['iron']) && $_POST['iron'] == 'yes');
+        if ($wood) $spied_resources[] = 'wood';
+        if ($loam) $spied_resources[] = 'loam';
+        if ($iron) $spied_resources[] = 'iron';
         
-        if($wood || $loam || $iron) {
-            // den regulären Ausdruck für die erspähten Ressourcen erstellen
-            $regex_resources = '/Ersp.{1,4}hte Rohstoffe:\s+';
-            if($wood && $loam && $iron)
-                $regex_resources .= '([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)';
-            else {
-                if(($wood && $loam) || ($wood && $iron) || ($loam && $iron)) {
-                    $regex_resources .= '([0-9\.]+)\s+([0-9\.]+)';
-                }
-                else {
-                    $regex_resources .= '([0-9\.]+)';
-                }
-            }
-            $regex_resources .= '/s';
-            _pregMatch($regex_resources, $report, "Die erspähten Rohstoffe konnten nicht eingelesen werden.");
-            
-            // die erspähten Ressourcen einlesen
-            if($wood && $loam && $iron) {
-                $data['wood'] = str_replace(".", "", $matches[1]);
-                $data['loam'] = str_replace(".", "", $matches[2]);
-                $data['iron'] = str_replace(".", "", $matches[3]);
-            }
-            else {
-                if($wood && $loam) {
-                    $data['wood'] = str_replace(".", "", $matches[1]);
-                    $data['loam'] = str_replace(".", "", $matches[2]);
-                    $data['iron'] = 0;
-                }
-                elseif($wood && $iron) {
-                    $data['wood'] = str_replace(".", "", $matches[1]);
-                    $data['loam'] = 0;
-                    $data['iron'] = str_replace(".", "", $matches[2]);
-                }
-                elseif($loam && $iron) {
-                    $data['wood'] = 0;
-                    $data['loam'] = str_replace(".", "", $matches[1]);
-                    $data['iron'] = str_replace(".", "", $matches[2]);
-                }
-                elseif($wood) {
-                    $data['wood'] = str_replace(".", "", $matches[1]);
-                    $data['loam'] = 0;
-                    $data['iron'] = 0;
-                }
-                elseif($loam) {
-                    $data['wood'] = 0;
-                    $data['loam'] = str_replace(".", "", $matches[1]);
-                    $data['iron'] = 0;
-                }
-                elseif($iron) {
-                    $data['wood'] = 0;
-                    $data['loam'] = 0;
-                    $data['iron'] = str_replace(".", "", $matches[1]);
-                }
-            }
+        $dsBericht = new dsBericht($oServer->getUnits(), $spied_resources);
+        $dsBericht->parse($report);
+        $parsed = $dsBericht->getReport();
+        
+        // Dringend benötigte Teile des Berichts checken
+        if ($parsed['time'] === false) {
+            $errors[] = "Gesendet-Teil konnte nicht eingelesen werden (kopiere den gesamten Bericht!).";
         }
-        else {
-                $data['wood'] = 0;
-                $data['loam'] = 0;
-                $data['iron'] = 0;
+        if ($parsed['spied_resources'] === false) {
+            $errors[] = "Erspähte Ressourcen konnten nicht eingelesen werden.";
+        }
+        if ($parsed['attacker'] === false) {
+            $errors[] = "Angreifer-Informationen konnten nicht eingelesen werden.";
+        }
+        if ($parsed['defender'] === false) {
+            $errors[] = "Verteidiger-Informationen konnten nicht eingelesen werden.";
+        }
+        if ($parsed['buildings'] === false) {
+            $errors[] = "Die Gebäude-Informationen konnten nicht eingelesen werden.";
+        }
+        if ($parsed['buildings'] && $parsed['buildings']['storage'] == 0) {
+            $errors[] = "Die Speicher-Stufe konnte nicht eingelesen werden.";
         }
         
-        _pregMatch('/Angreifer:.*\s+(?:Dorf|Herkunft):\s+(.*)\(([0-9]{1,3}\|[0-9]{1,3})\)\s+K([0-9]{1,3}).*Verteidiger:/s',
-                   $report,
-                   "Angreifer-Name und -Herkunftsdorf konnten nicht eingelesen werden.");
-        $data['av_name'] = substr(trim($matches[1]), 0, 50);
-        $data['av_coords'] = $matches[2];
+        // Bei Fehlern abbrechen
+        if (count($errors) > 0) {
+            if(!_isAjaxRequest())
+                array_unshift($errors, 'Ungültiger Bericht oder falscher Ausdruck (Details folgen). Denke daran, den Bericht komplett zu kopieren! Oder hast du vielleicht vergessen, einen Späher mitzuschicken?');
+            _displayErrors();
+        }
         
-        _pregMatch('/Verteidiger:.*\s+(?:Dorf|Ziel):\s+(.*)\(([0-9]{1,3}\|[0-9]{1,3})\)\s+K([0-9]{1,3})/s',
-                   $report,
-                   "Verteidiger-Name und -Herkunftsdorf konnten nicht eingelesen werden.");
-        $data['v_name'] = substr(trim($matches[1]), 0, 50);
-        $data['v_coords'] = $matches[2];
-        
-        $b_wood = _pregMatch('/Holzf.{1,4}ller\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
-        $data['b_wood'] = ($b_wood !== false) ? min($matches[1], 30) : 0;
-        
-        $b_loam = _pregMatch('/Lehmgrube\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
-        $data['b_loam'] = ($b_loam !== false) ? min($matches[1], 30) : 0;
-        
-        $b_iron = _pregMatch('/Eisenmine\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
-        $data['b_iron'] = ($b_iron !== false) ? min($matches[1], 30) : 0;
-        
-        $wall = _pregMatch('/Wall\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
-        if($wall !== false) $wall = min($matches[1], 20);
-        else $wall=0;
-        $data['b_wall'] = $wall;
-        
-        _pregMatch('/Speicher\s+\(Stufe ([0-9][0-9]?)\)/', $report, "Die Speicher-Stufe konnte nicht eingelesen werden!");
-        $storage = min($matches[1], 30);
-        $data['b_storage'] = $storage;
-        
-        $hide = _pregMatch('/Versteck\s+\(Stufe ([0-9][0-9]?)\)/', $report, "", true);
-        if($hide !== false) $hide = min($matches[1], 10);
-        else $hide = 0;
-        $data['b_hide'] = $hide;
+        // Geparste Daten übernehmen, soweit relevant
+        $data['time'] = $parsed['time'];
+        $data['wood'] = $parsed['spied_resources']['wood'];
+        $data['loam'] = $parsed['spied_resources']['loam'];
+        $data['iron'] = $parsed['spied_resources']['iron'];
+        $data['av_name'] = $parsed['attacker']['nick'];
+        $data['av_coords'] = $parsed['attacker']['coords'];
+        $data['v_name'] = $parsed['defender']['nick'];
+        $data['v_coords'] = $parsed['defender']['coords'];
+        $data['b_wood'] = $parsed['buildings']['wood'];
+        $data['b_loam'] = $parsed['buildings']['loam'];
+        $data['b_iron'] = $parsed['buildings']['iron'];
+        $data['b_wall'] = $parsed['buildings']['wall'];
+        $data['b_storage'] = $parsed['buildings']['storage']; // TODO: Die Speicher-Stufe konnte nicht eingelesen werden!
+        $data['b_hide'] = $parsed['buildings']['hide'];
         
         // Wurde ein Bonus angegeben?
         if(!empty($_POST['bonus'])) {

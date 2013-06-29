@@ -67,6 +67,10 @@
             return floatval($this->config->speed);
         }
 
+        public function getUnits() {
+            return $this->unitnames;
+        }
+
         // gibt das Fassungsvermögen des Verstecks zurück auf der jeweiligen Stufe
         public function hideMax($level) {
             switch($this->id) {
