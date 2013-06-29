@@ -245,12 +245,12 @@ class dsBericht {
         return TRUE;
     }
 
-    function &getReport()
+    function getReport()
     {
         return $this->report;
     }
 
-    function setReport(&$data)
+    function setReport($data)
     {
         $this->report=$data;
     }
