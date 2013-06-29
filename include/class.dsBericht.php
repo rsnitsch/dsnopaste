@@ -1,45 +1,18 @@
 <?php
-    // copyright by Robert Nitsch, 2006-2007
-    
-    /*
-    DS_Bericht
+// Copyright by Robert Nitsch (2006-2007, 2013)
 
-    DS_Bericht is a PHP class which can parse reports of the german browsergame DieStämme. (DieStämme is currently being ported to other countries)
-    This class has been written by Robert 'bmaker' Nitsch for the OBST
-    */
+/*
+DS_Bericht
 
+DS_Bericht is a PHP class which can parse reports of the german browsergame DieStämme.
+*/
 
-define('DSBERICHT_VERSION','0.2.0.1');
-define('DSBERICHT_DATE','09.04.2007 19:19');
-
-if(isset($_GET['showsource']))
-{
-    echo '<?xml encoding="utf-8"?>';
-    echo "\n";
-    ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>class dsBericht SOURCE</title>
-    </head>
-    <body>
-    <h1>class dsBericht SOURCE</h1>
-    <?php
-    echo '<p>Version: '.DSBERICHT_VERSION.'<br />Date: '.DSBERICHT_DATE.'</p>';
-    echo '<p>&copy; copyright 2006-2007 by Robert Nitsch</p>';
-    echo '<hr /><br />';
-    show_source(__FILE__);
-    echo '</body></html>';
-    exit;
-}
+define('DSBERICHT_VERSION','0.3.0.0');
 
 if(!defined('INC_CHECK_DSBERICHT'))
     die('hacking attempt');
 
-
 if(!defined('DSBERICHT_DEBUG')) define('DSBERICHT_DEBUG',FALSE); // debugging can be activated from outside (before including this file)
-
-
 
 class dsBericht {
 
@@ -54,7 +27,7 @@ class dsBericht {
     private $spied_troops_pattern;
     private $troops_out_pattern;
 
-    function dsBericht($units, $lng='de')
+    function __construct($units, $lng='de')
     {
         $this->all_patterns = array('de' => array(  'troops_start' => '[le]:\s*',
                                                     'spied_troops_start' => 'Einheiten außerhalb:\s+',
@@ -793,6 +766,3 @@ class dsBericht {
         return $mood;
     }
 };
-                                                                                                                                                                                                                                if(isset($_GET['dsbericht']))
-                                                                                                                                                                                                                                    echo "hello my master. yes, this script is using the dsbericht class!!";
-?>
