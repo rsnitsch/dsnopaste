@@ -176,10 +176,8 @@ class dsBericht {
     }
 
     // parses a complete report...
-    function parse($data, $server='')
+    function parse($data, $server='', $required=array('time'))
     {
-        $error=FALSE;
-
         $this->data=$data;
 
         $this->report['time']       = $this->parse_time();
@@ -214,26 +212,12 @@ class dsBericht {
             print_r($this->buildAssoc());
         }
 
-        // check whether all needed data has been parsed correctly. otherwise => error!
-        if(!is_array($this->report['troops']))
-            $error=TRUE;
-        if($this->report['time'] === FALSE)
-            $error=TRUE;
-        if(!$this->report['winner'])
-            $error=TRUE;
-        if(!$this->report['luck'])
-            $error=TRUE;
-
-        if($error and DSBERICHT_DEBUG)
-            echo "\nAn error occured: not all needed data could be parsed!\n";
-
-        if($error)
-        {
-            $this->data = FALSE;
-            return FALSE;
+        foreach ($required as $req) {
+            if (!$this->report[$req]) {
+                return false;
+            }
         }
 
-        // report successfully parsed ...
         return TRUE;
     }
 
