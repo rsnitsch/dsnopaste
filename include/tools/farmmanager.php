@@ -444,10 +444,10 @@
         }
         
         if($storage_bonus) {
-            $data['farmable'] = intval($oServer->calcStorageMax($storage)*1.5 - $oServer->hideMax($hide));
+            $data['farmable'] = intval($oServer->calcStorageMax($data['b_storage'])*1.5 - $oServer->hideMax($data['b_hide']));
         }
         else {
-            $data['farmable'] = intval($oServer->calcStorageMax($storage)     - $oServer->hideMax($hide));
+            $data['farmable'] = intval($oServer->calcStorageMax($data['b_storage'])     - $oServer->hideMax($data['b_hide']));
         }
         
         // SQL bilden,
