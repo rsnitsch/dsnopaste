@@ -21,6 +21,7 @@ class dsBericht {
     public $report;
     public $units;
 
+    private $lang;
     private $patterns;
     private $all_patterns;
     private $troops_pattern;
@@ -32,17 +33,16 @@ class dsBericht {
         $this->all_patterns = array('de' => array(  'troops_start' => '[le]:\s*',
                                                     'spied_troops_start' => 'Einheiten außerhalb:\s+',
                                                     'troops_out_start' => 'Truppen des Verteidigers, die unterwegs waren\s+',
-                                                    'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+)/',
-                                                                     //Weitergeleitet am:   13.07.07 18:38Weitergeleitet von:   Shiver@
-                                                    'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+).*Weitergeleitet von:\s+([^\n]*)\n/s',
+                                                    'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)/',
+                                                    'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)\s+Weitergeleitet von:\s+(.*)\s+Der (Angreifer|Verteidiger) hat gewonnen/',
                                                     'winner' => '/Der (Angreifer|Verteidiger) hat gewonnen/',
                                                     'luck' => '/Gl.{1,2}ck \(aus Sicht des Angreifers\).*\s+([\-0-9]*[0-9]+\.[0-9]+)%/s',
                                                     'moral' => '/Moral:\s+([0-9]+)/',
-                                                    'attacker' => '/Angreifer:\s+(.*)\nHerkunft:\s+(.*)\n/',
+                                                    'attacker' => '/Angreifer:\s+(.*)\s+Herkunft:\s+(.*)\s+Anzahl:/',
                                                     'village_con_check' => '/\)\s+K[0-9]{1,3}\s*$/',
                                                     'village_con' => '/^(.*)\(([0-9]{1,3}\|[0-9]{1,3})\)\s+K([0-9]{1,3}).*$/',
                                                     'village_nocon' => '/^(.*)\(([0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})\).*$/',
-                                                    'defender' => '/Verteidiger:\s+(.*)\nZiel:\s+(.*)\n/',
+                                                    'defender' => '/Verteidiger:\s+(.*)\s+Ziel:\s+(.*)\s+Anzahl:/',
                                                     'wall' => '/Schaden durch (Rammen|Rammb.{1,2}cke):\s+Wall besch.{1,2}digt von Level ([0-9]+) auf Level ([0-9]+)/',
                                                     'catapult' => '/Schaden durch Katapultbeschuss:\s+([A-Za-zäöü]+) besch.{1,2}digt von Level ([0-9]+) auf Level ([0-9]+)/',
                                                     'espionage' => '/Spionage/',
@@ -69,24 +69,24 @@ class dsBericht {
                                              )
                                );
 
-        $this->all_patterns["en"] = array(  'troops_start' => '[le]:\s*',
+        $this->all_patterns["en"] = array(  'troops_start' => '(?:Quantity|Losses):\s*',
                                                     'spied_troops_start' => 'Units outside of village:\s+',
                                                     'troops_out_start' => "Defender's".' troops, that were in transit\s+',
-                                                    'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+)/',
-                                                                     //Weitergeleitet am:   13.07.07 18:38Weitergeleitet von:   Shiver@
-                                                    'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+).*Weitergeleitet von:\s+([^\n]*)\n/s',
+													// 	Jul 12, 2013 12:12:41
+                                                    'time' => '/Sent\s+([a-zA-Z]+\s+[^a-zA-Z]+)/',
+                                                    'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+).*Weitergeleitet von:\s+([^\n]*)\n/s', // TODO
                                                     'winner' => '/The (attacker|defender) has won/',
                                                     'luck' => '/Luck \(from attacker\'s point of view\).*\s+([\-0-9]*[0-9]+\.[0-9]+)%/s',
                                                     'moral' => '/Morale:\s+([0-9]+)/',
-                                                    'attacker' => '/Attacker:\s+(.*)\Villages+(.*)\n/',
+                                                    'attacker' => '/Attacker:\s+(.*)\s+Origin:\s+(.*)\s+Quantity:/',
                                                     'village_con_check' => '/\)\s+K[0-9]{1,3}\s*$/',
                                                     'village_con' => '/^(.*)\(([0-9]{1,3}\|[0-9]{1,3})\)\s+K([0-9]{1,3}).*$/',
                                                     'village_nocon' => '/^(.*)\(([0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})\).*$/',
-                                                    'defender' => '/Defender:\s+(.*)\nVillage:\s+(.*)\n/',
+                                                    'defender' => '/Defender:\s+(.*)\s+Destination:\s+(.*)\s+Quantity:/',
                                                     'wall' => '/Damage by rams:\s+The wall has been damaged and downgraded from level ([0-9]+) to level ([0-9]+)/',
                                                     'catapult' => '/Damage by catapult bombardment:\s+([A-Za-zäöü]+) has been damaged and downgraded from level ([0-9]+) to level ([0-9]+)/',
                                                     'espionage' => '/Espionage/', /* TODO: is this regex correct? */
-                                                    'spied_resources_start' => '/Resources scouted:\s+/',
+                                                    'spied_resources_start' => '/Resources scouted:\s+',
                                                     'buildings' => '/Buildings/',
                                                     'b_main' => '/Headquarters\s+\(Level ([0-9]+)\)/',
                                                     'b_barracks' => '/Barracks\s+\(Level ([0-9]+)\)/',
@@ -111,6 +111,7 @@ class dsBericht {
             $this->patterns = $this->all_patterns[$lng];
         else
             $this->patterns = $this->all_patterns['de'];
+        $this->lang = $lng;
 
         $this->reset();
 
@@ -245,12 +246,12 @@ class dsBericht {
         return TRUE;
     }
 
-    function &getReport()
+    function getReport()
     {
         return $this->report;
     }
 
-    function setReport(&$data)
+    function setReport($data)
     {
         $this->report=$data;
     }
@@ -435,7 +436,15 @@ class dsBericht {
         $time=FALSE;
         if($this->preg_match_std($this->patterns['time']))
         {
-            $time=mktime($this->match(4), $this->match(5), 0, $this->match(2), $this->match(1), $this->match(3));
+            if ($this->lang == 'de') {
+                $time=mktime($this->match(4), $this->match(5), $this->match(6), $this->match(2), $this->match(1), $this->match(3));
+            } else if ($this->lang == 'en') {
+                // Jul 12, 2013 12:12:41
+                $dt = DateTime::createFromFormat("M j, Y H:i:s", trim($this->match(1)));
+                if ($dt !== false) {
+                    $time = $dt->getTimestamp();
+                }
+            }
             // int mktime ( [int Stunde [, int Minute [, int Sekunde [, int Monat [, int Tag [, int Jahr [, int is_dst]]]]]]] )
         }
 
@@ -447,8 +456,8 @@ class dsBericht {
         $forwarded = FALSE;
         if($this->preg_match_std($this->patterns['forwarded']))
         {
-            $forwarded['time'] = mktime($this->match(4), $this->match(5), 0, $this->match(2), $this->match(1), $this->match(3));
-            $forwarded['sender'] = $this->match(6);
+            $forwarded['time'] = mktime($this->match(4), $this->match(5), $this->match(6), $this->match(2), $this->match(1), $this->match(3));
+            $forwarded['sender'] = trim($this->match(7));
         }
 
         return $forwarded;
@@ -499,7 +508,7 @@ class dsBericht {
         $attacker=FALSE;
         if($this->preg_match_std($this->patterns['attacker']))
         {
-            $attacker['nick']=$this->match(1);
+            $attacker['nick']=trim($this->match(1));
 
             if(preg_match($this->patterns['village_con_check'], $this->match(2)))
             {
@@ -526,7 +535,7 @@ class dsBericht {
         $defender=FALSE;
         if($this->preg_match_std($this->patterns['defender']))
         {
-            $defender['nick']=$this->match(1);
+            $defender['nick']=trim($this->match(1));
 
             if(preg_match('/\)\s+K[0-9]{1,3}\s*$/', $this->match(2)))
             {
@@ -624,7 +633,7 @@ class dsBericht {
         $catapult=FALSE;
         if($this->preg_match_std($this->patterns['catapult']))
         {
-            $catapult['building']=$this->match(1);
+            $catapult['building']=trim($this->match(1));
             $catapult['before']=intval($this->match(2));
             $catapult['after']=intval($this->match(3));
         }

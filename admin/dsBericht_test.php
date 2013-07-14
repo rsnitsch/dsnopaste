@@ -10,6 +10,8 @@
     define('INC_CHECK_DSBERICHT',TRUE);
     define('DSBERICHT_DEBUG',TRUE); // activates the class' own debug mode
     require_once('../include/class.dsBericht.php');
+	
+	$language = isset($_POST['language']) && in_array($_POST['language'], array('de', 'en')) ? $_POST['language'] : 'de';
 ?>
 <html>
 <head>
@@ -25,6 +27,10 @@
        <option value="normal" <?php if ($_POST['server'] == 'normal') { ?>selected="selected"<?php } ?>>normal</option>
        <option value="modern" <?php if (empty($_POST['server']) || $_POST['server'] == 'modern') { ?>selected="selected"<?php } ?>>modern</option>
        <option value="s4" <?php if ($_POST['server'] == 's4') { ?>selected="selected"<?php } ?>>s4</option>
+    </select>
+    <select name="language">
+       <option value="de" <?php if ($language == 'de') { ?>selected="selected"<?php } ?>>de</option>
+       <option value="en" <?php if ($language == 'en') { ?>selected="selected"<?php } ?>>en</option>
     </select>
     <input type="checkbox" id="wood" name="wood" value="yes" <?php if (empty($_POST['wood']) || $_POST['wood'] == 'yes') { ?>checked="checked"<?php } ?> /><label for="wood">Holz</label>
     <input type="checkbox" id="loam" name="loam" value="yes" <?php if (empty($_POST['loam']) || $_POST['loam'] == 'yes') { ?>checked="checked"<?php } ?> /><label for="loam">Lehm</label>
@@ -53,12 +59,12 @@
             default:
                 die("ungültiger server typ");
         }
-        
+		
         $spied_resources = array();
         if ($_POST['wood'] == 'yes') $spied_resources[] = 'wood';
         if ($_POST['loam'] == 'yes') $spied_resources[] = 'loam';
         if ($_POST['iron'] == 'yes') $spied_resources[] = 'iron';
-        $parser=new dsBericht($units, $spied_resources);
+        $parser=new dsBericht($units, $spied_resources, $language);
         $parser->parse($_POST['report']);
     }
 ?>
