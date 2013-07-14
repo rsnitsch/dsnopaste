@@ -34,8 +34,7 @@ class dsBericht {
                                                     'spied_troops_start' => 'Einheiten außerhalb:\s+',
                                                     'troops_out_start' => 'Truppen des Verteidigers, die unterwegs waren\s+',
                                                     'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)/',
-                                                                     //Weitergeleitet am:   13.07.07 18:38Weitergeleitet von:   Shiver@
-                                                    'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+).*Weitergeleitet von:\s+([^\n]*)\n/s',
+                                                    'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)\s+Weitergeleitet von:\s+(.*)\s+Der (Angreifer|Verteidiger) hat gewonnen/',
                                                     'winner' => '/Der (Angreifer|Verteidiger) hat gewonnen/',
                                                     'luck' => '/Gl.{1,2}ck \(aus Sicht des Angreifers\).*\s+([\-0-9]*[0-9]+\.[0-9]+)%/s',
                                                     'moral' => '/Moral:\s+([0-9]+)/',
@@ -457,8 +456,8 @@ class dsBericht {
         $forwarded = FALSE;
         if($this->preg_match_std($this->patterns['forwarded']))
         {
-            $forwarded['time'] = mktime($this->match(4), $this->match(5), 0, $this->match(2), $this->match(1), $this->match(3));
-            $forwarded['sender'] = trim($this->match(6));
+            $forwarded['time'] = mktime($this->match(4), $this->match(5), $this->match(6), $this->match(2), $this->match(1), $this->match(3));
+            $forwarded['sender'] = trim($this->match(7));
         }
 
         return $forwarded;
