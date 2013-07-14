@@ -341,7 +341,7 @@
         $matches = array();
         $data = array();
         
-        if($cfg["debugmode"] && is_writable("/tmp/report.txt")) {
+        if($cfg["debugmode"] && is_writable("/tmp/")) {
             $fh = fopen("/tmp/report.txt", "wb");
             fwrite($fh, $report);
             fclose($fh);
