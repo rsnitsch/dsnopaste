@@ -697,7 +697,7 @@ class dsBericht {
             'statue'=>0,
             'market'=>0,
             'wood'=>0,
-            'stone'=>0,
+            'loam'=>0,
             'iron'=>0,
             'farm'=>0,
             'storage'=>0,
