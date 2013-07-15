@@ -100,8 +100,8 @@ $(document).ready(function() {
 	</tr>
 {foreach from=$actions item=action}
 	<tr style="background-color: {cycle values="#F1EBDD,#E7E2D5"};">
-		<td><a class="setValue" href="javascript:ap_setValue('from', '{$action.from}')">{$action.from}</a></td>
-		<td><a class="setValue" href="javascript:ap_setValue('to', '{$action.to}')">{$action.to}</a></td>
+		<td><a class="setValue" href="javascript:ap_setCoord('from', {$action.from.x}, {$action.from.y})">{$action.from.orig}</a></td>
+		<td><a class="setValue" href="javascript:ap_setCoord('to', {$action.to.x}, {$action.to.y})">{$action.to.orig}</a></td>
 		<td>{if $action.typ==1}
 				<img src="http://de7.die-staemme.de/graphic/unit/unit_axe.png" alt="Axtkämpfer" title="Angriff" />
 			{elseif $action.typ==2}

@@ -551,6 +551,8 @@
                     $actions_array=array();
                     while($row=$mysql->sql_fetch_assoc($actions))
                     {
+                        $row['from'] = parseCoordinate($row['from']);
+                        $row['to'] = parseCoordinate($row['to']);
                         $row['arrive_pure']=date('d.m.Y H:i:s',$row['arrive']);
                         $row['arrive']=date('j. M H:i:s',$row['arrive']);
                         

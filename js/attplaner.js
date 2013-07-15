@@ -15,6 +15,11 @@ function ap_setValue(name, value)
 	eval("document.forms.attplan_form."+name+".value = value");
 }
 
+function ap_setCoord(which, new_x, new_y) {
+	document.forms.namedItem("attplan_form").elements.namedItem(which + "_x").value = new_x;
+	document.forms.namedItem("attplan_form").elements.namedItem(which + "_y").value = new_y;
+}
+
 function ap_normalLinkDescription() {
 	alert("== Einfacher Link zum Angriffsplan ==\n\nMit diesem Link kann man den "+
 		  "Angriffsplan nur ANSEHEN. Bearbeitungsrechte bekommt man dabei NICHT.\n\n"+
