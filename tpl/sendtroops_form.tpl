@@ -14,29 +14,30 @@
 </form>
 
 
-<h2>Wichtig: Farmmanager - Erweiterung II (sendtroopshelper) installieren</h2>
+<h2>Wichtig: Userscripts installieren</h2>
 
 <p>
-	Für dieses Feature muss das Userscript <strong>Farmmanager - Erweiterung II (sendtroopshelper)</strong> installiert
-	werden.
+	Für dieses Feature müssen die folgenden Greasemonkey-Userscripts installiert werden:
 </p>
 
-<p>
-	Jetzt <a href="http://scripts.die-staemme.de/download/50.user.js">Farmmanager - Erweiterung II installieren</a>
-	(aus der <a href="http://scripts.die-staemme.de/">Script-DB</a>).
-<p>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Beschreibung</th>
+		<th>Installations-Link</th>
+	</tr>
+	<tr>
+		<td>Farmmanager - Erweiterung II (SendTroopsHelper)</td>
+		<td>Die Truppen im Versammlungsplatz werden automatisch ausgefüllt.</td>
+		<td><a href="http://scripts.die-staemme.de/download/50.user.js">Installieren</a></td>
+	</tr>
+	<tr>
+		<td>Farmmanager Popup Überspringer</td>
+		<td>Der Button 'Versammlungsplatz öffnen' (siehe oben) wird automatisch geklickt.</td>
+		<td><a href="https://bitbucket.org/rsnitsch/dsnopaste-userscripts/raw/f4262c052a469101d40fec475e912707954dfe86/farmmanager-popup-ueberspringer.user.js">Installieren</a></td>
+	</tr>
+</table>
 
-<h3>Was macht das Script?</h3>
-
-<p>Das Script erfüllt die folgenden Funktionen:</p>
-
-<ul>
-	<li>Die Truppen im Versammlungsplatz werden automatisch ausgefüllt.</li>
-	<li>
-		Dieses Popup wird automatisch übersprungen; es öffnet sich also direkt
-		der Versammlungsplatz, ohne dass man auf "Versammlungsplatz öffnen" klicken muss.
-	</li>
-</ul>
 {/block}
 
 {block 'footer'}{/block}
