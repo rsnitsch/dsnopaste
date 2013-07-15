@@ -16,10 +16,10 @@
             global $root_path, $cfg;
             $this->dir = $root_path."data/server/{$cfg['language']}/{$this->id}";
 
-            $this->getData();
+            $this->loadData();
         }
 
-        protected function getData()
+        protected function loadData()
         {
             $units = simplexml_load_file($this->dir."/units.xml");
 
@@ -65,6 +65,10 @@
 
         public function getSpeed() {
             return floatval($this->config->speed);
+        }
+
+        public function getUnits() {
+            return $this->unitnames;
         }
 
         // gibt das Fassungsvermögen des Verstecks zurück auf der jeweiligen Stufe
