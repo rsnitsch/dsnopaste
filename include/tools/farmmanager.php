@@ -407,9 +407,9 @@
         $data['wood'] = $parsed['spied_resources']['wood'];
         $data['loam'] = $parsed['spied_resources']['loam'];
         $data['iron'] = $parsed['spied_resources']['iron'];
-        $data['av_name'] = $parsed['attacker']['nick'];
+        $data['av_name'] = $parsed['attacker']['village'];
         $data['av_coords'] = $parsed['attacker']['coords'];
-        $data['v_name'] = $parsed['defender']['nick'];
+        $data['v_name'] = $parsed['defender']['village'];
         $data['v_coords'] = $parsed['defender']['coords'];
         $data['b_wood'] = $parsed['buildings']['wood'];
         $data['b_loam'] = $parsed['buildings']['loam'];
