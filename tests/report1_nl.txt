@@ -1,0 +1,42 @@
+﻿Betreff 	fenrir123 (Wotans Wille) greift Barbarendorf (270|435) K42 an
+Gesendet	14.07.13 17:44:33
+Weitergeleitet am:	14.07.13 18:09:20
+Weitergeleitet von:	fenrir123
+Der Angreifer hat gewonnen
+Glück (aus Sicht des Angreifers)
+-13.5% 	Pech 	
+			
+	Glück
+Moral: 100%
+Angreifer: 	fenrir123
+Herkunft: 	Wotans Wille (270|437) K42
+												
+Anzahl: 	1	2	3	4	5	6	7	8	9	10	11	12
+Verluste: 	13	14	15	16	17	18	19	20	21	22	23	24
+
+Verteidiger: 	---
+Ziel: 	Barbarendorf (270|435) K42
+													
+Anzahl: 	25	26	27	28	29	30	31	32	33	34	35	36	37
+Verluste: 	38	39	40	41	42	43	44	45	46	47	48	49	50
+
+Spionage
+Erspähte Rohstoffe:	111 222 333
+Gebäude:	Hauptgebäude (Stufe 5)
+Kaserne (Stufe 1)
+Schmiede (Stufe 1)
+Versammlungsplatz (Stufe 1)
+Statue (Stufe 1)
+Marktplatz (Stufe 2)
+Holzfäller (Stufe 10)
+Lehmgrube (Stufe 9)
+Eisenmine (Stufe 6)
+Bauernhof (Stufe 3)
+Speicher (Stufe 5)
+Versteck (Stufe 1)
+Wall (Stufe 4)
+Einheiten außerhalb:
+											
+51	52	53	54	55	56	57	58	59	60	61	62
+
+Beute: 	537 461 293 	1.291/5.810
