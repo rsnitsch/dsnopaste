@@ -4,7 +4,7 @@
         public $name;
         public $config;
         public $runtimes;
-        public $unitnames;
+        public $units;
 
         public function __construct($id)
         {
@@ -21,21 +21,11 @@
 
         protected function loadData()
         {
-            $units = simplexml_load_file($this->dir."/units.xml");
-
-            $this->runtimes = array();
-            $this->unitnames = array();
-
-            foreach($units as $unitname => $data) {
-                if ($unitname == "militia") {
-                    continue;
-                }
-
-                $this->runtimes[$unitname] = floatval($data->speed);
-                $this->unitnames[] = $unitname;
-            }
+            $this->units = simplexml_load_file($this->dir."/units.xml");
+            $this->units = $this->xml2array($this->units);
 
             $this->config = simplexml_load_file($this->dir."/config.xml");
+            $this->config = $this->xml2array($this->config);
 
             if($this->hasMetafile()) {
                 $meta = simplexml_load_file($this->dir."/meta.xml");
@@ -60,15 +50,23 @@
         }
 
         public function bonusNew() {
-            return $this->config->coord->bonus_new == 1;
+            return $this->config["coord"]["bonus_new"] == 1;
         }
 
         public function getSpeed() {
-            return floatval($this->config->speed);
+            return $this->config["speed"];
         }
 
-        public function getUnits() {
-            return $this->unitnames;
+        public function getUnits($no_militia = false) {
+            $units = $this->units;
+            if ($no_militia && isset($units["militia"])) {
+                unset($units["militia"]);
+            }
+            return $units;
+        }
+
+        public function getUnitNames($no_militia = false) {
+            return array_keys($this->getUnits($no_militia));
         }
 
         // gibt das Fassungsvermögen des Verstecks zurück auf der jeweiligen Stufe
@@ -127,7 +125,7 @@
             );
 
             // Parse the world's style.
-            $base_config = trim($this->config->game->base_config);
+            $base_config = trim($this->config["game"]["base_config"]);
             if ($base_config == "6") {
                 $base_config = "4";
             } else if (!in_array($base_config, array_keys($styles))) {
@@ -137,7 +135,7 @@
 
             // Get parameters based on the world's style.
             $growth = $styles[$base_config];
-            $base_production = floatval($this->config->game->base_production);
+            $base_production = $this->config["game"]["base_production"];
 
             return intval(round($base_production * pow($growth, $level-1)));
         }
@@ -159,6 +157,20 @@
             }
 
             return $time*60; // sekunden zurückgeben
+        }
+
+        protected function xml2array($xmlObject, $out = array())
+        {
+            foreach ((array) $xmlObject as $index => $node) {
+                if (is_object($node) || is_array($node)) {
+                    $out[$index] = $this->xml2array($node);
+                } else if (is_numeric($node)) {
+                    $out[$index] = (strval(intval($node)) === $node) ? intval($node) : floatval($node);
+                } else {
+                    $out[$index] = $node;
+                }
+            }
+            return $out;
         }
     }
 

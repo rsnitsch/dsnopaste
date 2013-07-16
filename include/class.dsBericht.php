@@ -19,20 +19,20 @@ class dsBericht {
     private $data;
     private $matches;
     public $report;
-    public $units;
+    public $units_attacker;
+    public $units_defender;
+    public $units_spied;
+    public $units_out;
 
     private $lang;
     private $patterns;
     private $all_patterns;
-    private $troops_pattern;
-    private $spied_troops_pattern;
-    private $troops_out_pattern;
 
     function __construct($units, $spied_resources=array('wood', 'loam', 'iron'), $lng='de')
     {
-        $this->all_patterns = array('de' => array(  'troops_start' => '[le]:\s*',
-                                                    'spied_troops_start' => 'Einheiten außerhalb:\s+',
-                                                    'troops_out_start' => 'Truppen des Verteidigers, die unterwegs waren\s+',
+        $this->all_patterns = array('de' => array(  'troops_pattern' => '/(?:Anzahl|Verluste):\s+((?:[0-9]+\s+)+)/',
+                                                    'spied_troops_pattern' => '/Einheiten au.{1,2}erhalb:\s+((?:[0-9]+\s+)+)/',
+                                                    'troops_out_pattern' => '/Truppen des Verteidigers, die unterwegs waren\s+((?:[0-9]+\s+)+)/',
                                                     'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)/',
                                                     'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)\s+Weitergeleitet von:\s+(.*)\s+Der (Angreifer|Verteidiger) hat gewonnen/',
                                                     'winner' => '/Der (Angreifer|Verteidiger) hat gewonnen/',
@@ -69,7 +69,7 @@ class dsBericht {
                                              )
                                );
 
-        $this->all_patterns["en"] = array(  'troops_start' => '(?:Quantity|Losses):\s*',
+        $this->all_patterns["en"] = array(          'troops_pattern' => '/(?:Quantity|Losses):\s+((?:[0-9]+\s+)+)/',
                                                     'spied_troops_start' => 'Units outside of village:\s+',
                                                     'troops_out_start' => "Defender's".' troops, that were in transit\s+',
 													// 	Jul 12, 2013 12:12:41
@@ -124,7 +124,10 @@ class dsBericht {
         $this->matches=FALSE;
         $this->data=FALSE;
         $this->server='';
-        $this->units = array();
+        $this->units_attacker=null;
+        $this->units_defender=null;
+        $this->units_spied=null;
+        $this->units_out=null;
 
         $this->report=array(
             'time' => FALSE,
@@ -156,15 +159,21 @@ class dsBericht {
 
     function set_units($units)
     {
-        if(is_array($units) && count($units) > 0)
-        {
-            $this->units = $units;
-
-            // build the troops_patterns
-            $this->build_troops_patterns();
+        if (!is_array($units) || empty($units)) {
+            throw new InvalidArgumentException("Expected a non-empty array");
         }
-        else
-            trigger_error('ERROR: invalid argument $units', E_USER_ERROR);
+
+        if (array_key_exists('attacker', $units)) {
+            $this->units_attacker = $units['attacker'];
+            $this->units_defender = array_key_exists('defender', $units) ? $units['defender'] : $this->units_attacker;
+            $this->units_spied = array_key_exists('spied', $units) ? $units['spied'] : $this->units_attacker;
+            $this->units_out = array_key_exists('out', $units) ? $units['out'] : $this->units_attacker;
+        } else {
+            $this->units_attacker = $units;
+            $this->units_defender = $units;
+            $this->units_spied = $units;
+            $this->units_out = $units;
+        }
     }
 
     function build_spied_resources_pattern()
@@ -177,27 +186,6 @@ class dsBericht {
             $this->spied_resources_pattern .= '([0-9\.]+)';
         }
         $this->spied_resources_pattern .= '/';
-    }
-
-    function build_troops_patterns()
-    {
-        $this->troops_pattern = $this->patterns['troops_start'];
-        $this->spied_troops_pattern = $this->patterns['spied_troops_start'];
-        $this->troops_out_pattern = $this->patterns['troops_out_start'];
-        for($i=0; $i<(count($this->units)-1); $i++)
-        {
-                $this->troops_pattern .= '([0-9x]+)\s+';
-                $this->spied_troops_pattern .= '([0-9x]+)\s+';
-                $this->troops_out_pattern .= '([0-9x]+)\s+';
-        }
-
-        $this->troops_pattern .= '([0-9x]+)';
-        $this->spied_troops_pattern .= '([0-9x]+)';
-        $this->troops_out_pattern .= '([0-9x]+)';
-
-        $this->troops_pattern = '/'.$this->troops_pattern.'/';
-        $this->spied_troops_pattern = '/'.$this->spied_troops_pattern.'/';
-        $this->troops_out_pattern = '/'.$this->troops_out_pattern.'/';
     }
 
     // parses a complete report...
@@ -556,59 +544,49 @@ class dsBericht {
         return $defender;
     }
 
-    // parses all attacking and defending troops. this function is NOT parsing the troops which were outside
     function parse_troops()
     {
         $troops=FALSE;
         $this->matches=FALSE;
 
-        $troops_pattern = $this->troops_pattern;
+        $this->currentPattern($this->patterns['troops_pattern']);
 
-        $this->currentPattern($troops_pattern);
-
-        if(preg_match_all($troops_pattern, $this->data, $this->matches))
-        {
-            if((count($this->matches)==10 or count($this->matches)==11 or count($this->matches)==13) and count($this->matches[0])==4)
-            {
-                $this->currentPattern_found(true);
-
-                $troops=$this->matches;
-            }
-            else
-            {
-                $this->currentPattern_found(false);
-
-                trigger_error('there have to be 4 troop sets and 10 types of units! not more, not less! found: '.count($this->matches).' types of units / matches: '.count($this->matches[0]));
-
-                if(DSBERICHT_DEBUG)
-                {
-                    echo "\n\n";
-                    echo '<span style="font-weight: bold;">';
-                    print_r($this->matches);
-                    echo '</span>';
-                }
-
-                return false;
-            }
-        }
-        else
-        {
+        if(preg_match_all($this->patterns['troops_pattern'], $this->data, $this->matches, PREG_SET_ORDER)) {
+            $this->currentPattern_found(true);
+        } else {
             $this->currentPattern_found(false);
             return false;
         }
 
-        // make an associative array
         $data = $this->matches;
 
-        $count = 1;
+        if (count($data) != 4) {
+            throw new RuntimeException("Expected 4 troop sets (2 for attacker and 2 for defender).");
+        }
+
+        $att = preg_split('/\s+/', trim($data[0][1]));
+        $attl = preg_split('/\s+/', trim($data[1][1]));
+        $def = preg_split('/\s+/', trim($data[2][1]));
+        $defl = preg_split('/\s+/', trim($data[3][1]));
+
+        if (count($att) != count($this->units_attacker)) {
+            throw new RuntimeException("Number of parsed attacking unit quantities differs from expected number of units.");
+        } else if (count($attl) != count($this->units_attacker)) {
+            throw new RuntimeException("Number of parsed attacking unit losses differs from expected number of units.");
+        } else if (count($def) != count($this->units_defender)) {
+            throw new RuntimeException("Number of parsed defending unit quantities differs from expected number of units.");
+        } else if (count($defl) != count($this->units_defender)) {
+            throw new RuntimeException("Number of parsed defending unit losses differs from expected number of units.");
+        }
+
         $troops = array();
-        foreach($this->units as $unit)
-        {
-            $troops['att_'.$unit] =   $data[$count][0];
-            $troops['attl_'.$unit] =  $data[$count][1];
-            $troops['def_'.$unit] =  $data[$count][2];
-            $troops['defl_'.$unit] = $data[$count][3];
-            $count++;
+        for($i = 0; $i < count($this->units_attacker); ++$i) {
+            $troops['att_'.$this->units_attacker[$i]] = intval($att[$i]);
+            $troops['attl_'.$this->units_attacker[$i]] =  intval($attl[$i]);
+        }
+        for($i = 0; $i < count($this->units_defender); ++$i) {
+            $troops['def_'.$this->units_defender[$i]] = intval($def[$i]);
+            $troops['defl_'.$this->units_defender[$i]] =  intval($defl[$i]);
         }
 
         return $troops;
@@ -660,17 +638,15 @@ class dsBericht {
     {
         $spied_troops = FALSE;
 
-        $spied_troops_pattern = $this->spied_troops_pattern;
+        if($this->preg_match_std($this->patterns['spied_troops_pattern'])) {
+            $spied = preg_split('/\s+/', trim($this->match(1)));
+            if (count($spied) != count($this->units_spied)) {
+                throw new RuntimeException("Number of spied units differs from number of expected units.");
+            }
 
-        if($this->preg_match_std($spied_troops_pattern))
-        {
-            // make an associative array
-            $count = 1;
             $spied_troops = array();
-            foreach($this->units as $unit)
-            {
-                $spied_troops[$unit] = intval($this->match($count));
-                $count++;
+            foreach ($this->units_spied as $i => $unit) {
+                $spied_troops[$unit] = intval($spied[$i]);
             }
         }
 
@@ -724,23 +700,20 @@ class dsBericht {
     {
         $troops_out=FALSE;
 
-        $troops_pattern = $this->troops_out_pattern;
+        if($this->preg_match_std($this->patterns['troops_out_pattern'])) {
+            $out = preg_split('/\s+/', trim($this->match(1)));
+            if (count($out) != count($this->units_out)) {
+                throw new RuntimeException("Number of out-of-village units differs from number of expected units.");
+            }
 
-        if($this->preg_match_std($troops_pattern))
-        {
-            // make an associative array
-            $count = 1;
             $troops_out = array();
-            foreach($this->units as $unit)
-            {
-                $troops_out[$unit] = intval($this->match($count));
-                $count++;
+            foreach ($this->units_out as $i => $unit) {
+                $troops_out[$unit] = intval($out[$i]);
             }
         }
 
         return $troops_out;
     }
-
 
     // parses the attacker's booty
     function parse_booty()

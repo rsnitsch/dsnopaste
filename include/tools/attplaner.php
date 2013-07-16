@@ -142,7 +142,7 @@
                 $serverid       = $mysql->sql_result($plandata, 0, 'server');
                 $server         = new Gameworld($mysql->sql_result($plandata, 0, 'server'));
                 
-                $unitnames = $server->unitnames;
+                $unitnames = $server->getUnitNames(true);
                 
                 // AngriffsID übergeben
                 $output->assign('attid', $attid);

@@ -11,6 +11,7 @@
     define('DSBERICHT_DEBUG',TRUE); // activates the class' own debug mode
     require_once('../include/class.dsBericht.php');
 	
+	$militia = isset($_POST['militia']) && $_POST['militia'] == "yes" ? true : false;
 	$language = isset($_POST['language']) && in_array($_POST['language'], array('de', 'en')) ? $_POST['language'] : 'de';
 ?>
 <html>
@@ -28,6 +29,7 @@
        <option value="modern" <?php if (empty($_POST['server']) || $_POST['server'] == 'modern') { ?>selected="selected"<?php } ?>>modern</option>
        <option value="s4" <?php if ($_POST['server'] == 's4') { ?>selected="selected"<?php } ?>>s4</option>
     </select>
+    <input type="checkbox" id="militia" name="militia" value="yes" <?php if ($militia) { ?>checked="checked"<?php } ?> /><label for="militia">Miliz aktiv</label>
     <select name="language">
        <option value="de" <?php if ($language == 'de') { ?>selected="selected"<?php } ?>>de</option>
        <option value="en" <?php if ($language == 'en') { ?>selected="selected"<?php } ?>>en</option>
@@ -64,7 +66,14 @@
         if ($_POST['wood'] == 'yes') $spied_resources[] = 'wood';
         if ($_POST['loam'] == 'yes') $spied_resources[] = 'loam';
         if ($_POST['iron'] == 'yes') $spied_resources[] = 'iron';
-        $parser=new dsBericht($units, $spied_resources, $language);
+        
+        $_units = array('attacker' => $units);
+        if ($militia) {
+            $_units['defender'] = $units;
+            $_units['defender'][] = 'militia';
+        }
+        
+        $parser=new dsBericht($_units, $spied_resources, $language);
         $parser->parse($_POST['report']);
     }
 ?>

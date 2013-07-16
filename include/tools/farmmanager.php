@@ -371,7 +371,11 @@
         if ($loam) $spied_resources[] = 'loam';
         if ($iron) $spied_resources[] = 'iron';
         
-        $dsBericht = new dsBericht($oServer->getUnits(), $spied_resources);
+        $units = array(
+            "attacker" => $oServer->getUnitNames(true),
+            "defender" => $oServer->getUnitNames(false)
+        );
+        $dsBericht = new dsBericht($units, $spied_resources);
         $dsBericht->parse($report);
         $parsed = $dsBericht->getReport();
         
@@ -630,7 +634,7 @@
     
     // seit dem letzten Bericht produzierte Ressourcen hinzufügen
     // und berechnen, wie viele lkav/speer benötigt werden zum transportieren
-    $speed = (double) $oServer->config->speed;
+    $speed = $oServer->getSpeed();
     $farms = _getFarms($saveid);
     
     // Bonusdorf-Faktoren
@@ -834,7 +838,8 @@
     
     // wie viele Späher beim Speer/LKav-1-Klick-Farmen losgeschickt werden
     // => Bei Welt3-Späher-Style müssen mindestens 3 Späher losgeschickt werden
-    $sendtroops_spy_count = (intval($oServer->getConfig()->game->spy) != 3) ? 1 : 5;
+    $server_cfg = $oServer->getConfig();
+    $sendtroops_spy_count = ($server_cfg["game"]["spy"] != 3) ? 1 : 5;
     $smarty->assign('sendtroops_spy_count', $sendtroops_spy_count);
     
     $smarty->assign('farms', $farms);
