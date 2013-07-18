@@ -60,7 +60,7 @@
             if(!empty($_REQUEST['create']) and ($_POST['create']==1 or in_array($_GET['create'], $url_create_keys) !== false)
                 and !empty($_REQUEST['server']) and serverExists($_REQUEST['server']))
             {
-                enableMySQL(TRUE) or noSqlConnection(&$output);
+                enableMySQL(TRUE) or noSqlConnection($output);
                 
                 // verhindern, dass innerhalb von X Minuten mehr als Y Einträge erstellt werden
                 $limit=5; // 5 Einträge
@@ -68,6 +68,9 @@
                 $currenttime=time();
                 $sql_cmd='SELECT id FROM attplans WHERE ip="'.$mysql->escape($_SERVER['REMOTE_ADDR']).'" AND time>'.($currenttime-$timelimit).' LIMIT 5';
                 $erg=$mysql->sql_query($sql_cmd);
+                if (!$erg) {
+                    displaySQLError($output);
+                }
                 
                 if(!($mysql->sql_num_rows($erg)>=$limit)) // wenn das Limit NICHT überschritten wird
                 {
@@ -129,8 +132,12 @@
         else
         {
             // Angriff kann ausgegeben werden
-            enableMySQL(TRUE) or noSqlConnection(&$output);
+            enableMySQL(TRUE) or noSqlConnection($output);
             $plandata    = $mysql->sql_query("SELECT * FROM attplans WHERE id='$attid'");
+
+            if (!$plandata) {
+                displaySQLError($output);
+            }
 
             // nur wenn der Angriff gefunden wird...
             if($mysql->sql_num_rows($plandata) == 1)
@@ -695,6 +702,7 @@
             {
                 $errors[]='Dieser Angriffsplan ist nicht (mehr) vorhanden.';
                 $output->assign('error', $errors);
+                $output->assign('debuginfo', array());
                 $output->display('display_errors.tpl');
                 exit;
             }
