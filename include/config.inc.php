@@ -34,12 +34,12 @@
 
     // Includes etc...
     define('SSQL_INC_CHECK',TRUE);
-    require($cfg["incdir"].'/class.simpleMySQL.php');
-    require($cfg["incdir"].'/functions.inc.php');
-    require($cfg["incdir"].'/functions.tribalwars.inc.php');
-    include($cfg["incdir"].'/mysql.inc.php');
-    require($cfg["incdir"].'/class.nopSmarty.php');
-    require($cfg["incdir"].'/Session.class.php');
+    require_once($cfg["incdir"].'/class.simpleMySQL.php');
+    require_once($cfg["incdir"].'/functions.inc.php');
+    require_once($cfg["incdir"].'/functions.tribalwars.inc.php');
+    require_once($cfg["incdir"].'/mysql.inc.php');
+    require_once($cfg["incdir"].'/class.nopSmarty.php');
+    require_once($cfg["incdir"].'/Session.class.php');
 
     // MySQL
     $mysql=FALSE;
