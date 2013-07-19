@@ -73,4 +73,35 @@ class dsBerichtTest extends PHPUnit_Framework_TestCase
             $this->assertSame(5810, $r['booty']['max']);
         }
     }
+    
+    function testRegressionSpiedTroopsWithoutNewline() {
+        $units_attacker = array('spear', 'sword', 'axe', 'archer', 'spy', 'light', 'marcher', 'heavy', 'ram', 'catapult', 'knight', 'snob');
+        $units_defender = $units_attacker;
+        $units_defender[] = 'militia';
+        $units_spied = $units_attacker;
+        $dsBericht = new dsBericht(array('attacker' => $units_attacker, 'defender' => $units_defender));
+
+        $raw = <<<REPORT
+Spionage
+Einheiten außerhalb:
+10	20	30	40	50	60	70	80	90	100	110	120
+REPORT;
+        $raw = trim($raw); // No newline or whitespace at the end!
+        
+        // Test for the regression.
+        try {
+            $dsBericht->parse($raw);
+        } catch (RuntimeException $e) {
+            if ($e->getMessage() == 'Number of spied units differs from number of expected units.') {
+                $this->fail('Regression test has failed, i.e. a bug has reappeared.');
+            }
+        }
+        
+        // Test that the fixed regex correctly parses unit numbers with
+        // more than 1 digit (like 10, 20 and so on).
+        $r = $dsBericht->getReport();
+        foreach ($units_spied as $i => $unit) {
+            $this->assertSame(($i + 1) * 10, $r['spied_troops_out'][$unit]);
+        }
+    }
 }
