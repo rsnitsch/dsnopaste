@@ -437,6 +437,12 @@
         
         // Alte Daten der Farm abrufen, wenn die Farm schon mal früher eingelesen wurde
         $res = $mysql->sql_query("SELECT * FROM farms WHERE v_coords='".$mysql->escape($data['v_coords'])."' AND saveid='$saveid'");
+        if ($mysql->sql_num_rows($res) == 0) {
+            $data['bonus'] = 'none';
+            $farm_old = false;
+        } else {
+            $farm_old = $mysql->sql_fetch_assoc($res);
+        }
         
         // Hat das Dorf den Speicher-Bonus?
         if(!empty($data['bonus']) && $data['bonus'] == 'storage') {
@@ -444,7 +450,7 @@
             $storage_bonus = true;
         }
         elseif(empty($data['bonus'])) {
-            $old_bonus = ($mysql->sql_num_rows($res) > 0) ? $mysql->sql_result($res, 0, 'bonus') : '';
+            $old_bonus = $farm_old ? $farm_old['bonus'] : '';
             
             // JA, weil dieser Bonus bereits eingetragen war und beibehalten werden soll
             $storage_bonus = ($old_bonus == 'storage');
@@ -463,7 +469,7 @@
         
         // SQL bilden,
         // je nachdem ob die Farm bereits bekannt war (UPDATE) oder nicht (INSERT)
-        if($mysql->sql_num_rows($res) == 0) {
+        if(!$farm_old) {
             // zuerst überprüfen, ob das limit überschritten wird
             $res = $mysql->sql_query("SELECT COUNT(*) AS count FROM farms WHERE saveid='".$mysql->escape($saveid)."'");
             if((!$res) or $mysql->sql_result($res, 0, 'count') >= 1000) {
@@ -496,21 +502,21 @@
         }
         else {
             // Hat sich der Name des Angriffsdorfs geändert?
-            if($mysql->sql_result($res,0,'av_name') != $data['av_name']) {
+            if($farm_old['av_name'] != $data['av_name']) {
                 // Namen des Angriffsdorfs in allen eingetragenen Farmen aktualisieren
                 $res2 = $mysql->sql_query("UPDATE farms SET av_name='".$mysql->escape($data['av_name'])."' WHERE saveid='$saveid' AND av_coords='".$mysql->escape($data['av_coords'])."'");
                 if(!$res2)
                     _displaySQLError();
             }
             
-            if($mysql->sql_result($res,0,'time') > $data['time']) {
+            if($farm_old['time'] > $data['time']) {
                 $errors[] = "Für dieses Dorf gibt es bereits einen aktuelleren Bericht.";
                 _displayErrors();
             }
             
             // die ID des Dorfes nachträglich hinzufügen
             // @TODO das sollte in einigen Wochen nicht mehr nötig sein
-            if($mysql->sql_result($res,0,'v_id') == 0) {
+            if($farm_old['v_id'] == 0) {
                 list($v_x, $v_y) = explode("|", $data['v_coords']);
                 $result = $twd->query("SELECT id FROM {$server}_village".
                                     " WHERE x=".$twd->quote($v_x).
@@ -525,6 +531,25 @@
                 }
             }
             
+            // Laufenden Durchschnitt der Performance aktualisieren
+            if ($farm_old['time'] < $data['time']) {
+                $expected_resources = array_sum(calculateExpectedResources($farm_old, $data['time'], $oServer));
+                
+                if ($expected_resources > 0) {
+                    $actual_resources = $parsed['booty'] ? $parsed['booty']['all'] : array_sum($parsed['spied_resources']);
+                    $performance_this_time = $actual_resources / floatval($expected_resources);
+                    
+                    if ($farm_old['performance'] === null) {
+                        $data['performance'] = $performance_this_time;
+                        $data['performance_updates'] = 1;
+                    } else {
+                        $alpha = 1.0 / ($farm_old['performance_updates'] + 1.0);
+                        $data['performance'] = (1 - $alpha) * $farm_old['performance'] + $alpha * $performance_this_time;
+                        $data['performance_updates'] = $farm_old['performance_updates'] + 1;
+                    }
+                }
+            }
+            
             // SQL-UPDATE bilden
             $sql = "UPDATE farms SET ";
             foreach($data as $key => $value) {
@@ -533,7 +558,7 @@
             
             $sql = trim($sql, ',');
             
-            $sql .= " WHERE id='".$mysql->escape($mysql->sql_result($res,0,'id'))."' AND saveid='".$saveid."'";
+            $sql .= " WHERE id='".$mysql->escape($farm_old['id'])."' AND saveid='".$saveid."'";
         }
         
         $sql = trim($sql, ',');
@@ -687,6 +712,10 @@
             
             $farms[$i]["transport_$unit"] = ceil($farms[$i]["transport_$unit"]);
         }
+        
+        // Performance
+        if ($farms[$i]['performance'] !== null)
+            $farms[$i]['performance_percentage'] = round(100 * $farms[$i]['performance']);
         
         // Filtern? (Also ausschließen?)
         $farms[$i]['filter'] = false;
