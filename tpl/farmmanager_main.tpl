@@ -149,6 +149,7 @@ $(document).ready(
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=spear">Speer</a></th>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=light"><abbr title="Leichte Kavallerie">LKav</abbr></a></th>
 			<th>Wall</th>
+			<th>Performance</th>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=lastreport">Letzter Bericht</a></th>
 			<th>Notiz</th>
 			<th class="align_right">Aktionen (<a href="javascript:fm_actionDescription()">Info</a>)</th>
@@ -180,6 +181,7 @@ $(document).ready(
 			<td><img src="http://dsgfx.bmaker.net/unit_spear.png" alt="Speer" />{$farm.transport_spear}</td>
 			<td><img src="http://dsgfx.bmaker.net/unit_light.png" alt="Leichte Kavallerie" />{$farm.transport_light}</td>
 			<td>{if $farm.b_wall >= 5}<span class="warnung" style="background-color: #f99; padding: 5px;">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
+			<td>{if $farm.performance === null}-{else}{$farm.performance_percentage}%{/if}</td>
 			<td>{$farm.time|date_format:"%d.%m. %H:%M Uhr"}</td>
 			<td>{$farm.note|htmlspecialchars}</td>
 			<td class="align_right">
@@ -235,6 +237,7 @@ $(document).ready(
 			<td class="tiny">{$total_storage}</td>
 			<td class="tiny">{$total_spear}</td>
 			<td class="tiny">{$total_light}</td>
+			<td>-</td>
 			<td>-</td>
 			<td>-</td>
 			<td>-</td>

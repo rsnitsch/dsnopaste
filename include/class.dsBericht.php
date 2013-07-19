@@ -31,7 +31,7 @@ class dsBericht {
     function __construct($units, $spied_resources=array('wood', 'loam', 'iron'), $lng='de')
     {
         $this->all_patterns = array('de' => array(  'troops_pattern' => '/(?:Anzahl|Verluste):\s+((?:[0-9]+\s+)+)/',
-                                                    'spied_troops_pattern' => '/Einheiten au.{1,2}erhalb:\s+((?:[0-9]+\s+)+)/',
+                                                    'spied_troops_pattern' => '/Einheiten au.{1,2}erhalb:\s+((?:[0-9]+\s*)+)/',
                                                     'troops_out_pattern' => '/Truppen des Verteidigers, die unterwegs waren\s+((?:[0-9]+\s+)+)/',
                                                     'time' => '/Gesendet\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)/',
                                                     'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)\s+Weitergeleitet von:\s+(.*)\s+Der (Angreifer|Verteidiger) hat gewonnen/',
