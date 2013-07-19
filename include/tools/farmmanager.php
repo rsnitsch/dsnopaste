@@ -543,7 +543,7 @@
                         $data['performance'] = $performance_this_time;
                         $data['performance_updates'] = 1;
                     } else {
-                        $alpha = 1.0 / ($farm_old['performance_updates'] + 1.0);
+                        $alpha = max(0.2, 1.0 / ($farm_old['performance_updates'] + 1));
                         $data['performance'] = (1 - $alpha) * $farm_old['performance'] + $alpha * $performance_this_time;
                         $data['performance_updates'] = $farm_old['performance_updates'] + 1;
                     }
