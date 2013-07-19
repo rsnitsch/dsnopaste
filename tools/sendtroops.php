@@ -46,7 +46,7 @@
         $server = new Gameworld($world_id);
         
         $troops = array();
-        foreach($server->unitnames as $unitname) {
+        foreach($server->getUnitNames(true) as $unitname) {
             $troops[] = array('unitname' => $unitname,
                               'count'    => max(0, (!empty($_GET[$unitname]) ? intval($_GET[$unitname]) : 0)));
         }
