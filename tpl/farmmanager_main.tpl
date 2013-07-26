@@ -12,6 +12,10 @@
 $(document).ready(
 	function() {
 		fm_updateFormVisible();
+
+		$('#update_settings select[name=source_village]').change(function() {
+			document.forms.namedItem('update_settings').submit();
+		});
 	}
 );
 </script>
@@ -100,7 +104,7 @@ $(document).ready(
 
 <h3>Farmenübersicht</h3>
 
-	<form name="update_settings" action="" method="POST">
+	<form id="update_settings" name="update_settings" action="" method="POST">
 		<input type="hidden" name="id" value="{$saveid}" />
 		
 		<p>
