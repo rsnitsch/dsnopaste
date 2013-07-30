@@ -52,6 +52,22 @@
             return $this->config["coord"]["bonus_new"] == 1;
         }
 
+        public function bonusesPossible() {
+            if ($this->bonusNew()) {
+                return array('none', 'all', 'wood', 'loam', 'iron', 'storage');
+            } else {
+                return array('none', 'all', 'wood', 'loam', 'iron');
+            }
+        }
+
+        public function bonusResAllFactor() {
+            return $this->bonusNew() ? 1.3 : 1.03;
+        }
+
+        public function bonusResOneFactor() {
+            return $this->bonusNew() ? 2 : 1.1;
+        }
+
         public function getSpeed() {
             return $this->config["speed"];
         }
@@ -103,7 +119,7 @@
         }
 
         // gibt die Minenproduktion zurück auf der jeweiligen Stufe
-        function calcMineProduction($level) {
+        function calcMineProductionPerHour($level) {
             $level = intval($level);
             if ($level == 0) {
                 return 5;
@@ -136,7 +152,24 @@
             $growth = $styles[$base_config];
             $base_production = $this->config["game"]["base_production"];
 
-            return intval(round($base_production * pow($growth, $level-1)));
+            return intval(round($base_production * pow($growth, $level-1) * $this->getSpeed()));
+        }
+
+        private function calcTotalMineProductionSingle($level, $type, $bonus, $hours_gone) {
+            $prod = $this->calcMineProductionPerHour($level) * $hours_gone;
+            if ($bonus == 'all') {
+                $prod = round($prod * $this->bonusResAllFactor());
+            } elseif ($bonus == $type) {
+                $prod = round($prod * $this->bonusResOneFactor());
+            }
+            return $prod;
+        }
+
+        public function calcTotalMineProduction($lvl_wood, $lvl_loam, $lvl_iron, $bonus, $hours_gone=1.0) {
+            $wood = $this->calcTotalMineProductionSingle($lvl_wood, 'wood', $bonus, $hours_gone);
+            $loam = $this->calcTotalMineProductionSingle($lvl_loam, 'loam', $bonus, $hours_gone);
+            $iron = $this->calcTotalMineProductionSingle($lvl_iron, 'iron', $bonus, $hours_gone);
+            return array("wood" => $wood, "loam" => $loam, "iron" => $iron);
         }
 
         // diese Funktion berechnet die Laufzeit für ein Feld anhand der Truppen... ($units, assoziatives Array)
@@ -200,7 +233,7 @@
 
         return $distance;
     }
-
+    
     // berechnet die Minenproduktion
     function calcMineProduction($level) {
         if($level == 0)

@@ -17,7 +17,7 @@
 	$cache_file = $root_path.'data/cache/news_items.cache';
 	if($cfg["debugmode"] || (time() - filemtime($cache_file)) > 3600) {
 		// CACHE MISS
-		$rss =& new XML_RSS("http://forum.np.bmaker.net/extern.php?action=feed&fid=9&type=rss");
+		$rss = new XML_RSS("http://forum.np.bmaker.net/extern.php?action=feed&fid=9&type=rss");
 		$rss->parse();
 		$items = $rss->getItems();
 		$items = array_slice($items, 0, min(count($items), 3));

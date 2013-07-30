@@ -1,5 +1,5 @@
 <?php
-    if(!defined('INC_CHECK')) exit;
+    if(!defined('INC_CHECK')) die("hacking attempt");
     
     function is_number($txt) {
         return ctype_digit($txt);

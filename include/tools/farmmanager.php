@@ -111,7 +111,6 @@
     // holt die Farmen mit der ID $saveid aus der Datenbank
     function _getFarms($saveid) {
         global $mysql;
-        global $hours_gone, $speed;
         global $source_village, $filter_source_village;
         global $oServer;
         
@@ -154,7 +153,18 @@
 
         return true;
     }
-    
+
+    function calculateExpectedResources($farm, $time, Gameworld $server) {
+        $hours_gone = ($time - $farm['time']) / 3600.0;
+        $prod = $server->calcTotalMineProduction($farm['b_wood'], $farm['b_loam'], $farm['b_iron'], $farm['bonus'], $hours_gone);
+        list($wood, $loam, $iron) = array_values($prod);
+        return array(
+            "wood" => round(min($farm['farmable'], $farm['wood'] + $wood)),
+            "loam" => round(min($farm['farmable'], $farm['loam'] + $loam)),
+            "iron" => round(min($farm['farmable'], $farm['iron'] + $iron))
+        );
+    }
+
     // neuen Farmmanager erstellen?
     if(isset($_GET['action']) and $_GET['action']=='create' and !empty($_POST['server']) and serverExists($_POST['server'])) {
         $saveid = generatePassword(10);
@@ -249,10 +259,7 @@
     
     // Welche Bonusdörfer kann es auf diesem Server geben?
     $bonus_new = $oServer->bonusNew();
-    if($bonus_new)
-        $possible_boni=array('none', 'all', 'wood', 'loam', 'iron', 'storage');
-    else
-        $possible_boni=array('none', 'all', 'wood', 'loam', 'iron');
+    $possible_boni=$oServer->bonusesPossible();
     $smarty->assign('bonus_new', $bonus_new);
     
     // Herkunftsdörfer auslesen
@@ -430,6 +437,12 @@
         
         // Alte Daten der Farm abrufen, wenn die Farm schon mal früher eingelesen wurde
         $res = $mysql->sql_query("SELECT * FROM farms WHERE v_coords='".$mysql->escape($data['v_coords'])."' AND saveid='$saveid'");
+        if ($mysql->sql_num_rows($res) == 0) {
+            $data['bonus'] = 'none';
+            $farm_old = false;
+        } else {
+            $farm_old = $mysql->sql_fetch_assoc($res);
+        }
         
         // Hat das Dorf den Speicher-Bonus?
         if(!empty($data['bonus']) && $data['bonus'] == 'storage') {
@@ -437,7 +450,7 @@
             $storage_bonus = true;
         }
         elseif(empty($data['bonus'])) {
-            $old_bonus = ($mysql->sql_num_rows($res) > 0) ? $mysql->sql_result($res, 0, 'bonus') : '';
+            $old_bonus = $farm_old ? $farm_old['bonus'] : '';
             
             // JA, weil dieser Bonus bereits eingetragen war und beibehalten werden soll
             $storage_bonus = ($old_bonus == 'storage');
@@ -456,7 +469,7 @@
         
         // SQL bilden,
         // je nachdem ob die Farm bereits bekannt war (UPDATE) oder nicht (INSERT)
-        if($mysql->sql_num_rows($res) == 0) {
+        if(!$farm_old) {
             // zuerst überprüfen, ob das limit überschritten wird
             $res = $mysql->sql_query("SELECT COUNT(*) AS count FROM farms WHERE saveid='".$mysql->escape($saveid)."'");
             if((!$res) or $mysql->sql_result($res, 0, 'count') >= 1000) {
@@ -489,21 +502,21 @@
         }
         else {
             // Hat sich der Name des Angriffsdorfs geändert?
-            if($mysql->sql_result($res,0,'av_name') != $data['av_name']) {
+            if($farm_old['av_name'] != $data['av_name']) {
                 // Namen des Angriffsdorfs in allen eingetragenen Farmen aktualisieren
                 $res2 = $mysql->sql_query("UPDATE farms SET av_name='".$mysql->escape($data['av_name'])."' WHERE saveid='$saveid' AND av_coords='".$mysql->escape($data['av_coords'])."'");
                 if(!$res2)
                     _displaySQLError();
             }
             
-            if($mysql->sql_result($res,0,'time') > $data['time']) {
+            if($farm_old['time'] > $data['time']) {
                 $errors[] = "Für dieses Dorf gibt es bereits einen aktuelleren Bericht.";
                 _displayErrors();
             }
             
             // die ID des Dorfes nachträglich hinzufügen
             // @TODO das sollte in einigen Wochen nicht mehr nötig sein
-            if($mysql->sql_result($res,0,'v_id') == 0) {
+            if($farm_old['v_id'] == 0) {
                 list($v_x, $v_y) = explode("|", $data['v_coords']);
                 $result = $twd->query("SELECT id FROM {$server}_village".
                                     " WHERE x=".$twd->quote($v_x).
@@ -518,6 +531,25 @@
                 }
             }
             
+            // Laufenden Durchschnitt der Performance aktualisieren
+            if ($farm_old['time'] < $data['time']) {
+                $expected_resources = array_sum(calculateExpectedResources($farm_old, $data['time'], $oServer));
+                
+                if ($expected_resources > 0) {
+                    $actual_resources = $parsed['booty'] ? $parsed['booty']['all'] : array_sum($parsed['spied_resources']);
+                    $performance_this_time = $actual_resources / floatval($expected_resources);
+                    
+                    if ($farm_old['performance'] === null) {
+                        $data['performance'] = $performance_this_time;
+                        $data['performance_updates'] = 1;
+                    } else {
+                        $alpha = max(0.2, 1.0 / ($farm_old['performance_updates'] + 1));
+                        $data['performance'] = (1 - $alpha) * $farm_old['performance'] + $alpha * $performance_this_time;
+                        $data['performance_updates'] = $farm_old['performance_updates'] + 1;
+                    }
+                }
+            }
+            
             // SQL-UPDATE bilden
             $sql = "UPDATE farms SET ";
             foreach($data as $key => $value) {
@@ -526,7 +558,7 @@
             
             $sql = trim($sql, ',');
             
-            $sql .= " WHERE id='".$mysql->escape($mysql->sql_result($res,0,'id'))."' AND saveid='".$saveid."'";
+            $sql .= " WHERE id='".$mysql->escape($farm_old['id'])."' AND saveid='".$saveid."'";
         }
         
         $sql = trim($sql, ',');
@@ -634,22 +666,7 @@
     
     // seit dem letzten Bericht produzierte Ressourcen hinzufügen
     // und berechnen, wie viele lkav/speer benötigt werden zum transportieren
-    $speed = $oServer->getSpeed();
     $farms = _getFarms($saveid);
-    
-    // Bonusdorf-Faktoren
-    if($bonus_new) {
-        $bonus_res_all_factor = 1.3;
-        $bonus_res_one_factor = 2;
-    }
-    else {
-        $bonus_res_all_factor = 1.03;
-        $bonus_res_one_factor = 1.1;
-    }
-    
-    $smarty->assign('bonus_new', $bonus_new);
-    $smarty->assign('bonus_res_all', ($bonus_res_all_factor-1)*100);
-    $smarty->assign('bonus_res_one', ($bonus_res_one_factor-1)*100);
     
     // interessante Variablen, die die Summen der Werte der einzelnen Farmen enthalten
     $total_farms = 0;
@@ -662,49 +679,10 @@
     $total_spear = 0;
     $total_light = 0;
     
+    $now = time();
     for($i=0; $i<count($farms); $i++) {
-        // Ressourcen, die zuletzt im Dorf erspäht wurden
-        $farms[$i]['c_wood'] = intval($farms[$i]['wood']);
-        $farms[$i]['c_loam'] = intval($farms[$i]['loam']);
-        $farms[$i]['c_iron'] = intval($farms[$i]['iron']);
-        
-        // Ressourcen, die seitdem produziert wurden
-        $hours_gone = (time()-$farms[$i]['time']) / 3600 * $speed;
-        $prod_wood = $oServer->calcMineProduction($farms[$i]['b_wood']) * $hours_gone;
-        $prod_loam = $oServer->calcMineProduction($farms[$i]['b_loam']) * $hours_gone;
-        $prod_iron = $oServer->calcMineProduction($farms[$i]['b_iron']) * $hours_gone;
-        
-        // Ressourcenbonus berücksichtigen
-        if($farms[$i]['bonus'] != 'none') {
-            if($farms[$i]['bonus'] == 'all') {
-                $prod_wood = round($prod_wood * $bonus_res_all_factor);
-                $prod_loam = round($prod_loam * $bonus_res_all_factor);
-                $prod_iron = round($prod_iron * $bonus_res_all_factor);
-            }
-            elseif($farms[$i]['bonus'] == 'wood') {
-                $prod_wood = round($prod_wood * $bonus_res_one_factor);
-            }
-            elseif($farms[$i]['bonus'] == 'loam') {
-                $prod_loam = round($prod_loam * $bonus_res_one_factor);
-            }
-            elseif($farms[$i]['bonus'] == 'iron') {
-                $prod_iron = round($prod_iron * $bonus_res_one_factor);
-            }
-            elseif($bonus_new && $farms[$i]['bonus'] == 'storage') {} // natürlich auch gültig
-            else {
-                throw new Exception("Invalid resource production bonus: '".htmlspecialchars($farms[$i]['bonus'])."'");
-            }
-        }
-        
-        // Produzierte Ressourcen addieren
-        $farms[$i]['c_wood'] += round($prod_wood);
-        $farms[$i]['c_loam'] += round($prod_loam);
-        $farms[$i]['c_iron'] += round($prod_iron);
-        
-        // Auf Speicher beschränken
-        $farms[$i]['c_wood'] = min($farms[$i]['farmable'], $farms[$i]['c_wood']);
-        $farms[$i]['c_loam'] = min($farms[$i]['farmable'], $farms[$i]['c_loam']);
-        $farms[$i]['c_iron'] = min($farms[$i]['farmable'], $farms[$i]['c_iron']);
+        // Erwartete Ressourcen ohne Berücksichtigung der Laufzeit
+        list($farms[$i]['c_wood'], $farms[$i]['c_loam'], $farms[$i]['c_iron']) = array_values(calculateExpectedResources($farms[$i], $now, $oServer));
         
         // Gesamtsumme der Rohstoffe
         $farms[$i]['c_sum'] = $farms[$i]['c_wood'] + $farms[$i]['c_loam'] + $farms[$i]['c_iron'];
@@ -722,20 +700,22 @@
         // Truppen, die zum Abtransport der Rohstoffe benötigt werden
         $units_tmp = array("spear" => 25.0, "light" => 80.0);
         foreach ($units_tmp as $unit => $carry) {
-            $farms[$i]["transport_$unit"] = $farms[$i]['c_sum'] / $carry;
-            
-            // Laufzeit vom Herkunftsdorf berücksichtigen.
-            if ($source_village) {
-                $runtime_in_hours = ($oServer->getTimePerField(array($unit => 1)) * $farms[$i]['distance']) / 3600.0;
-                $farms[$i]["transport_$unit"] *= (1.0 + $runtime_in_hours / $hours_gone);
+            if (!$source_village) {
+                $farms[$i]["transport_$unit"] = $farms[$i]['c_sum'] / $carry;
+            } elseif ($source_village) {
+                // Erwartete Ressourcen mit Berücksichtigung der Laufzeit
+                $runtime_in_seconds = $oServer->getTimePerField(array($unit => 1)) * $farms[$i]['distance'];
+                $expected_resources_with_runtime = array_sum(calculateExpectedResources($farms[$i], $now + $runtime_in_seconds, $oServer));
                 
-                // Auf Speicher beschränken.
-                $farms[$i]["transport_$unit"] = min($farms[$i]["transport_$unit"], ($farms[$i]['farmable']*3) / $carry);
+                $farms[$i]["transport_$unit"] = ($expected_resources_with_runtime) / $carry;
             }
             
-            // Runden auf ganzzahlige Werte.
             $farms[$i]["transport_$unit"] = ceil($farms[$i]["transport_$unit"]);
         }
+        
+        // Performance
+        if ($farms[$i]['performance'] !== null)
+            $farms[$i]['performance_percentage'] = round(100 * $farms[$i]['performance']);
         
         // Filtern? (Also ausschließen?)
         $farms[$i]['filter'] = false;
@@ -835,6 +815,10 @@
     $smarty->assign('total_storage', $total_storage);
     $smarty->assign('total_spear', $total_spear);
     $smarty->assign('total_light', $total_light);
+    
+    $smarty->assign('bonus_new', $bonus_new);
+    $smarty->assign('bonus_res_all', ($oServer->bonusResAllFactor()-1)*100);
+    $smarty->assign('bonus_res_one', ($oServer->bonusResOneFactor()-1)*100);
     
     // wie viele Späher beim Speer/LKav-1-Klick-Farmen losgeschickt werden
     // => Bei Welt3-Späher-Style müssen mindestens 3 Späher losgeschickt werden
