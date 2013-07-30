@@ -305,9 +305,7 @@
                                 }
                                 else
                                 {
-                                    $output->assign('error', $errors);
-                                    $output->display('display_errors.tpl');
-                                    exit;
+                                    displayErrors($output, $errors);
                                 }
                                 
                                 // sind Fehler aufgetreten?
@@ -446,10 +444,6 @@
                                     $errors[] = 'Du hast keine Aktionen ausgewählt, die bearbeitet werden sollen!';
                                 }
                             }
-                            else
-                            {
-                            	$output->assign('selected', array());
-                            }
                             
                             if(count($errors) > 0)
                             {
@@ -495,7 +489,9 @@
                             $output->assign('noadmin', TRUE); // zeigt eine Warnung an
                         }
                     } // Ende des "Änderungen"-Blocks (hier werden Änderungen an dem Angriffsplan vorgenommen)
-                    
+                    else {
+                        $output->assign('selected', array());
+                    }
                     
                     // alle bisherigen Angriffe/Unterstützungen ausgeben
                     // Sortierung der Angriffe/Unterstützungen beachten
