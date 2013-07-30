@@ -816,7 +816,7 @@
                 }
                 else
                 {
-                    $errors[]='Einheitenanzahlen müssen numerisch angegeben werden!';
+                    $errors[]='Es sind nur positive Einheitenzahlen erlaubt!';
                     break;
                 }
             }
