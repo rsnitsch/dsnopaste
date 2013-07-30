@@ -3,7 +3,6 @@
         public $id;
         public $name;
         public $config;
-        public $runtimes;
         public $units;
 
         public function __construct($id)
@@ -143,17 +142,30 @@
         // diese Funktion berechnet die Laufzeit für ein Feld anhand der Truppen... ($units, assoziatives Array)
         function getTimePerField($units)
         {
+            if (array_sum($units) <= 0)
+            {
+                throw new InvalidArgumentException("Total unit count must be greater than zero.");
+            }
+
             $time=0;
-            $runtimes = $this->runtimes;
 
             // die langsamste Einheit ermitteln
-            foreach($units as $name => $einheit)
+            foreach($units as $name => $count)
             {
-                if($einheit > 0) // wenn von der Einheitensorte überhaupt welche dabei sind
+                if($count > 0)
                 {
-                    if($runtimes[$name] > $time)
-                        $time = $runtimes[$name];
+                    if($this->units[$name]['speed'] > $time)
+                        $time = $this->units[$name]['speed'];
                 }
+                else if ($count < 0)
+                {
+                    throw new InvalidArgumentException("Negative unit numbers are not allowed.");
+                }
+            }
+
+            if ($time <= 0)
+            {
+                throw new LogicException("Time per field should be greater than zero.");
             }
 
             return $time*60; // sekunden zurückgeben
