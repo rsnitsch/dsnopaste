@@ -27,20 +27,6 @@
 					</li>
 				</ul>
 		</div>
-
-	<h3 style="text-decoration: none;">
-		<a href="http://forum.np.bmaker.net/viewforum.php?id=9" target="_blank">News</a>
-		(<a class="simple" style="padding-left: 22px; background: url('{$root_path}images/feed-icon.png') no-repeat scroll left center transparent;" href="http://forum.np.bmaker.net/extern.php?action=feed&fid=9&type=rss"><span class="tiny">RSS</span></a>)
-	</h3>
-
-	{foreach from=$news_items item=news_item}
-	<div>
-		<span class="bold">[{$news_item.date}]</span> - <a href="{$news_item.link}" target="_blank">{$news_item.title}</a><br />
-		{$news_item.intro}
-		<p>[<a class="simple" href="{$news_item.link}" target="_blank">mehr</a>]</p>
-	</div>
-	{/foreach}
-
 {else}
 	Dieser Service ist momentan deaktiviert. Evtl. werden Wartungsarbeiten durchgeführt.
 {/if}
