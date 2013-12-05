@@ -88,7 +88,7 @@ a.image_link {
 }
 a.delete
 {
-	background-image: url(http://dsgfx.bmaker.net/delete.png);
+	background-image: url(images/delete.png);
     background-repeat: no-repeat;
     display: block;
     height: 20px;
@@ -166,7 +166,7 @@ th.sorttable_nosort {
 /* Startseite -> Eintrag hinzufügen */
 a#jetzt_eintrag_hinzufuegen
 {
-    background-image: url(http://dsgfx.bmaker.net/rechts.png);
+    background-image: url(images/rechts.png);
     background-position: 0px 2px;
     background-repeat: no-repeat;
     padding-left: 15px;
@@ -175,7 +175,7 @@ a#jetzt_eintrag_hinzufuegen
 /* Toolseite -> Link zum Attplaner */
 a#attplaner
 {
-    background-image: url(http://dsgfx.bmaker.net/unit_axe.png);
+    background-image: url(images/unit_axe.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -183,7 +183,7 @@ a#attplaner
 /* Toolseite -> Link zum Deffformular */
 a#deffformular
 {
-    background-image: url(http://dsgfx.bmaker.net/unit_sword.png);
+    background-image: url(images/unit_sword.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -191,7 +191,7 @@ a#deffformular
 /* Toolseite -> Link zum Deffformular Welt 10+ */
 a#deffformular_10plus
 {
-    background-image: url(http://dsgfx.bmaker.net/unit_sword.png);
+    background-image: url(images/unit_sword.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -199,7 +199,7 @@ a#deffformular_10plus
 /* Toolseite -> Link zum Farmmanager */
 a#farmmanager
 {
-    background-image: url(http://dsgfx.bmaker.net/unit_light.png);
+    background-image: url(images/unit_light.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -207,7 +207,7 @@ a#farmmanager
 /* Toolseite -> Link zum Berichteformatierer von terence */
 a#ext_berichteformatierer
 {
-    background-image: url(http://dsgfx.bmaker.net/new_report.png);
+    background-image: url(images/new_report.png);
     background-position: 0px 4px;
     background-repeat: no-repeat;
     padding-left: 20px;
@@ -216,7 +216,7 @@ a#ext_berichteformatierer
 /* Toolseite -> Link zum Map Combiner */
 a#map_combine
 {
-    background-image: url(http://dsgfx.bmaker.net/nopaste/combine.png);
+    background-image: url(images/nopaste/combine.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -230,19 +230,19 @@ a#map_combine
 /* Einleseformular -> Typauswahl */
 #einlese_typ_bericht
 {
-    background-image: url(http://dsgfx.bmaker.net/new_report.png);
+    background-image: url(images/new_report.png);
     background-repeat: no-repeat;
     padding-left: 18px;
 }
 #einlese_typ_text
 {
-    background-image: url(http://dsgfx.bmaker.net/rename.png);
+    background-image: url(images/rename.png);
     background-repeat: no-repeat;
     padding-left: 18px;
 }
 #einlese_typ_php
 {
-    background-image: url(http://dsgfx.bmaker.net/blue.png);
+    background-image: url(images/blue.png);
     background-repeat: no-repeat;
     padding-left: 18px;
 }
@@ -250,26 +250,26 @@ a#map_combine
 /* Angriffsplaner */
 #attplaner_aktion_typ_att
 {
-    background-image: url(http://dsgfx.bmaker.net/unit_axe.png);
+    background-image: url(images/unit_axe.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
 #attplaner_aktion_typ_deff
 {
-    background-image: url(http://dsgfx.bmaker.net/unit_sword.png);
+    background-image: url(images/unit_sword.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
 #attplaner_aktion_typ_fake
 {
-    background-image: url(http://dsgfx.bmaker.net/blue.png);
+    background-image: url(images/blue.png);
     background-position: 3px 3px;
     background-repeat: no-repeat;
     padding-left: 20px;
 }
 #attplaner_aktion_typ_snob
 {
-    background-image: url(http://dsgfx.bmaker.net/unit_snob.png);
+    background-image: url(images/unit_snob.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
