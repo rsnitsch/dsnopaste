@@ -52,7 +52,7 @@
         
         if(!empty($_GET['id']) and is_number($_GET['id']))
         {
-            $attid=$_GET['id'];
+            $attid = intval($_GET['id']);
         }
         else
         {
@@ -284,7 +284,7 @@
                                         .', knight='.(        isset($units['knight'])        ? $mysql->escape($units['knight'])        : 0)
                                         .', priest='.(        isset($units['priest'])        ? $mysql->escape($units['priest'])        : 0)
                                         .', snob='.(        isset($units['snob'])        ? $mysql->escape($units['snob'])        : 0)
-                                        .' WHERE attplan_id='.$attid.' AND id='.$mysql->escape($_POST['oldid']);
+                                        .' WHERE attplan_id='.$attid.' AND id='.intval($_POST['oldid']);
                                     }
                                     
                                     // SQL Abfrage ausführen
@@ -321,7 +321,7 @@
                             // einen Angriff löschen?
                             if(!empty($_GET['deleteatt']) and is_number($_GET['deleteatt']))
                             {
-                                $sql_cmd='DELETE FROM attplans_actions WHERE id='.$mysql->escape($_GET['deleteatt']).' AND attplan_id='.$attid;
+                                $sql_cmd='DELETE FROM attplans_actions WHERE id='.intval($_GET['deleteatt']).' AND attplan_id='.$attid;
                                 $mysql->sql_query($sql_cmd);
                                 
                                 // umleiten, damit der deleteatt-Parameter wieder verlorengeht
@@ -593,7 +593,7 @@
                         {
                             // EIN ANGRIFF bzw. EINE UNTERSTÜTZUNG SOLLEN EDITIERT WERDEN!!!
                             
-                            $sql_cmd='SELECT * FROM attplans_actions WHERE attplan_id='.$attid.' AND id='.$mysql->escape($_GET['edit']);
+                            $sql_cmd='SELECT * FROM attplans_actions WHERE attplan_id='.$attid.' AND id='.intval($_GET['edit']);
                             $attdata=$mysql->sql_query($sql_cmd);
                             
                             if($mysql->sql_num_rows($attdata)==1)
