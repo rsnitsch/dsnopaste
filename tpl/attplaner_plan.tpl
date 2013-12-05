@@ -191,7 +191,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<th>Notiz:</th>
-					<td><textarea cols="15" rows="2" name="note" onkeyup="this.value=this.value.substr(0,50);">{$note}</textarea></td>
+					<td><textarea cols="15" rows="2" name="note" onkeyup="this.value=this.value.substr(0,50);">{$note|escape}</textarea></td>
 				</tr>
 				<tr>
 					<th>Einheiten:</th>
