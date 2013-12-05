@@ -86,11 +86,11 @@ $(document).ready(function() {
 
 <table class="attplan" cellspacing="0">
 	<tr>
-		<th><a href="attplaner.php?id={$attid}&amp;key={$attkey}&amp;order=from" target="_self">Startdorf</a></th>
-		<th><a href="attplaner.php?id={$attid}&amp;key={$attkey}&amp;order=to" target="_self">Zieldorf</a></th>
-		<th><a href="attplaner.php?id={$attid}&amp;key={$attkey}&amp;order=typ" target="_self">Typ</a></th>
-		<th><a href="attplaner.php?id={$attid}&amp;key={$attkey}&amp;order=senddate" target="_self">Abschickzeit</a></th>
-		<th><a href="attplaner.php?id={$attid}&amp;key={$attkey}&amp;order=arrive" target="_self">Ankunft</a></th>
+		<th><a href="{$attplan_baseurl}&amp;order=from" target="_self">Startdorf</a></th>
+		<th><a href="{$attplan_baseurl}&amp;order=to" target="_self">Zieldorf</a></th>
+		<th><a href="{$attplan_baseurl}&amp;order=typ" target="_self">Typ</a></th>
+		<th><a href="{$attplan_baseurl}&amp;order=senddate" target="_self">Abschickzeit</a></th>
+		<th><a href="{$attplan_baseurl}&amp;order=arrive" target="_self">Ankunft</a></th>
 		<th width="50">Notiz</th>
 		{foreach from=$unitnames item=unitname}
 		<th width="35"><img src="{$root_path}images/unit_{$unitname}.png" alt="" /></th>
@@ -119,7 +119,7 @@ $(document).ready(function() {
 			<td>{$action.$unitname}</td>
 {/foreach}
 
-		<td style="text-align: center"><a href="attplaner.php?id={$attid}&amp;key={$attkey}&amp;edit={$action.id}">Editieren</a> <a class="delete" href="attplaner.php?id={$attid}&amp;key={$attkey}&amp;deleteatt={$action.id}" onclick="return ap_deleteConfirm()"><span>Löschen</span></a></td>
+		<td style="text-align: center"><a href="{$attplan_baseurl}&amp;edit={$action.id|escape:'url'}">Editieren</a> <a class="delete" href="{$attplan_baseurl}&amp;deleteatt={$action.id}" onclick="return ap_deleteConfirm()"><span>Löschen</span></a></td>
 
 		<td><input type="checkbox" name="select_{$action.id}" value="1" {if count($selected) > 0 and array_search($action.id, $selected) !== false}checked="checked" {/if}/></td>
 	</tr>

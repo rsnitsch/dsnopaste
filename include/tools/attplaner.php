@@ -155,6 +155,9 @@
                 $output->assign('attid', $attid);
                 $output->assign('attkey', $key);
 				
+				// URL
+				$output->assign('attplan_baseurl', 'attplaner.php?id='.urlencode($attid).'&amp;key='.urlencode($key));
+				
 				// wurde der Angriffsplan gerade erst erstellt?
 				$output->assign('new_plan', isset($_GET['new']) && (intval($_GET['new']) == 1));
                 
