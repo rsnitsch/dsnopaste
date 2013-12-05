@@ -595,8 +595,9 @@
                         if(isset($_GET['edit']) and is_number($_GET['edit']))
                         {
                             // EIN ANGRIFF bzw. EINE UNTERSTÜTZUNG SOLLEN EDITIERT WERDEN!!!
-                            
-                            $sql_cmd='SELECT * FROM attplans_actions WHERE attplan_id='.$attid.' AND id='.intval($_GET['edit']);
+                            $oldid = intval($_GET['edit']);
+							
+                            $sql_cmd='SELECT * FROM attplans_actions WHERE attplan_id='.$attid.' AND id='.$oldid;
                             $attdata=$mysql->sql_query($sql_cmd);
                             
                             if($mysql->sql_num_rows($attdata)==1)
@@ -623,7 +624,7 @@
                                 $output->assign('add_or_edit', 'bearbeiten');
                                 
                                 // die alte ID der AKTION
-                                $output->assign('oldid', $_GET['edit']);
+                                $output->assign('oldid', $oldid);
                             }
                             else
                             {
