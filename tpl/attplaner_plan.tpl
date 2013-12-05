@@ -114,7 +114,7 @@ $(document).ready(function() {
 		</td>
 		<td{if $action.senddate < $timestamp} style="color: #FF2121;"{/if}{if !empty($action.timeleft)} title="Noch: {$action.timeleft}"{/if}>{$action.send}</td>
 		<td><a class="setValue" href="javascript:ap_setValue('arrival', '{$action.arrive_pure}')">{$action.arrive}</a></td>
-		<td><textarea cols="10" rows="1">{$action.note|htmlspecialchars}</textarea></td>
+		<td><textarea cols="10" rows="1">{$action.note|escape}</textarea></td>
 {foreach from=$unitnames item=unitname}
 			<td>{$action.$unitname}</td>
 {/foreach}
@@ -214,7 +214,7 @@ $(document).ready(function() {
 		</td>
 		<td>
 			<h3 style="margin-top: 5px;">Notizen</h3>
-			<textarea name="notes" cols="30" rows="6">{$notes|htmlspecialchars}</textarea><br />
+			<textarea name="notes" cols="30" rows="6">{$notes|escape}</textarea><br />
 			<input type="submit" name="save_notes" value="Speichern" />
 		</td>
 	</tr>

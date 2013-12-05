@@ -84,7 +84,7 @@ $(document).ready(
 			<th>Bonusdorf?</th>
 		</tr>
 		<tr>
-			<td><input type="text" size="30" name="note" value="{$edited_farm.note|htmlspecialchars}" /></td>
+			<td><input type="text" size="30" name="note" value="{$edited_farm.note|escape}" /></td>
 			<td>
 				<select name="bonus" style="width: 140px;">
 					<option value="none" style="padding-left:20px;"{if $edited_farm.bonus=='none'} selected="selected"{/if}>keiner dieser Boni</option>
@@ -187,7 +187,7 @@ $(document).ready(
 			<td>{if $farm.b_wall >= 5}<span class="warnung" style="background-color: #f99; padding: 5px;">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
 			<td>{if $farm.performance === null}-{else}{$farm.performance_percentage}%{/if}</td>
 			<td>{$farm.time|date_format:"%d.%m. %H:%M Uhr"}</td>
-			<td>{$farm.note|htmlspecialchars}</td>
+			<td>{$farm.note|escape}</td>
 			<td class="align_right">
 				<!-- Als gefarmt markieren bzw. die Umkehrung -->
 				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}">
