@@ -383,7 +383,16 @@
             "defender" => $oServer->getUnitNames(false)
         );
         $dsBericht = new dsBericht($units, $spied_resources);
-        $dsBericht->parse($report);
+		try {
+			$dsBericht->parse($report);
+		} catch(RuntimeException $exc) {
+			$msg = $exc->getMessage();
+			if (strpos($msg, "Number of") === 0) {
+				$errors[] = "Die Anzahl der Einheitentypen in dem Bericht scheint nicht übereinzustimmen mit der Anzahl für die ausgewählte Welt (".htmlspecialchars($oServer->id).").";
+			}
+			$errors[] = "Fehler: ".htmlspecialchars($msg);
+			_displayErrors();
+		}
         $parsed = $dsBericht->getReport();
         
         // Dringend benötigte Teile des Berichts checken
