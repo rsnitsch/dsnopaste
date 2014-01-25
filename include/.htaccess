@@ -1,11 +1,2 @@
 Order deny,allow
 deny from all
-
-<FilesMatch cronjob\.cleanup\.(log|php)$>
-    allow from all
-    
-    AuthType Basic
-    AuthName "DS NoPaste - Administration"
-    AuthUserFile  /var/www/.htpasswd_nopaste
-    require valid-user
-</FilesMatch>
