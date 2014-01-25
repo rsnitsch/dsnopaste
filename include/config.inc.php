@@ -24,7 +24,9 @@
     define('AUTH_SECRET', '1ab24a037c6155e112f684153f7335ad');
 
     // Lokale config inkludieren (kann Parameter überschreiben).
-    if (is_readable($root_path.'/include/config.local.inc.php')) {
+    if (is_readable($root_path.'/include/localconfig.inc.php')) {
+        require($root_path.'/include/localconfig.inc.php');
+    } else if (is_readable($root_path.'/include/config.local.inc.php')) {
         require($root_path.'/include/config.local.inc.php');
     } else {
         die("Invalid installation: No local config present.");
