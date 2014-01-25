@@ -5,15 +5,39 @@
         public $config;
         public $units;
 
-        public function __construct($id)
+        public static function forServerID($id)
         {
             if(!serverExists($id))
                 throw new Exception("Server with id '$id' does not exist!");
 
-            $this->id = $id;
-
             global $root_path, $cfg;
-            $this->dir = $root_path."data/server/{$cfg['language']}/{$this->id}";
+            return new Gameworld($root_path."data/server/{$cfg['language']}/{$id}");
+        }
+
+        public static function nameForID($id)
+        {
+            $name = $id;
+            $matches = array();
+            if (preg_match("/^de([a-zA-Z]*)([0-9]+)$/", $id, $matches)) {
+                if ($matches[1] == '') {
+                    $name = "Welt ".intval($matches[2]);
+                } else if ($matches[1] == 'p') {
+                    $name = "Casual ".intval($matches[2]);
+                }
+            }
+
+            return $name;
+        }
+
+        public function __construct($directory)
+        {
+            if (!is_dir($directory)) {
+                throw new Exception("Gameworld directory '$directory' does not exist!");
+            }
+
+            $this->dir = $directory;
+            $this->id = basename($this->dir);
+            $this->name = Gameworld::nameForID($this->id);
 
             $this->loadData();
         }
@@ -25,22 +49,10 @@
 
             $this->config = simplexml_load_file($this->dir."/config.xml");
             $this->config = $this->xml2array($this->config);
-
-            if($this->hasMetafile()) {
-                $meta = simplexml_load_file($this->dir."/meta.xml");
-                $this->name = $meta->name;
-            } else {
-                $this->name = "Welt {$this->id}";
-            }
         }
 
         public function getConfig() {
             return $this->config;
-        }
-
-        public function hasMetafile()
-        {
-            return file_exists($this->dir."/meta.xml");
         }
 
         public function coordSystem()

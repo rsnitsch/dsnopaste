@@ -43,7 +43,7 @@
             _displayErrors();
         }
         
-        $server = new Gameworld($world_id);
+        $server = Gameworld::forServerID($world_id);
         
         $troops = array();
         foreach($server->getUnitNames(true) as $unitname) {

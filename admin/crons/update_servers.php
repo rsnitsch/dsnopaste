@@ -16,16 +16,6 @@ $files_to_download = array( 'config.xml' => '/interface.php?func=get_config',
                             'units.xml' => '/interface.php?func=get_unit_info',
                             'buildings.xml' => '/interface.php?func=get_building_info'  );
 
-$metafile_template = <<<META
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<meta>
-    <name>{name}</name>
-</meta>
-META;
-
-if(isset($_GET['force_meta']))
-    echo red('Meta file creation forced!')."<br />\n";
-    
 // array storing information, which gets stored in the servers.xml file later
 $avail_servers = array('de' => array());
 
@@ -66,60 +56,21 @@ foreach($servers as $key => $url) {
                 failed();
         }
     }
-    
-    // check whether the meta file exists
-    if(file_exists($serverdir.'/meta.xml') and !isset($_GET['force_meta']))
-        $avail_servers['de'][$key] = simplexml_load_file($serverdir.'/meta.xml')->name;
-    else {
-        // no meta file available, create initial one
-        echo "Creating initial meta file for $key...";
-        
-        // guess a good name for the world
-        // if a number is in the world's ID, take the number, otherwise take the ID unchanged
-        $name = 'Welt ';
-        $matches = array();
-        $number = 0;
-        if(preg_match('/[^0-9]+([0-9]+)$/', $key, $matches)) {
-            $number = $matches[1];
-            $name .= $number;
-        } else {
-            $name .= $key;
-        }
-        
-        // write the metafile
-        $metafile = str_replace('{name}', $name, $metafile_template);
-        
-        $fh = @fopen($serverdir.'/meta.xml', 'w');
-        if(!$fh) {
-            failed();
-        }
-        else {
-            fputs($fh, $metafile);
-            fclose($fh);
-            
-            done();
-        }
-        
-        // prepare the name to be stored in the servers.xml file
-        $avail_servers['de'][$key] = simplexml_load_file($serverdir.'/meta.xml')->name;
+
+    // Delete obsolete meta.xml files
+    if(file_exists($serverdir.'/meta.xml')) {
+        echo "Server '$key': Removing obsolete meta.xml file<br />\n";
+        unlink($serverdir.'/meta.xml');
     }
+
+    $avail_servers['de'][$key] = "";
 }
 
-// write the servers.xml file
-$servers_xml = "<?xml version='1.0'?><servers>";
-foreach($avail_servers as $language => $servers) {
-	$servers_xml .= "<$language>";
-    
-    foreach($servers as $id => $name)
-        $servers_xml .= "<$id>$name</$id>";
-        
-    $servers_xml .= "</$language>";
+// Remove obsolete servers.xml file
+if (is_file($root_path.'data/server/servers.xml')) {
+    echo "Removing obsolete servers.xml file<br />\n";
+    unlink($root_path.'data/server/servers.xml');
 }
-$servers_xml .= "</servers>";
-$fh = fopen($root_path.'data/server/servers.xml', 'w');
-fwrite($fh, $servers_xml);
-fclose($fh);
-
 
 function red($txt) { return '<span style="color: #FF2121;">'.$txt.'</span>'; }
 function done($br=true) { echo '<span style="color: #21FF21; font-weight: bold;">done</span>'; if($br) echo "<br />\n"; }

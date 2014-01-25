@@ -147,7 +147,7 @@
                 $notes          = $mysql->sql_result($plandata, 0, 'notes');
                 $created        = $mysql->sql_result($plandata, 0, 'time');
                 $serverid       = $mysql->sql_result($plandata, 0, 'server');
-                $server         = new Gameworld($mysql->sql_result($plandata, 0, 'server'));
+                $server         = Gameworld::forServerID($mysql->sql_result($plandata, 0, 'server'));
                 
                 $unitnames = $server->getUnitNames(true);
                 

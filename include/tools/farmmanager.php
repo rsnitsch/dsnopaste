@@ -253,7 +253,7 @@
     $smarty->assign('world_id', $server);
     
     // Das Gameworld-Objekt
-    $oServer = new Gameworld($server);
+    $oServer = Gameworld::forServerID($server);
     $smarty->assign('server', $oServer);
     $smarty->assign('title', $smarty->getTemplateVars('title')." (".$oServer->name.")");
     

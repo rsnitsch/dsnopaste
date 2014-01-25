@@ -69,29 +69,29 @@
      */
     function getServers()
     {
-        global $root_path, $cfg;
-        
-        $path = $root_path.'data/server/servers.xml';
-        
-        if (!is_readable($path)) {
-            trigger_error("servers.xml is not readable");
-            return array();
-        }
-        
-        $xml = simplexml_load_file($path);
-        
+        global $root_path;
+
         $servers = array();
-        
-        $xml_servers = $xml->$cfg['language'];
-        
-        
-        foreach($xml_servers->children() as $id => $name) {
-            $servers[] = array('id' => $id, 'name' => strval($name));
+        $path = $root_path.'data/server/de';
+
+        if (!is_dir($path)) {
+            throw new Exception("Directory 'data/server/de' does not exist!");
         }
-        
-        $servers = array_reverse($servers);
-        
+
+        $items = scandir($path);
+        foreach ($items as $item) {
+            if ($item != "." && $item != ".." && is_dir($path."/".$item)) {
+                $servers[] = array('id' => $item, 'name' => Gameworld::nameForID($item));
+            }
+        }
+
+        usort($servers, "serverCmp");
         return $servers;
+    }
+    
+    function serverCmp($a, $b)
+    {
+        return -strnatcmp($a["name"], $b["name"]);
     }
     
     /**
