@@ -5,7 +5,7 @@
     
     // Output-Control anlegen
     $output = new nopSmarty();
-    $output->register_function('paginate', 'smarty_paginate');
+    $output->registerPlugin('function', 'paginate', 'smarty_paginate');
 
     // Allgemein Daten
     $output->assign('root_path', '../');
