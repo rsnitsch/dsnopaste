@@ -397,18 +397,21 @@ class dsBericht {
             'mood_after' => (isset($this->report['mood']['after']) ? $this->report['mood']['after'] : 0)
             );
 
-        foreach($this->units as $unit)
+        foreach($this->units_attacker as $unit)
         {
             $assoc['troops_att_'.$unit] = isset($this->report['troops']['att_'.$unit]) ? $this->report['troops']['att_'.$unit] : 0;
             $assoc['troops_attl_'.$unit] = isset($this->report['troops']['attl_'.$unit]) ? $this->report['troops']['attl_'.$unit] : 0;
+        }
+		foreach($this->units_defender as $unit)
+		{
             $assoc['troops_def_'.$unit] = isset($this->report['troops']['def_'.$unit]) ? $this->report['troops']['def_'.$unit] : 0;
             $assoc['troops_defl_'.$unit] = isset($this->report['troops']['defl_'.$unit]) ? $this->report['troops']['defl_'.$unit] : 0;
-        }
-        foreach($this->units as $unit)
+		}
+        foreach($this->units_spied as $unit)
         {
             $assoc['spied_troops_out_'.$unit] = isset($this->report['spied_troops_out'][$unit]) ? $this->report['spied_troops_out'][$unit] : 0;
         }
-        foreach($this->units as $unit)
+        foreach($this->units_out as $unit)
         {
             $assoc['troops_out_'.$unit] = isset($this->report['troops_out'][$unit]) ? $this->report['troops_out'][$unit] : 0;
         }
