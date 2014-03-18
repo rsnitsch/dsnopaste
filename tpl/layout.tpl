@@ -48,7 +48,7 @@
 			</td>
 			<td align="right" width="300">
 				<p id="copyright">
-					&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2012.<br />
+					&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2014.<br />
 					<a href="http://feedback.np.bmaker.net/">Feedback</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
 					<a href="{$root_path}anb.php" target="_self">ANBs/Impressum</a><br />
 {if $cfg.uploaded && !$cfg.debugmode}
