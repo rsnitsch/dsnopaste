@@ -45,17 +45,6 @@
 				</p>
 			</td>
 			<td align="center">
-				<p>
-				<!-- Host Europe GmbH - Partnerprogramm - Beginn -->
-				<a href="http://affiliate.hosteurope.de/click.php/A4pg0anFsjrLViT5e6npwgs4L2OiQ9Fb9vE4FHofakY," title="powered by Host Europe" target="_blank">powered by Host Europe</a>
-				<img src="http://affiliate.hosteurope.de/view.php/A4pg0anFsjrLViT5e6npwgs4L2OiQ9Fb9vE4FHofakY," width="0" height="0" alt="" border="0" />
-				<!-- Host Europe GmbH - Partnerprogramm - Ende -->
-				</p>
-				<p>
-				<!-- Host Europe GmbH - Partnerprogramm - Beginn -->
-				<a href="http://affiliate.hosteurope.de/click.php/k1E4wPXWQAfkpIihQEyAkcu-Fs3bg_H3v36iigEWbZQ," target="_blank"><img src="http://affiliate.hosteurope.de/view.php/k1E4wPXWQAfkpIihQEyAkcu-Fs3bg_H3v36iigEWbZQ," width="468" height="60" alt="Full Banner" border="0" /></a>
-				<!-- Host Europe GmbH - Partnerprogramm - Ende -->
-				</p>
 			</td>
 			<td align="right" width="300">
 				<p id="copyright">
