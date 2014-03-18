@@ -830,9 +830,9 @@
     $smarty->assign('bonus_res_one', ($oServer->bonusResOneFactor()-1)*100);
     
     // wie viele Späher beim Speer/LKav-1-Klick-Farmen losgeschickt werden
-    // => Bei Welt3-Späher-Style müssen mindestens 3 Späher losgeschickt werden
+    // => siehe: http://forum.die-staemme.de/showthread.php?69629-XML-Bedeutungen&p=3700438&viewfull=1#post3700438
     $server_cfg = $oServer->getConfig();
-    $sendtroops_spy_count = ($server_cfg["game"]["spy"] != 3) ? 1 : 5;
+    $sendtroops_spy_count = ($server_cfg["game"]["spy"] != 3) ? 1 : 4;
     $smarty->assign('sendtroops_spy_count', $sendtroops_spy_count);
     
     $smarty->assign('farms', $farms);
