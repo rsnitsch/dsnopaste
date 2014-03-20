@@ -2,7 +2,7 @@
 {block 'content'}
 
 <p>
-	DS Nopaste ist ein <b>kostenloser Internetdienst</b>, der verschiedene Tools für das Browsergame DieStämme anbietet.
+	DS Nopaste ist ein <b>kostenloser, nicht-gewerblicher Internetdienst</b>, der verschiedene Tools für das Browsergame DieStämme anbietet.
 </p>
 
 <h3>Impressum</h3>
@@ -23,7 +23,7 @@ Wenn Sie mit der Spei­che­rung und Aus­wer­tung die­ser Daten aus Ihrem Bes
 Widerspruch:
 </p>
 
-<iframe frameborder="no" width="600px" height="200px" src="https://anal.robertnitsch.de/piwik/index.php?module=CoreAdminHome&action=optOut&language=de"></iframe>
+<iframe frameborder="no" width="600px" height="200px" src="http://anal.robertnitsch.de/piwik/index.php?module=CoreAdminHome&action=optOut&language=de"></iframe>
 
 <p>
 Die Erklärung zu den Analysediensten wurde leicht angepasst übernommen von http://www.datenschutzbeauftragter-info.de.
