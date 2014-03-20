@@ -1,27 +1,32 @@
 {extends 'layout.tpl'}
 {block 'content'}
 
+<p>
+	DS Nopaste ist ein <b>kostenloser Internetdienst</b>, der verschiedene Tools für das Browsergame DieStämme anbietet.
+</p>
+
 <h3>Impressum</h3>
 
-<p><b>Betreiber und Entwickler von DS Nopaste:</b> Robert Nitsch</p>
+<p>siehe: <a href="http://www.robertnitsch.de/impressum.html" target="_self">Impressum</a>.</p>
+
+<h3>Erklärung zu verwendeten Analysediensten</h3>
 
 <p>
-	DS Nopaste ist ein <b>kostenloser Internetdienst</b> in Form einer Webseite, der verschiedene sogenannte
-	Tools für das Browsergame DieStämme beinhaltet.
+Unsere Website verwendet Piwik, dabei handelt es sich um einen sogenannten Webanalysedienst. Piwik verwendet sog. “Cookies” - das sind Textdateien, die auf Ihrem Computer gespeichert werden und die unsererseits eine Analyse der Benutzung der Webseite ermöglichen. Zu diesem Zweck werden die durch den Cookie erzeugten Nutzungsinformationen (einschließlich Ihrer gekürzten IP-Adresse) an unseren Server übertragen und zu Nutzungsanalysezwecken gespeichert, was der Webseitenoptimierung unsererseits dient. Ihre IP-Adresse wird bei diesem Vorgang umge­hend anony­mi­siert, so dass Sie als Nutzer für uns anonym bleiben. Die durch den Cookie erzeugten Informationen über Ihre Benutzung dieser Webseite werden nicht an Dritte weitergegeben. Sie können die Verwendung der Cookies durch eine entsprechende Einstellung Ihrer Browser Software verhindern, es kann jedoch sein, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website voll umfänglich nutzen können.
 </p>
 
 <p>
-	DS Nopaste wird mittels Spenden &amp; seit September 2010 auch wieder mit Werbung finanziert. Informationen dazu auf dieser Seite: <a href="{$root_path}spenden.php">Spenden</a>.
+Wenn Sie mit der Spei­che­rung und Aus­wer­tung die­ser Daten aus Ihrem Besuch nicht ein­ver­stan­den sind, dann kön­nen Sie der Spei­che­rung und Nut­zung nachfolgend per Maus­klick jederzeit wider­spre­chen. In diesem Fall wird in Ihrem Browser ein sog. Opt-Out-Cookie abgelegt, was zur Folge hat, dass Piwik keinerlei Sitzungsdaten erhebt. Achtung: Wenn Sie Ihre Cookies löschen, so hat dies zur Folge, dass auch das Opt-Out-Cookie gelöscht wird und ggf. von Ihnen erneut aktiviert werden muss.
 </p>
 
 <p>
-	Alle Angaben auf Nopaste ohne Gewähr (damit sind in erster Linie die Angaben der Tools gemeint -
-	Abweichungen/Ungenauigkeiten oder gar falsche Rechenergebnisse können nicht zu 100%
-	ausgeschlossen werden)!<br />
-	Fehler/Ungenauigkeiten können jederzeit unter <a href="http://feedback.np.bmaker.net/">http://feedback.np.bmaker.net/</a>
-	gemeldet werden!
+Widerspruch:
 </p>
 
-<p>siehe auch: <a href="http://www.robertnitsch.de/impressum.html" target="_self">Impressum/Haftungsausschluss</a>.</p>
+<iframe frameborder="no" width="600px" height="200px" src="https://anal.robertnitsch.de/piwik/index.php?module=CoreAdminHome&action=optOut&language=de"></iframe>
+
+<p>
+Die Erklärung zu den Analysediensten wurde leicht angepasst übernommen von http://www.datenschutzbeauftragter-info.de.
+</p>
 
 {/block}
