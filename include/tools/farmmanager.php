@@ -63,10 +63,6 @@
     // array der aktivierten Server
     $activated_servers = getServers();
     
-    // die 3 ältesten Server entfernen
-    for($i=0; $i<3; $i++)
-        array_pop($activated_servers);
-    
     // array der möglichen sortierungen
     $avail_orders = array(  'lastreport',
                             'v_coords',
