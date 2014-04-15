@@ -6,10 +6,7 @@
 	// Output-Control anlegen
 	$output = new nopSmarty();
 
-	$output->assign('title', 'ANB / Impressum');
+	$output->assign('title', 'Impressum');
 	$output->assign('root_path', $root_path);
-	
-	
-	// die ANBs anzeigen
-	$output->display('anb.tpl');
+	$output->display('legal.tpl');
 ?>
