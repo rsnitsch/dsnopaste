@@ -252,6 +252,7 @@
     $oServer = Gameworld::forServerID($server);
     $smarty->assign('server', $oServer);
     $smarty->assign('title', $smarty->getTemplateVars('title')." (".$oServer->name.")");
+    $server_cfg = $oServer->getConfig();
     
     // Welche Bonusdörfer kann es auf diesem Server geben?
     $bonus_new = $oServer->bonusNew();
@@ -728,6 +729,16 @@
             $farms[$i]['filter'] = true;
         }
         
+        // Anzahl Späher, die zu dieser Farm losgeschickt werden müssen (verlustfrei), bestimmen
+        // => siehe: http://forum.die-staemme.de/showthread.php?69629-XML-Bedeutungen&p=3700438&viewfull=1#post3700438
+        if ($server_cfg["game"]["spy"] != 3) {
+            $farms[$i]["spy_count"] = 1;
+        } else if ($farms[$i]["v_name"] == "Barbarendorf" || $farms[$i]["v_name"] == "Bonusdorf") {
+            $farms[$i]["spy_count"] = 4;
+        } else {
+            $farms[$i]["spy_count"] = 5;
+        }
+        
         // die Summen...
         if (!$farms[$i]['filter']) {
             $total_farms++;
@@ -824,12 +835,6 @@
     $smarty->assign('bonus_new', $bonus_new);
     $smarty->assign('bonus_res_all', ($oServer->bonusResAllFactor()-1)*100);
     $smarty->assign('bonus_res_one', ($oServer->bonusResOneFactor()-1)*100);
-    
-    // wie viele Späher beim Speer/LKav-1-Klick-Farmen losgeschickt werden
-    // => siehe: http://forum.die-staemme.de/showthread.php?69629-XML-Bedeutungen&p=3700438&viewfull=1#post3700438
-    $server_cfg = $oServer->getConfig();
-    $sendtroops_spy_count = ($server_cfg["game"]["spy"] != 3) ? 1 : 4;
-    $smarty->assign('sendtroops_spy_count', $sendtroops_spy_count);
     
     $smarty->assign('farms', $farms);
     $smarty->display('farmmanager_main.tpl');

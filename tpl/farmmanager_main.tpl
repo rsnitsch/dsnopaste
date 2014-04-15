@@ -197,18 +197,18 @@ $(document).ready(
 
 				{if isset($source_village_id) && !$farm.farmed && $farm.v_id != 0}
 				<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}');">
 					<img src="{$root_path}images/unit_spy.png" title="Späher schicken & als gefarmt markieren" alt="Späher" />
 				</a>
 				&nbsp;
 
 				<!-- Speerträger schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}&spear={$farm.transport_spear}');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}&spear={$farm.transport_spear}');">
 					<img src="{$root_path}images/unit_spear.png" title="Speerträger schicken & als gefarmt markieren" alt="Speer" />
 				</a>
 				&nbsp;
 				<!-- Leichte Kavallerie schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$sendtroops_spy_count}&light={$farm.transport_light}');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}&light={$farm.transport_light}');">
 					<img src="{$root_path}images/unit_light.png" title="Leichte Kavallerie schicken & als gefarmt markieren" alt="Leichte Kavallerie" />
 				</a>
 				&nbsp;
