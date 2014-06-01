@@ -542,7 +542,11 @@
                 $expected_resources = array_sum(calculateExpectedResources($farm_old, $data['time'], $oServer));
                 
                 if ($expected_resources > 0) {
-                    $actual_resources = $parsed['booty'] ? $parsed['booty']['all'] : array_sum($parsed['spied_resources']);
+                    $actual_resources = array_sum($parsed['spied_resources']);
+                    if ($parsed['booty']) {
+                        $actual_resources += $parsed['booty']['all'];
+                    }
+                    
                     $performance_this_time = $actual_resources / floatval($expected_resources);
                     
                     if ($farm_old['performance'] === null) {
