@@ -19,7 +19,7 @@ function fm_sendTroops(world_id, from, to, units) {
 				"&to="+to+
 				"&"+units,
 				"dsnp_sendtroops",
-				"width=800,height=600,location=no,menubar=no,toolbar=yes,status=yes,scrollbars=yes,resizable=yes");
+				"width=900,height=800,location=no,menubar=no,toolbar=yes,status=yes,scrollbars=yes,resizable=yes");
 }
 
 function fm_updateFormVisible() {
