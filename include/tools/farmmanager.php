@@ -71,8 +71,6 @@
                             'c_loam',
                             'c_iron',
                             'fill_level',
-                            'light',
-                            'spear',
                             'storage',
                             'distance');
     
@@ -259,6 +257,14 @@
     $possible_boni=$oServer->bonusesPossible();
     $smarty->assign('bonus_new', $bonus_new);
     
+	// Welche Einheiten können Rohstoffe tragen? (Eignen sich also grundsätzlich für sendtroops-Aktionen.)
+	$units = $oServer->getUnits(true);
+	$units_with_carry = array();
+	foreach ($units as $unit => $properties) {
+		if ($properties["carry"] > 0) $units_with_carry[] = $unit;
+	}
+	$smarty->assign('units_with_carry', $units_with_carry);
+	
     // Herkunftsdörfer auslesen
     $att_villages = array();
     $res = $mysql->sql_query("SELECT av_name, av_coords FROM farms WHERE saveid='".$mysql->escape($saveid)."' GROUP BY av_coords ORDER BY av_name");
@@ -270,6 +276,38 @@
     }
     $smarty->assign('att_villages', $att_villages);
     
+	// Vom Benutzer gewählte sendtroops-Einheiten bestimmen
+	$sendtroops_units = null;
+	if (!empty($_COOKIE["sendtroops_$saveid"])) {
+        $tmp = $_COOKIE["sendtroops_$saveid"];
+        $units = explode(",", $tmp);
+		
+		$sendtroops_units = array();
+		foreach ($units as $unit) {
+			if (in_array($unit, $units_with_carry)) {
+				$sendtroops_units[] = $unit;
+			}
+		}
+	}
+	if (!empty($_POST["set_sendtroops_units"])) {
+		$sendtroops_units = array();
+		foreach ($units_with_carry as $unit) {
+			if (!empty($_POST["sendtroops_$unit"]) && $_POST["sendtroops_$unit"] == "yes") {
+				$sendtroops_units[] = $unit;
+			}
+		}
+		
+		if (!empty($sendtroops_units)) {
+			_redirect(false);
+			setcookie("sendtroops_$saveid", implode($sendtroops_units, ","), time()+86400*30, '', $_SERVER['HTTP_HOST']);
+			exit();
+		}
+	}
+	if (empty($sendtroops_units)) {
+		$sendtroops_units = array("spear", "light");
+	}
+	$smarty->assign('sendtroops_units', $sendtroops_units);
+	
     // Sortierung
     $order = (!empty($_COOKIE["order_$saveid"]) && in_array($_COOKIE["order_$saveid"], $avail_orders)) ? $_COOKIE["order_$saveid"] : 'lastreport';
     if(!empty($_GET["order"])) {
@@ -686,8 +724,6 @@
     $total_iron = 0;
     $total_sum = 0;
     $total_storage = 0;
-    $total_spear = 0;
-    $total_light = 0;
     
     $now = time();
     for($i=0; $i<count($farms); $i++) {
@@ -707,20 +743,49 @@
             $farms[$i]['distance'] = round(calcDistance($farms[$i]['v_coords'], $source_village), 1);
         }
         
-        // Truppen, die zum Abtransport der Rohstoffe benötigt werden
-        $units_tmp = array("spear" => 25.0, "light" => 80.0);
-        foreach ($units_tmp as $unit => $carry) {
-            if (!$source_village) {
-                $farms[$i]["transport_$unit"] = $farms[$i]['c_sum'] / $carry;
-            } elseif ($source_village) {
-                // Erwartete Ressourcen mit Berücksichtigung der Laufzeit
-                $runtime_in_seconds = $oServer->getTimePerField(array($unit => 1)) * $farms[$i]['distance'];
-                $expected_resources_with_runtime = array_sum(calculateExpectedResources($farms[$i], $now + $runtime_in_seconds, $oServer));
-                
-                $farms[$i]["transport_$unit"] = ($expected_resources_with_runtime) / $carry;
+        // Anzahl Späher, die zu dieser Farm losgeschickt werden müssen (verlustfrei), bestimmen
+        // => siehe: http://forum.die-staemme.de/showthread.php?69629-XML-Bedeutungen&p=3700438&viewfull=1#post3700438
+        if ($server_cfg["game"]["spy"] != 3) {
+            $farms[$i]["spy_count"] = 1;
+        } else if ($farms[$i]["v_name"] == "Barbarendorf" || $farms[$i]["v_name"] == "Bonusdorf") {
+            $farms[$i]["spy_count"] = 4;
+        } else {
+            $farms[$i]["spy_count"] = 5;
+        }
+		
+		// sendtroops-Aktionen
+		$farms[$i]['sendtroop_actions'] = array();
+		$units = $oServer->getUnits(true);
+        foreach ($units as $unit => $properties) {
+			if (!in_array($unit, $sendtroops_units)) continue;
+		
+			$carry = $properties["carry"];
+			if ($carry <= 0) continue;
+			
+			if ($unit == "knight") {
+				$number_of_units = 1;
+			} else {
+				if (!$source_village) {
+					$number_of_units = $farms[$i]['c_sum'] / $carry;
+				} elseif ($source_village) {
+					// Erwartete Ressourcen mit Berücksichtigung der Laufzeit
+					$runtime_in_seconds = $oServer->getTimePerField(array($unit => 1)) * $farms[$i]['distance'];
+					$expected_resources_with_runtime = array_sum(calculateExpectedResources($farms[$i], $now + $runtime_in_seconds, $oServer));
+					
+					$number_of_units = ($expected_resources_with_runtime) / $carry;
+				}
+				
+				$number_of_units = ceil($number_of_units);
             }
-            
-            $farms[$i]["transport_$unit"] = ceil($farms[$i]["transport_$unit"]);
+
+			if ($server_cfg["game"]["spy"] != 3) {
+				$spy_count = 1;
+			} else {
+				$spy_count = 4;
+			}
+			
+			$action = array("unit" => $unit, "spy_count" => $spy_count, "unit_count" => $number_of_units);
+			$farms[$i]['sendtroop_actions'][] = $action;
         }
         
         // Performance
@@ -732,17 +797,7 @@
         if ($farms[$i]['c_sum'] < $filter_min_ress) {
             $farms[$i]['filter'] = true;
         }
-        
-        // Anzahl Späher, die zu dieser Farm losgeschickt werden müssen (verlustfrei), bestimmen
-        // => siehe: http://forum.die-staemme.de/showthread.php?69629-XML-Bedeutungen&p=3700438&viewfull=1#post3700438
-        if ($server_cfg["game"]["spy"] != 3) {
-            $farms[$i]["spy_count"] = 1;
-        } else if ($farms[$i]["v_name"] == "Barbarendorf" || $farms[$i]["v_name"] == "Bonusdorf") {
-            $farms[$i]["spy_count"] = 4;
-        } else {
-            $farms[$i]["spy_count"] = 5;
-        }
-        
+		
         // die Summen...
         if (!$farms[$i]['filter']) {
             $total_farms++;
@@ -752,8 +807,6 @@
             $total_iron += $farms[$i]['c_iron'];            // Gesamt-Eisen
             $total_sum += $farms[$i]['c_sum'];              // Gesamt-Ressourcen
             $total_storage += $farms[$i]['storage_max'];    // Gesamt-Speichervolumen
-            $total_spear += $farms[$i]['transport_spear'];  // Gesamt-Speerträger-Bedarf
-            $total_light += $farms[$i]['transport_light'];  // Gesamt-LKav-Bedarf
         }
     }
     
@@ -813,12 +866,6 @@
         elseif($order == 'c_iron') {
             $cmp_key = 'c_iron';
         }
-        elseif($order == 'light') {
-            $cmp_key = 'transport_light';
-        }
-        elseif($order == 'spear') {
-            $cmp_key = 'transport_spear';
-        }
         elseif($order == 'storage') {
             $cmp_key = 'storage_max';
         }
@@ -833,8 +880,6 @@
     $smarty->assign('total_iron', $total_iron);
     $smarty->assign('total_sum', $total_sum);
     $smarty->assign('total_storage', $total_storage);
-    $smarty->assign('total_spear', $total_spear);
-    $smarty->assign('total_light', $total_light);
     
     $smarty->assign('bonus_new', $bonus_new);
     $smarty->assign('bonus_res_all', ($oServer->bonusResAllFactor()-1)*100);

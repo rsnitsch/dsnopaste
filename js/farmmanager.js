@@ -27,26 +27,3 @@ function fm_updateFormVisible() {
 	if(formvisible != "true")
 		$("#form").hide();
 }
-
-function fm_actionDescription() {
-	alert(
-		'== Axt ==\n'+
-		'Ein Klick auf die Axt markiert die jeweilige Farm als \'gefarmt\' (und umgekehrt). '+
-		'Sie wird dann normalerweise so lange an das Ende der Liste geschoben, bis ein neuer Bericht von dieser Farm eingelesen wird.\n'+
-		'\n'+
-		'== Späher ==\n'+
-		'Ein Klick auf den Späher schickt mittels 1-Klick-Farmen 5 Späher zu der Farm. Die Farm wird dabei auch gleich als gefarmt markiert.\n'+
-		'\n'+
-		'== Speer ==\n'+
-		'Ein Klick auf den Speer aktiviert das 1-Klick-Farmen mit Speerträgern. Die Farm wird dabei auch gleich als gefarmt markiert.\n'+
-		'\n'+
-		'== Leichte Kavallerie ==\n'+
-		'Ein Klick auf die leichte Kavallerie aktiviert das 1-Klick-Farmen mit leichter Kavallerie. Die Farm wird dabei auch gleich als gefarmt markiert.\n'+
-		'\n'+
-		'== Text ==\n'+
-		'Bearbeiten der Farm.\n'+
-		'\n'+
-		'== Kreuz ==\n'+
-		'Achtung: Ein Klick auf das Kreuz löscht die jeweilige Farm aus der Liste!'
-	);
-}

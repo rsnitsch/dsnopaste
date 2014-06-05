@@ -150,13 +150,13 @@ $(document).ready(
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=c_sum"><abbr title="Ressourcen">Ress.</abbr></a></th>
 			<th> / </th>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=storage">Speicher</a> (<a href="farmmanager.php?id={$saveid}&amp;order=fill_level" title="relativer Füllstand des Speichers">XX%</a>)</th>
-			<th><a href="farmmanager.php?id={$saveid}&amp;order=spear">Speer</a></th>
-			<th><a href="farmmanager.php?id={$saveid}&amp;order=light"><abbr title="Leichte Kavallerie">LKav</abbr></a></th>
 			<th>Wall</th>
 			<th>Performance</th>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=lastreport">Letzter Bericht</a></th>
 			<th>Notiz</th>
-			<th class="align_right">Aktionen (<a href="javascript:fm_actionDescription()">Info</a>)</th>
+			<th class="align_center">Markierung</th>
+			<th class="align_center">Truppen schicken</th>
+			<th class="align_center">Bearbeiten</th>
 		</tr>
 	{foreach from=$farms item=farm}{if !$farm.filter}
 		<tr {if $farm.farmed}class="green"{/if} style="background-color: {cycle values="#F1EBDD,#E7E2D5"};">
@@ -182,38 +182,43 @@ $(document).ready(
 			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.c_sum}</td>
 			<td> / </td>
 			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.storage_max} ({$farm.fill_level}%)</td>
-			<td><img src="{$root_path}images/unit_spear.png" alt="Speer" />{$farm.transport_spear}</td>
-			<td><img src="{$root_path}images/unit_light.png" alt="Leichte Kavallerie" />{$farm.transport_light}</td>
 			<td>{if $farm.b_wall >= 5}<span class="warnung" style="background-color: #f99; padding: 5px;">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
 			<td>{if $farm.performance === null}-{else}{$farm.performance_percentage}%{/if}</td>
 			<td>{$farm.time|date_format:"%d.%m. %H:%M Uhr"}</td>
 			<td>{$farm.note|escape}</td>
-			<td class="align_right">
+			<td class="align_center">
 				<!-- Als gefarmt markieren bzw. die Umkehrung -->
 				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}">
 					<img src="{$root_path}images/unit_axe{if $farm.farmed}_arrowup{/if}.png" title="Als gefarmt markieren bzw. Markierung aufheben" alt="Axt" />
 				</a>
-				&nbsp;
-
-				{if isset($source_village_id) && !$farm.farmed && $farm.v_id != 0}
-				<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}');">
-					<img src="{$root_path}images/unit_spy.png" title="Späher schicken & als gefarmt markieren" alt="Späher" />
-				</a>
-				&nbsp;
-
-				<!-- Speerträger schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}&spear={$farm.transport_spear}');">
-					<img src="{$root_path}images/unit_spear.png" title="Speerträger schicken & als gefarmt markieren" alt="Speer" />
-				</a>
-				&nbsp;
-				<!-- Leichte Kavallerie schicken (semi-automatisch) und als gefarmt markieren -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}&light={$farm.transport_light}');">
-					<img src="{$root_path}images/unit_light.png" title="Leichte Kavallerie schicken & als gefarmt markieren" alt="Leichte Kavallerie" />
-				</a>
-				&nbsp;
+			</td>
+			<td class="align_center">
+				{if isset($source_village_id)}
+					{if !$farm.farmed}
+						{if $farm.v_id != 0}
+							<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
+							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}');">
+								<img src="{$root_path}images/unit_spy.png" title="{$farm.spy_count}" alt="Späher" />
+							</a>
+							&nbsp;
+							
+							{foreach from=$farm.sendtroop_actions item=action}
+							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$action.spy_count}&{$action.unit}={$action.unit_count}');">
+								<img src="{$root_path}images/unit_{$action.unit}.png" title="{$action.unit_count}" />
+							</a>
+							&nbsp;
+							{/foreach}
+						{else}
+						<em>Dorf-ID unbekannt.</em>
+						{/if}
+					{else}
+					<em>Schon unterwegs!</em>
+					{/if}
+				{else}
+				<em>Kein Herkunftsdorf ausgewählt!</em>
 				{/if}
-
+			</td>
+			<td class="align_center">
 				<!-- Bearbeiten Farm -->
 				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;edit={$farm.id}">
 					<img src="{$root_path}images/icon_text.gif" border="0" title="Bearbeiten" alt="Text-Icon" width="20" height="20" />
@@ -239,8 +244,8 @@ $(document).ready(
 			<td class="tiny">{$total_sum}</td>
 			<td> / </td>
 			<td class="tiny">{$total_storage}</td>
-			<td class="tiny">{$total_spear}</td>
-			<td class="tiny">{$total_light}</td>
+			<td>-</td>
+			<td>-</td>
 			<td>-</td>
 			<td>-</td>
 			<td>-</td>
@@ -253,6 +258,20 @@ $(document).ready(
 	{/if}
 
 <p>Gefarmt: <span class="green">{$count_farmed}</span>/{$total_farms}</p>
+
+<h3>Truppenbuttons konfigurieren</h3>
+
+<p>Wähle die Einheiten aus, die in der Spalte <em>"Truppen schicken"</em> aufgeführt werden sollen:</p>
+
+<form action="farmmanager.php?id={$saveid}" method="post">
+	{foreach from=$units_with_carry item=unit}
+	<label for="sendtroops_{$unit}"><img src="{$root_path}images/unit_{$unit}.png" /></label>
+	<input type="checkbox" id="sendtroops_{$unit}" name="sendtroops_{$unit}" value="yes" {if in_array($unit, $sendtroops_units)}checked="checked"{/if}/>
+	&nbsp;
+	{/foreach}
+	<input type="submit" name="set_sendtroops_units" value="Speichern" />
+</form>
+
 </div><!-- //<div id="farmmanager"> -->
 
 {/block}
