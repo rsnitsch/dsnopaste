@@ -15,26 +15,26 @@ $(document).ready(function() {
 // ]]>{/literal}
 </script>
 
-<div class="tiny">
+<div id="attplan_meta" class="tiny">
 {if !empty($w_hinweis)}
 	<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>
 {/if}
 
 	<table>
 		<tr>
-			<th style="font-size: 100%;">
+			<th>
 				Einfacher Link zu diesem Plan (<u>ohne</u> Bearbeitungsrechte):
 			</th>
-			<td style="font-size: 100%;">
+			<td>
 				<a class="simple" href="{$link}">{$link}</a>
 				(<a href="javascript:ap_normalLinkDescription()">Beschreibung</a>)
 			</td>
 		</tr>
 		<tr>
-			<th style="font-size: 100%;">
+			<th>
 				Admin-Link zu diesem Plan (<u>mit</u> Bearbeitungsrechten):
 			</th>
-			<td style="font-size: 100%;">
+			<td>
 {if !empty($admin_link)}
 					<a class="simple" href="{$admin_link}">{$admin_link}</a>
 {else}
@@ -143,7 +143,7 @@ $(document).ready(function() {
 			<input type="text" size="1" name="daysplus" value="0" /> Tage
 			<input type="text" size="1" name="hoursplus" value="0" /> Stunden
 			<input type="text" size="1" name="minutesplus" value="0" /> Minuten
-			<input type="text" size="1" name="secondsplus" value="0" /> Sekunden <span style="font-size: 80%;">(auch negative Werte möglich)</span>
+			<input type="text" size="1" name="secondsplus" value="0" /> Sekunden <span class="tiny">(auch negative Werte möglich)</span>
 		</td>
 	</tr>
 	<tr>
@@ -163,7 +163,7 @@ $(document).ready(function() {
 	<tr>
 		<td>
 			<h3 style="margin-top: 5px;">Angriff/Unterstützung {$add_or_edit}</h3>
-			<p style="font-size: 80%;">WICHTIG: <a class="setValue" style="text-decoration: underline;">Unterstrichene</a> Werte bisheriger Aktionen können durch Anklicken ins Formular übernommen werden!</p>
+			<p class="tiny">WICHTIG: <a class="setValue" style="text-decoration: underline;">Unterstrichene</a> Werte bisheriger Aktionen können durch Anklicken ins Formular übernommen werden!</p>
 
 			<table class="dsstyle">
 				<tr>

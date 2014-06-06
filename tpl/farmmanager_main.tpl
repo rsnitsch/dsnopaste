@@ -41,7 +41,7 @@ $(document).ready(
 			<th colspan="3">Farmbericht einfügen (ab einschließlich Betreff):</th>
 		</tr>
 		<tr>
-			<td colspan="3"><textarea name="report" cols="60" rows="3"></textarea></td>
+			<td colspan="3"><textarea id="report" name="report" rows="3"></textarea></td>
 		</tr>
 		<tr>
 			<th>Notiz zu dieser Farm:</th>
@@ -142,7 +142,7 @@ $(document).ready(
 			<th>Bonus</th>
 			{if $source_village}<th><a href="farmmanager.php?id={$saveid}&amp;order=distance">Entfernung</a></th>{/if}
 			<th>
-				Aktuelle Ressourcen
+				Ressourcen
 				(<a href="farmmanager.php?id={$saveid}&amp;order=c_wood" title="Nach Holz sortieren"><img src="{$root_path}images/holz.png" alt="Holz" /></a>
 				<a href="farmmanager.php?id={$saveid}&amp;order=c_loam" title="Nach Lehm sortieren"><img src="{$root_path}images/lehm.png" alt="Lehm" /></a>
 				<a href="farmmanager.php?id={$saveid}&amp;order=c_iron" title="Nach Eisen sortieren"><img src="{$root_path}images/eisen.png" alt="Eisen" /></a>)
