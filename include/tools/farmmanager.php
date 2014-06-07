@@ -271,6 +271,7 @@
 		"snob",
 		"smith",
 		"place",
+		"statue",
 		"market",
 		"wood",
 		"stone",

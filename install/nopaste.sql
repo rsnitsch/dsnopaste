@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `farms` (
   `b_snob` tinyint(3) unsigned DEFAULT '0',
   `b_smith` tinyint(3) unsigned DEFAULT '0',
   `b_place` tinyint(3) unsigned DEFAULT '1',
+  `b_statue` tinyint(3) unsigned DEFAULT '0',
   `b_market` tinyint(3) unsigned DEFAULT '0',
   `b_wood` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `b_loam` tinyint(3) unsigned NOT NULL DEFAULT '0',
