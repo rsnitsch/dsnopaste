@@ -53,6 +53,7 @@
     
     $errors = array();
     $debugs = array();
+	$ajax_output = "";
     
     // ist die Seite aktiviert
     if(!$cfg["enabled"]) {
@@ -84,11 +85,11 @@
         if(!_isAjaxRequest())
             displayErrors($smarty, $errors, $debugs);
         else {
-            echo "Es ist ein Fehler aufgetreten:\n";
+            _ajaxEcho("Es ist ein Fehler aufgetreten:\n");
             foreach($errors as $error) {
-                echo "  - ".htmlspecialchars($error)."\n";
+                _ajaxEcho("  - ".htmlspecialchars($error)."\n");
             }
-            exit();
+            _ajaxSendResponse();
         }
     }
     
@@ -136,18 +137,47 @@
     }
     
     function _isAjaxRequest() {
-        if (!isset($_POST['ajax'])) {
+		$a = !empty($_REQUEST["ajax"]) ? $_REQUEST["ajax"] : false;
+        if (!$a) {
             return false;
         }
 
-        $a = intval($_POST['ajax']);
+        $a = intval($a);
         if ($a > 0) {
             return $a;
         }
 
         return true;
     }
+	
+	/**
+	 * For parameters that can be passed via both AJAX and normal form submissions.
+	 *
+	 * E.g. the report parsing parameters (because reports can optionally be sent via AJAX).
+	 */
+	function _param($name) {
+		$a = _isAjaxRequest();
+		if (!$a || $a < 3) {
+			return !empty($_POST[$name]) ? $_POST[$name] : null;
+		} else {
+			return !empty($_GET[$name]) ? $_GET[$name] : null;
+		}
+	}
+	
+	function _ajaxEcho($str) {
+		global $ajax_output;
+		$ajax_output .= $str;
+	}
 
+	function _ajaxSendResponse() {
+		global $ajax_output;
+		if (_isAjaxRequest() < 3) {
+			die($ajax_output);
+		} else {
+			die("nopasteCallback(".json_encode($ajax_output).")");
+		}
+	}
+	
     function calculateExpectedResources($farm, $time, Gameworld $server) {
         $hours_gone = ($time - $farm['time']) / 3600.0;
         $prod = $server->calcTotalMineProduction($farm['b_wood'], $farm['b_loam'], $farm['b_iron'], $farm['bonus'], $hours_gone);
@@ -419,13 +449,13 @@
     }
     
     // eine Farm einlesen?
-    if(!empty($_POST) && !empty($_POST['parse'])) {
-        if(empty($_POST['report'])) {
+    if(_param('parse')) {
+        if(!_param('report')) {
             $errors[] = 'Du musst einen Bericht angeben!';
             _displayErrors();
         }
         
-        $report = $_POST['report'];
+        $report = _param('report');
         if (_isAjaxRequest() >= 2) {
             // Since AJAX version 2 the report data is extra-encoded.
             $report = urldecode($report);
@@ -439,7 +469,7 @@
             fclose($fh);
         }
         
-        if(strlen($_POST['note']) > 100) {
+        if(strlen(_param('note')) > 100) {
             $errors[] = "Notizen dürfen höchstens 100 Zeichen lang sein!";
             _displayErrors();
         }
@@ -451,14 +481,14 @@
         // Nur wenn eine Notiz angegeben wurde, soll diese gespeichert werden.
         // (Dadurch werden bestehende Notizen nicht gelöscht, wenn man das Feld frei
         // lässt.)
-        if(!empty($_POST['note']))
-            $data['note'] = $_POST['note'];
+        if(_param('note'))
+            $data['note'] = _param('note');
         
         // die Ressourcen, die gespäht wurden
         $spied_resources = array();
-        $wood = (!empty($_POST['wood']) && $_POST['wood'] == 'yes');
-        $loam = (!empty($_POST['loam']) && $_POST['loam'] == 'yes');
-        $iron = (!empty($_POST['iron']) && $_POST['iron'] == 'yes');
+        $wood = (_param('wood') == 'yes');
+        $loam = (_param('loam') == 'yes');
+        $iron = (_param('iron') == 'yes');
         if ($wood) $spied_resources[] = 'wood';
         if ($loam) $spied_resources[] = 'loam';
         if ($iron) $spied_resources[] = 'iron';
@@ -523,9 +553,9 @@
         //$data['b_storage'] = $parsed['buildings']['storage']; // TODO: Die Speicher-Stufe konnte nicht eingelesen werden!
         
         // Wurde ein Bonus angegeben?
-        if(!empty($_POST['bonus'])) {
-            if(in_array($_POST['bonus'], $possible_boni))
-                $data['bonus'] = $_POST['bonus'];
+        if(_param('bonus')) {
+            if(in_array(_param('bonus'), $possible_boni))
+                $data['bonus'] = _param('bonus');
         }
         
         // Alte Daten der Farm abrufen, wenn die Farm schon mal früher eingelesen wurde
@@ -664,8 +694,10 @@
             _displaySQLError();
         }
         
-        if(_isAjaxRequest())
-            die("Bericht erfolgreich eingelesen!");
+        if(_isAjaxRequest()) {
+			_ajaxEcho("Bericht erfolgreich eingelesen!");
+			_ajaxSendResponse();
+		}
         
         _redirect();
     }
