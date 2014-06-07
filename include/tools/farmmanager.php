@@ -273,7 +273,7 @@
 		"place",
 		"market",
 		"wood",
-		"loam",
+		"stone",
 		"iron",
 		"farm",
 		"storage",
