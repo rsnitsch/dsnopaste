@@ -7,6 +7,7 @@
 	$lang["snob"] = "Adelshof";
 	$lang["smith"] = "Schmiede";
 	$lang["place"] = "Versammlungsplatz";
+	$lang["statue"] = "Statue";
 	$lang["market"] = "Marktplatz";
 	$lang["wood"] = "Holzfäller";
 	$lang["stone"] = "Lehmgrube";
