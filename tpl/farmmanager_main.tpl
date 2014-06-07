@@ -34,7 +34,7 @@ $(document).ready(
 <h3><a href="javascript:fm_toggleForm();">Farmbericht/Spähbericht einlesen</a></h3>
 
 <div id="form">
-	<form action="farmmanager.php?id={$saveid}" method="post">
+	<form action="farmmanager.php?id={$saveid}&amp;mode={$mode}" method="post">
 	<input type="hidden" name="parse" value="1" />
 	<table>
 		<tr>
@@ -75,7 +75,7 @@ $(document).ready(
 <h3><a href="javascript:fm_toggleForm();">Farm bearbeiten</a></h3>
 
 <div id="form">
-	<form action="farmmanager.php?id={$saveid}" method="post">
+	<form action="farmmanager.php?id={$saveid}&amp;mode={$mode}" method="post">
 	<input type="hidden" name="edit" value="1" />
 	<input type="hidden" name="id" value="{$edited_farm.id}" />
 	<table>
@@ -134,25 +134,37 @@ $(document).ready(
 		<input type="submit" value="Aktualisieren" />
 	</form>
 	
+	<p>
+		{if $mode != 'default'}<a href="farmmanager.php?id={$saveid}&amp;mode=default">Zeige Ressourcen</a>{else}<span class="bold">Zeige Ressourcen</span>{/if}
+		|
+		{if $mode != 'buildings'}<a href="farmmanager.php?id={$saveid}&amp;mode=buildings">Zeige Gebäude</a>{else}<span class="bold">Zeige Gebäude</span>{/if}
+	</p>
+	
 	{if count($farms) > 0}
 	<table cellspacing="0" cellpadding="3" id="farmmanager_farms">
 		<tr>
-			<th><a href="farmmanager.php?id={$saveid}&amp;order=v_coords">XXX|YYY</a></th>
+			<th><a href="farmmanager.php?id={$saveid}&amp;order=v_coords&amp;mode={$mode}">XXX|YYY</a></th>
 			<th>Dorf</th>
 			<th>Bonus</th>
-			{if $source_village}<th><a href="farmmanager.php?id={$saveid}&amp;order=distance">Entfernung</a></th>{/if}
+			{if $source_village}<th><a href="farmmanager.php?id={$saveid}&amp;order=distance&amp;mode={$mode}">Entfernung</a></th>{/if}
+			{if $mode == 'default'}
 			<th>
 				Ressourcen
-				(<a href="farmmanager.php?id={$saveid}&amp;order=c_wood" title="Nach Holz sortieren"><img src="{$root_path}images/holz.png" alt="Holz" /></a>
-				<a href="farmmanager.php?id={$saveid}&amp;order=c_loam" title="Nach Lehm sortieren"><img src="{$root_path}images/lehm.png" alt="Lehm" /></a>
-				<a href="farmmanager.php?id={$saveid}&amp;order=c_iron" title="Nach Eisen sortieren"><img src="{$root_path}images/eisen.png" alt="Eisen" /></a>)
+				(<a href="farmmanager.php?id={$saveid}&amp;order=c_wood&amp;mode={$mode}" title="Nach Holz sortieren"><img src="{$root_path}images/holz.png" alt="Holz" /></a>
+				<a href="farmmanager.php?id={$saveid}&amp;order=c_loam&amp;mode={$mode}" title="Nach Lehm sortieren"><img src="{$root_path}images/lehm.png" alt="Lehm" /></a>
+				<a href="farmmanager.php?id={$saveid}&amp;order=c_iron&amp;mode={$mode}" title="Nach Eisen sortieren"><img src="{$root_path}images/eisen.png" alt="Eisen" /></a>)
 			</th>
-			<th><a href="farmmanager.php?id={$saveid}&amp;order=c_sum"><abbr title="Ressourcen">Ress.</abbr></a></th>
+			<th><a href="farmmanager.php?id={$saveid}&amp;order=c_sum&amp;mode={$mode}"><abbr title="Ressourcen">Ress.</abbr></a></th>
 			<th> / </th>
-			<th><a href="farmmanager.php?id={$saveid}&amp;order=storage">Speicher</a> (<a href="farmmanager.php?id={$saveid}&amp;order=fill_level" title="relativer Füllstand des Speichers">XX%</a>)</th>
+			<th><a href="farmmanager.php?id={$saveid}&amp;order=storage&amp;mode={$mode}">Speicher</a> (<a href="farmmanager.php?id={$saveid}&amp;order=fill_level" title="relativer Füllstand des Speichers">XX%</a>)</th>
 			<th>Wall</th>
 			<th>Performance</th>
-			<th><a href="farmmanager.php?id={$saveid}&amp;order=lastreport">Letzter Bericht</a></th>
+			{elseif $mode == 'buildings'}
+				{foreach from=$buildings item=building}
+					<th><img src="{$root_path}images/buildings/{$building}1.png" title="{t}{$building}{/t}" /></th>
+				{/foreach}
+			{/if}
+			<th><a href="farmmanager.php?id={$saveid}&amp;order=lastreport&amp;mode={$mode}">Letzter Bericht</a></th>
 			<th>Notiz</th>
 			<th class="align_center">Markierung</th>
 			<th class="align_center">Truppen schicken</th>
@@ -174,6 +186,7 @@ $(document).ready(
 				{/if}
 			</td>
 			{if $source_village}<td>{$farm.distance}</td>{/if}
+			{if $mode == 'default'}
 			<td>
 				<img src="{$root_path}images/holz.png" alt="Holz" />{$farm.c_wood}
 				<img src="{$root_path}images/lehm.png" alt="Lehm" />{$farm.c_loam}
@@ -184,11 +197,24 @@ $(document).ready(
 			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.storage_max} ({$farm.fill_level}%)</td>
 			<td>{if $farm.b_wall >= 5}<span class="warnung" style="background-color: #f99; padding: 5px;">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
 			<td>{if $farm.performance === null}-{else}{$farm.performance_percentage}%{/if}</td>
+			{elseif $mode == 'buildings'}
+				{foreach from=$buildings item=building}
+					{if is_null($farm["b_$building"]) || !isset($buildings_max_levels[$building]) || $farm["b_$building"] <= $buildings_max_levels[$building]}
+					<td class="align_center">{if is_null($farm["b_$building"])} ? {else} {$farm["b_$building"]} {/if}</td>
+					{else}
+						{if $building == 'barracks' || $building == 'wall'}
+							<td class="align_center bold red"><span style="background-color: #f99; padding: 4px;">{$farm["b_$building"]}</span></td>
+						{else}
+							<td class="align_center bold red">{$farm["b_$building"]}</td>
+						{/if}
+					{/if}
+				{/foreach}
+			{/if}
 			<td>{$farm.time|date_format:"%d.%m. %H:%M Uhr"}</td>
 			<td>{$farm.note|escape}</td>
 			<td class="align_center">
 				<!-- Als gefarmt markieren bzw. die Umkehrung -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}">
 					<img src="{$root_path}images/unit_axe{if $farm.farmed}_arrowup{/if}.png" title="Als gefarmt markieren bzw. Markierung aufheben" alt="Axt" />
 				</a>
 			</td>
@@ -197,13 +223,13 @@ $(document).ready(
 					{if !$farm.farmed}
 						{if $farm.v_id != 0}
 							<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
-							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}');">
+							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}');">
 								<img src="{$root_path}images/unit_spy.png" title="{$farm.spy_count}" alt="Späher" />
 							</a>
 							&nbsp;
 							
 							{foreach from=$farm.sendtroop_actions item=action}
-							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$action.spy_count}&{$action.unit}={$action.unit_count}');">
+							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$action.spy_count}&{$action.unit}={$action.unit_count}');">
 								<img src="{$root_path}images/unit_{$action.unit}.png" title="{$action.unit_count}" />
 							</a>
 							&nbsp;
@@ -220,12 +246,12 @@ $(document).ready(
 			</td>
 			<td class="align_center">
 				<!-- Bearbeiten Farm -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;edit={$farm.id}">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;edit={$farm.id}&amp;mode={$mode}">
 					<img src="{$root_path}images/icon_text.gif" border="0" title="Bearbeiten" alt="Text-Icon" width="20" height="20" />
 				</a>
 				&nbsp;
 				<!-- Löschen der Farm -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;delete={$farm.id}" onclick="return confirm('Möchtest du diese Farm wirklich löschen?');">
+				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;delete={$farm.id}&amp;mode={$mode}" onclick="return confirm('Möchtest du diese Farm wirklich löschen?');">
 					<img src="{$root_path}images/delete.png" title="Löschen" alt="Kreuz-Icon" />
 				</a>
 			</td>
@@ -236,6 +262,7 @@ $(document).ready(
 			<td>-</td>
 			<td>-</td>
 			{if $source_village}<td>-</td>{/if}
+			{if $mode == 'default'}
 			<td class="tiny">
 				<img src="{$root_path}images/holz.png" width="11" height="11" alt="Holz" />{$total_wood}
 				<img src="{$root_path}images/lehm.png" width="11" height="11" alt="Lehm" />{$total_loam}
@@ -246,6 +273,11 @@ $(document).ready(
 			<td class="tiny">{$total_storage}</td>
 			<td>-</td>
 			<td>-</td>
+			{elseif $mode == 'buildings'}
+				{foreach from=$buildings item=building}
+					<td>-</td>
+				{/foreach}
+			{/if}
 			<td>-</td>
 			<td>-</td>
 			<td>-</td>
@@ -263,7 +295,7 @@ $(document).ready(
 
 <p>Wähle die Einheiten aus, die in der Spalte <em>"Truppen schicken"</em> aufgeführt werden sollen:</p>
 
-<form action="farmmanager.php?id={$saveid}" method="post">
+<form action="farmmanager.php?id={$saveid}&amp;mode={$mode}" method="post">
 	{foreach from=$units_with_carry item=unit}
 	<label for="sendtroops_{$unit}"><img src="{$root_path}images/unit_{$unit}.png" /></label>
 	<input type="checkbox" id="sendtroops_{$unit}" name="sendtroops_{$unit}" value="yes" {if in_array($unit, $sendtroops_units)}checked="checked"{/if}/>

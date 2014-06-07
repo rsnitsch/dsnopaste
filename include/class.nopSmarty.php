@@ -20,6 +20,10 @@
             $this->assign('debugmode', $cfg["debugmode"]);
             
             $this->assign('server_url', trim($cfg["serverpath"], "/"));
+			
+			// Translation functions
+			$this->registerPlugin('block', 't', 't_smarty');
+			$this->registerPlugin('block', 'tp', 'tp_smarty');
         }
     
     }

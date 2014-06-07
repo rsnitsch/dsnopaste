@@ -3,6 +3,8 @@
         public $id;
         public $name;
         public $config;
+		
+		public $buildings;
         public $units;
 
         public static function forServerID($id)
@@ -44,6 +46,9 @@
 
         protected function loadData()
         {
+            $this->buildings = simplexml_load_file($this->dir."/buildings.xml");
+            $this->buildings = $this->xml2array($this->buildings);
+			
             $this->units = simplexml_load_file($this->dir."/units.xml");
             $this->units = $this->xml2array($this->units);
 
@@ -96,6 +101,14 @@
             return array_keys($this->getUnits($no_militia));
         }
 
+		public function getBuildings() {
+			return $this->buildings;
+		}
+		
+		public function getBuildingNames() {
+			return array_keys($this->getBuildings());
+		}
+		
         // gibt das Fassungsvermögen des Verstecks zurück auf der jeweiligen Stufe
         public function hideMax($level) {
             switch($this->id) {

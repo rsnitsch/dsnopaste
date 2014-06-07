@@ -129,8 +129,8 @@
     }
     
     function _redirect($exit=true) {
-        global $saveid;
-        header("Location: farmmanager.php?id=".$saveid);
+        global $saveid, $mode;
+        header("Location: farmmanager.php?id=".$saveid."&mode=".$mode);
         if($exit)
             exit();
     }
@@ -220,6 +220,15 @@
     $saveid = $_GET['id']; // bereits validiert von obigem if-Block
     $smarty->assign('saveid', $saveid);
     
+	// Modus
+	$avail_modes = array('buildings');
+	if (!empty($_GET['mode']) && in_array($_GET['mode'], $avail_modes)) {
+		$mode = $_GET['mode'];
+	} else {
+		$mode = "default"; // Default
+	}
+	$smarty->assign('mode', $mode);
+	
     $twd = null;
     try {
         $twd = TWData::get_db_connection();
@@ -252,6 +261,46 @@
     $smarty->assign('title', $smarty->getTemplateVars('title')." (".$oServer->name.")");
     $server_cfg = $oServer->getConfig();
     
+	// Gebäude
+	$buildings = array();
+	$known_buildings = array( // Buildings that are recognized by the farmmanager
+		"main",
+		"barracks",
+		"stable",
+		"garage",
+		"snob",
+		"smith",
+		"place",
+		"market",
+		"wood",
+		"loam",
+		"iron",
+		"farm",
+		"storage",
+		"hide",
+		"wall"
+	);
+	$buildings_max_levels = array(
+		"main" => 1,
+		"barracks" => 0,
+		"stable" => 0,
+		"garage" => 0,
+		"snob" => 0,
+		"smith" => 0,
+		"place" => 0,
+		"market" => 0,
+		"farm" => 1,
+		"wall" => 0
+	);
+	$tmp = $oServer->getBuildingNames();
+	foreach ($tmp as $building) {
+		if (in_array($building, $known_buildings)) {
+			$buildings[] = $building;
+		}
+	}
+	$smarty->assign('buildings', $buildings);
+	$smarty->assign('buildings_max_levels', $buildings_max_levels);
+	
     // Welche Bonusdörfer kann es auf diesem Server geben?
     $bonus_new = $oServer->bonusNew();
     $possible_boni=$oServer->bonusesPossible();
@@ -466,12 +515,11 @@
         $data['av_coords'] = $parsed['attacker']['coords'];
         $data['v_name'] = $parsed['defender']['village'];
         $data['v_coords'] = $parsed['defender']['coords'];
-        $data['b_wood'] = $parsed['buildings']['wood'];
-        $data['b_loam'] = $parsed['buildings']['loam'];
-        $data['b_iron'] = $parsed['buildings']['iron'];
-        $data['b_wall'] = $parsed['buildings']['wall'];
-        $data['b_storage'] = $parsed['buildings']['storage']; // TODO: Die Speicher-Stufe konnte nicht eingelesen werden!
-        $data['b_hide'] = $parsed['buildings']['hide'];
+		
+		foreach ($buildings as $building) {
+			$data["b_$building"] = $parsed["buildings"][$building];
+		}
+        //$data['b_storage'] = $parsed['buildings']['storage']; // TODO: Die Speicher-Stufe konnte nicht eingelesen werden!
         
         // Wurde ein Bonus angegeben?
         if(!empty($_POST['bonus'])) {
@@ -727,17 +775,17 @@
     
     $now = time();
     for($i=0; $i<count($farms); $i++) {
-        // Erwartete Ressourcen ohne Berücksichtigung der Laufzeit
-        list($farms[$i]['c_wood'], $farms[$i]['c_loam'], $farms[$i]['c_iron']) = array_values(calculateExpectedResources($farms[$i], $now, $oServer));
-        
-        // Gesamtsumme der Rohstoffe
-        $farms[$i]['c_sum'] = $farms[$i]['c_wood'] + $farms[$i]['c_loam'] + $farms[$i]['c_iron'];
-        
-        // relativer Füllstand des Speichers
-        $farms[$i]['fill_level'] =  ($farms[$i]['farmable'] > 0) ?
-                                    (intval($farms[$i]['c_sum'] / ($farms[$i]['farmable'] * 3) * 100)) :
-                                    0;
-        
+		// Erwartete Ressourcen ohne Berücksichtigung der Laufzeit
+		list($farms[$i]['c_wood'], $farms[$i]['c_loam'], $farms[$i]['c_iron']) = array_values(calculateExpectedResources($farms[$i], $now, $oServer));
+		
+		// Gesamtsumme der Rohstoffe
+		$farms[$i]['c_sum'] = $farms[$i]['c_wood'] + $farms[$i]['c_loam'] + $farms[$i]['c_iron'];
+		
+		// relativer Füllstand des Speichers
+		$farms[$i]['fill_level'] =  ($farms[$i]['farmable'] > 0) ?
+									(intval($farms[$i]['c_sum'] / ($farms[$i]['farmable'] * 3) * 100)) :
+									0;
+		
         // Entfernung zum Herkunftsdorf
         if($source_village) {
             $farms[$i]['distance'] = round(calcDistance($farms[$i]['v_coords'], $source_village), 1);
