@@ -12,31 +12,12 @@
      * 
      * WICHTIG:
      * @todo: Auch Berichte ohne Späher einlesen können (Farmbericht/Spähbericht einlesen ist zweideutig)
-
+     * 
      * NORMALE TODOS:
      * @todo: Wenn das Herkunftsdorf nicht dem Eigentümer des Farmmanagers gehört,
      *        dann soll das Herkunftsdorf nicht abgespeichert werden
      * @todo: Optimierung (Caching, ggf. Sortierungen komplett clientseitig umsetzen)
      *        + Im Falle von Einlesen per Skript nicht mehr die ganze Seite generieren
-     *
-     * NICE-TO-HAVE:
-     * @todo: gesamtproduktion anzeigen
-     * @todo: farmmanager cachen!
-     * 
-     * ERLEDIGT:
-     * @todo: bessere Icons für das als gefarmt markieren, löschen etc.
-     * @todo: Notizen verändern können auch ohne Einlesen
-     * @todo: Auch nach prozentualem Füllstand des Speichers sortieren können
-     * @todo: Auch nach speziellen Ressourcen sortieren können
-     * @todo: Herkunftsdörfer der Farmen abspeichern.
-     *        Einen Filter einbauen, sodass ggf. nur noch Farmen bestimmter
-     *        Herkunftsdörfer angezeigt werden.
-     * @todo: Dörfer nach Koordinaten sortieren
-     * @todo: Sortierung nach Entfernung zum gerade gewählten Herkunftsdorf
-     * @todo: Checkboxen für die unterschiedlichen Rohstoffboni hinzufügen
-     * @todo: farmmanager regelmäßig mit cronjob aufräumen
-     * @todo: Link zum Versammlungsplatz für direktes Truppen schicken (erfordert wohl Einbau von Weltdaten)
-     * @todo: Ressourcen, die während der Laufzeit dazukommen, ebenfalls berechnen
      */
     define('INC_CHECK',true);
     define('INC_CHECK_DSBERICHT', true);
