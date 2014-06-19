@@ -148,13 +148,16 @@ $(document).ready(
 			<th>Bonus</th>
 			{if $source_village}<th><a href="farmmanager.php?id={$saveid}&amp;order=distance&amp;mode={$mode}">Entfernung</a></th>{/if}
 			{if $mode == 'default'}
-			<th>
-				Ressourcen
-				(<a href="farmmanager.php?id={$saveid}&amp;order=c_wood&amp;mode={$mode}" title="Nach Holz sortieren"><img src="{$root_path}images/holz.png" alt="Holz" /></a>
-				<a href="farmmanager.php?id={$saveid}&amp;order=c_loam&amp;mode={$mode}" title="Nach Lehm sortieren"><img src="{$root_path}images/lehm.png" alt="Lehm" /></a>
-				<a href="farmmanager.php?id={$saveid}&amp;order=c_iron&amp;mode={$mode}" title="Nach Eisen sortieren"><img src="{$root_path}images/eisen.png" alt="Eisen" /></a>)
+			<th class="align_right">
+				<a href="farmmanager.php?id={$saveid}&amp;order=c_wood&amp;mode={$mode}" title="Nach Holz sortieren"><img src="{$root_path}images/holz.png" alt="Holz" /></a>
 			</th>
-			<th><a href="farmmanager.php?id={$saveid}&amp;order=c_sum&amp;mode={$mode}"><abbr title="Ressourcen">Ress.</abbr></a></th>
+			<th class="align_right">
+				<a href="farmmanager.php?id={$saveid}&amp;order=c_loam&amp;mode={$mode}" title="Nach Lehm sortieren"><img src="{$root_path}images/lehm.png" alt="Lehm" /></a>
+			</th>
+			<th class="align_right">
+				<a href="farmmanager.php?id={$saveid}&amp;order=c_iron&amp;mode={$mode}" title="Nach Eisen sortieren"><img src="{$root_path}images/eisen.png" alt="Eisen" /></a>
+			</th>
+			<th style="padding-left: 1.5em;"><a href="farmmanager.php?id={$saveid}&amp;order=c_sum&amp;mode={$mode}"><abbr title="Ressourcen">Ress.</abbr></a></th>
 			<th> / </th>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=storage&amp;mode={$mode}">Speicher</a> (<a href="farmmanager.php?id={$saveid}&amp;order=fill_level" title="relativer Füllstand des Speichers">XX%</a>)</th>
 			<th>Wall</th>
@@ -187,12 +190,16 @@ $(document).ready(
 			</td>
 			{if $source_village}<td>{$farm.distance}</td>{/if}
 			{if $mode == 'default'}
-			<td>
-				<img src="{$root_path}images/holz.png" alt="Holz" />{$farm.c_wood}
-				<img src="{$root_path}images/lehm.png" alt="Lehm" />{$farm.c_loam}
-				<img src="{$root_path}images/eisen.png" alt="Eisen" />{$farm.c_iron}
+			<td class="align_right">
+				{$farm.c_wood} <img src="{$root_path}images/holz.png" alt="Holz" />
 			</td>
-			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.c_sum}</td>
+			<td class="align_right">
+				{$farm.c_loam} <img src="{$root_path}images/lehm.png" alt="Lehm" />
+			</td>
+			<td class="align_right">
+				{$farm.c_iron} <img src="{$root_path}images/eisen.png" alt="Eisen" />
+			</td>
+			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}" style="padding-left: 1.5em;">{$farm.c_sum}</td>
 			<td> / </td>
 			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.storage_max} ({$farm.fill_level}%)</td>
 			<td>{if $farm.b_wall >= 5}<span class="warnung" style="background-color: #f99; padding: 5px;">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
@@ -263,12 +270,16 @@ $(document).ready(
 			<td>-</td>
 			{if $source_village}<td>-</td>{/if}
 			{if $mode == 'default'}
-			<td class="tiny">
-				<img src="{$root_path}images/holz.png" width="11" height="11" alt="Holz" />{$total_wood}
-				<img src="{$root_path}images/lehm.png" width="11" height="11" alt="Lehm" />{$total_loam}
-				<img src="{$root_path}images/eisen.png" width="11" height="11" alt="Eisen" />{$total_iron}
+			<td class="tiny align_right">
+				{$total_wood} <img src="{$root_path}images/holz.png" width="11" height="11" alt="Holz" />
 			</td>
-			<td class="tiny">{$total_sum}</td>
+			<td class="tiny align_right">
+				{$total_loam} <img src="{$root_path}images/lehm.png" width="11" height="11" alt="Lehm" />
+			</td>
+			<td class="tiny align_right">
+				{$total_iron} <img src="{$root_path}images/eisen.png" width="11" height="11" alt="Eisen" />
+			</td>
+			<td class="tiny" style="padding-left: 1.5em;">{$total_sum}</td>
 			<td> / </td>
 			<td class="tiny">{$total_storage}</td>
 			<td>-</td>
