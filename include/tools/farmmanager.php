@@ -150,7 +150,7 @@
 
     function calculateExpectedResources($farm, $time, Gameworld $server) {
         $hours_gone = ($time - $farm['time']) / 3600.0;
-        $prod = $server->calcTotalMineProduction($farm['b_wood'], $farm['b_loam'], $farm['b_iron'], $farm['bonus'], $hours_gone);
+        $prod = $server->calcTotalMineProduction($farm['b_wood'], $farm['b_stone'], $farm['b_iron'], $farm['bonus'], $hours_gone);
         list($wood, $loam, $iron) = array_values($prod);
         return array(
             "wood" => round(min($farm['farmable'], $farm['wood'] + $wood)),
