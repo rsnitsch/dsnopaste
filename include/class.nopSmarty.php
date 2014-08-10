@@ -19,7 +19,7 @@
             $this->assign('global_announcing', $cfg["announcing"]);
             $this->assign('debugmode', $cfg["debugmode"]);
             
-            $this->assign('server_url', trim($cfg["serverpath"], "/"));
+            $this->assign('server_url', server_url());
 			
 			// Translation functions
 			$this->registerPlugin('block', 't', 't_smarty');

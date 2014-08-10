@@ -4,7 +4,7 @@
     $cfg_defaults = array(
         "uploaded" => true,
         "enabled" => true,
-        "serverpath" => "http://np.bmaker.net",
+        "serverpath" => "np.bmaker.de", // URL to this NP install, without the protocol part. Trailing forward slashes are automatically removed.
         "smartydir" => $root_path."smarty/libs",
         "tpldir" => $root_path."tpl",
         "incdir" => $root_path."include",

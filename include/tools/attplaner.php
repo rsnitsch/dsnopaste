@@ -169,7 +169,7 @@
                 if(isset($_GET['key']) and $_GET['key']==$key)
                 {
                     // einen Link zu diesem Angriffsplan anzeigen
-                    $output->assign('link', $cfg['serverpath'].'/tools/attplaner.php?id='.$attid.'&amp;key='.$key);
+                    $output->assign('link', server_url().'/tools/attplaner.php?id='.$attid.'&amp;key='.$key);
                     
                     // ist der User der Ersteller bzw. zur Bearbeitung berechtigt?
                     $creator=(isset($_COOKIE['admin_'.$key]) and $_COOKIE['admin_'.$key]==$adminkey);
@@ -177,7 +177,7 @@
 
                     // einen Link anzeigen, mit dem man jemand anderes zum Admin machen kann
                     if($creator)
-                        $output->assign('admin_link', $cfg['serverpath'].'/tools/attplaner.php?id='.$attid.'&amp;key='.$key.'&amp;admin_key='.$adminkey);
+                        $output->assign('admin_link', server_url().'/tools/attplaner.php?id='.$attid.'&amp;key='.$key.'&amp;admin_key='.$adminkey);
                     else
                         $output->assign('admin_link', '');
                         

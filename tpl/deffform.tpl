@@ -153,7 +153,7 @@
 
 			// werbung ;-)
 			if(!document.formdeff.nolink.checked)
-				ergebnis.value += '\n\ngeneriert mit dem [url=http://np.bmaker.net]Deffformular[/url]';
+				ergebnis.value += '\n\ngeneriert mit dem [url=http://np.bmaker.de]Deffformular[/url]';
 
 			// das Ergebnis direkt auswählen
 			document.formdeff.ergebnis.select();

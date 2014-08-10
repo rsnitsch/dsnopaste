@@ -147,4 +147,9 @@
         }
         return false;
     }
-?>
+
+    function server_url() {
+        global $cfg;
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://');
+        return $protocol.trim($cfg["serverpath"], "/");
+    }
