@@ -93,7 +93,7 @@ $(document).ready(function() {
 		<th><a href="{$attplan_baseurl}&amp;order=arrive" target="_self">Ankunft</a></th>
 		<th width="50">Notiz</th>
 		{foreach from=$unitnames item=unitname}
-		<th width="35"><img src="{$root_path}images/unit_{$unitname}.png" alt="" /></th>
+		<th width="35"><img src="{$root_path}images/units/{$unitname}.png" alt="" /></th>
 		{/foreach}
 		<th>Aktionen</th>
 		<th>Auswahl</th>
@@ -103,13 +103,13 @@ $(document).ready(function() {
 		<td><a class="setValue" href="javascript:ap_setCoord('from', {$action.from.x}, {$action.from.y})">{$action.from.orig}</a></td>
 		<td><a class="setValue" href="javascript:ap_setCoord('to', {$action.to.x}, {$action.to.y})">{$action.to.orig}</a></td>
 		<td>{if $action.typ==1}
-				<img src="{$root_path}images/unit_axe.png" alt="Axtkämpfer" title="Angriff" />
+				<img src="{$root_path}images/units/axe.png" alt="Axtkämpfer" title="Angriff" />
 			{elseif $action.typ==2}
-				<img src="{$root_path}images/unit_sword.png" alt="Schwertkämpfer" title="Unterstützung" />
+				<img src="{$root_path}images/units/sword.png" alt="Schwertkämpfer" title="Unterstützung" />
 			{elseif $action.typ==3}
 				<img src="{$root_path}images/blue.png" alt="Fake (Bild: blauer Kreis)" title="Fake" />
 			{elseif $action.typ==4}
-				<img src="{$root_path}images/unit_snob.png" alt="Adelsgeschlecht" title="Adelsgeschlecht" />
+				<img src="{$root_path}images/units/snob.png" alt="Adelsgeschlecht" title="Adelsgeschlecht" />
 			{/if}
 		</td>
 		<td{if $action.senddate < $timestamp} style="color: #FF2121;"{/if}{if !empty($action.timeleft)} title="Noch: {$action.timeleft}"{/if}>{$action.send}</td>
@@ -199,7 +199,7 @@ $(document).ready(function() {
 						<table class="attplan">
 							<tr>
 								{foreach from=$unitnames item=unitname}
-								<th><img src="{$root_path}images/unit_{$unitname}.png" alt="" /></th>
+								<th><img src="{$root_path}images/units/{$unitname}.png" alt="" /></th>
 								{/foreach}
 							</tr>
 							<tr>

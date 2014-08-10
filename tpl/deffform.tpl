@@ -144,9 +144,9 @@
 			// info über angegriffenes Dorf
 			ergebnis.value += '\n';
 			ergebnis.value += '[u][b]Info über das angegriffene Dorf (Truppen...):[/b][/u]\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_spear.png','img')+'Speerträger: '+bbcode(document.formdeff.verteidiger_speer.value,'')+'\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_sword.png','img')+'Schwertkämpfer: '+bbcode(document.formdeff.verteidiger_schwert.value,'')+'\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/spear.png','img')+'Speerträger: '+bbcode(document.formdeff.verteidiger_speer.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/sword.png','img')+'Schwertkämpfer: '+bbcode(document.formdeff.verteidiger_schwert.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
 			ergebnis.value += 'Speerträger Stufe: '+bbcode(document.formdeff.verteidiger_speer_stufe.value,'')+'\n';
 			ergebnis.value += 'Schwertkämpfer Stufe: '+bbcode(document.formdeff.verteidiger_schwert_stufe.value,'')+'\n';
 			ergebnis.value += 'Schwere K. Stufe: '+bbcode(document.formdeff.verteidiger_skav_stufe.value,'')+'\n';

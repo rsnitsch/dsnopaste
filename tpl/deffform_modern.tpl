@@ -138,11 +138,11 @@
 			// info über angegriffenes Dorf
 			ergebnis.value += '\n';
 			ergebnis.value += '[u][b]Info über das angegriffene Dorf (Truppen...):[/b][/u]\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_spear.png','img')+'Speerträger: '+bbcode(document.formdeff.verteidiger_speer.value,'')+'\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_sword.png','img')+'Schwertkämpfer: '+bbcode(document.formdeff.verteidiger_schwert.value,'')+'\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_archer.png','img')+'Bogenschützen: '+bbcode(document.formdeff.verteidiger_bogen.value,'')+'\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
-			ergebnis.value += bbcode(root_path+'/images/unit_knight.png','img')+'Paladin(e): '+bbcode(document.formdeff.verteidiger_paladin.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/spear.png','img')+'Speerträger: '+bbcode(document.formdeff.verteidiger_speer.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/sword.png','img')+'Schwertkämpfer: '+bbcode(document.formdeff.verteidiger_schwert.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/archer.png','img')+'Bogenschützen: '+bbcode(document.formdeff.verteidiger_bogen.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/heavy.png','img')+'Schwere Kavallerie: '+bbcode(document.formdeff.verteidiger_skav.value,'')+'\n';
+			ergebnis.value += bbcode(root_path+'/images/units/knight.png','img')+'Paladin(e): '+bbcode(document.formdeff.verteidiger_paladin.value,'')+'\n';
 
 
 			// werbung ;-)

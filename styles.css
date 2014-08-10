@@ -162,7 +162,7 @@ div#farmmanager textarea#report {
 /* Toolseite -> Link zum Attplaner */
 a#attplaner
 {
-    background-image: url(images/unit_axe.png);
+    background-image: url(images/units/axe.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -170,7 +170,7 @@ a#attplaner
 /* Toolseite -> Link zum Deffformular */
 a#deffformular
 {
-    background-image: url(images/unit_sword.png);
+    background-image: url(images/units/sword.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -178,7 +178,7 @@ a#deffformular
 /* Toolseite -> Link zum Deffformular Welt 10+ */
 a#deffformular_10plus
 {
-    background-image: url(images/unit_sword.png);
+    background-image: url(images/units/sword.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -186,7 +186,7 @@ a#deffformular_10plus
 /* Toolseite -> Link zum Farmmanager */
 a#farmmanager
 {
-    background-image: url(images/unit_light.png);
+    background-image: url(images/units/light.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -209,13 +209,13 @@ a#ext_berichteformatierer
 /* Angriffsplaner */
 #attplaner_aktion_typ_att
 {
-    background-image: url(images/unit_axe.png);
+    background-image: url(images/units/axe.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
 #attplaner_aktion_typ_deff
 {
-    background-image: url(images/unit_sword.png);
+    background-image: url(images/units/sword.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -228,7 +228,7 @@ a#ext_berichteformatierer
 }
 #attplaner_aktion_typ_snob
 {
-    background-image: url(images/unit_snob.png);
+    background-image: url(images/units/snob.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }

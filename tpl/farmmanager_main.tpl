@@ -222,7 +222,7 @@ $(document).ready(
 			<td class="align_center">
 				<!-- Als gefarmt markieren bzw. die Umkehrung -->
 				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}">
-					<img src="{$root_path}images/unit_axe{if $farm.farmed}_arrowup{/if}.png" title="Als gefarmt markieren bzw. Markierung aufheben" alt="Axt" />
+					<img src="{if $farm.farmed}{$root_path}images/unit_axe_arrowup.png{else}{$root_path}images/units/axe.png{/if}" title="Als gefarmt markieren bzw. Markierung aufheben" alt="Axt" />
 				</a>
 			</td>
 			<td class="align_center">
@@ -231,13 +231,13 @@ $(document).ready(
 						{if $farm.v_id != 0}
 							<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
 							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}');">
-								<img src="{$root_path}images/unit_spy.png" title="{$farm.spy_count}" alt="Späher" />
+								<img src="{$root_path}images/units/spy.png" title="{$farm.spy_count}" alt="Späher" />
 							</a>
 							&nbsp;
 							
 							{foreach from=$farm.sendtroop_actions item=action}
 							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$action.spy_count}&{$action.unit}={$action.unit_count}');">
-								<img src="{$root_path}images/unit_{$action.unit}.png" title="{$action.unit_count}" />
+								<img src="{$root_path}images/units/{$action.unit}.png" title="{$action.unit_count}" />
 							</a>
 							&nbsp;
 							{/foreach}
@@ -308,7 +308,7 @@ $(document).ready(
 
 <form action="farmmanager.php?id={$saveid}&amp;mode={$mode}" method="post">
 	{foreach from=$units_with_carry item=unit}
-	<label for="sendtroops_{$unit}"><img src="{$root_path}images/unit_{$unit}.png" /></label>
+	<label for="sendtroops_{$unit}"><img src="{$root_path}images/units/{$unit}.png" /></label>
 	<input type="checkbox" id="sendtroops_{$unit}" name="sendtroops_{$unit}" value="yes" {if in_array($unit, $sendtroops_units)}checked="checked"{/if}/>
 	&nbsp;
 	{/foreach}
