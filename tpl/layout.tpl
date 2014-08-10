@@ -3,7 +3,7 @@
 <head>
 {block 'head'}
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="shortcut icon" href="http://www.die-staemme.de/favicon.ico" />
+	<link rel="shortcut icon" href="{$root_path}images/favicon.ico" />
 	<title>DS NoPaste - {$title}</title>
 	<meta name="author" content="Robert 'bmaker' Nitsch" />
 	<meta name="keywords" content="browsergame, angriffsplaner, planer, farmmanager, manager, tools, stämme, staemme, diestämme, diestaemme, tribal wars" />
