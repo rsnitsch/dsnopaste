@@ -493,7 +493,7 @@
         
         // Dringend benötigte Teile des Berichts checken
         if ($parsed['time'] === false) {
-            $errors[] = "Gesendet-Teil konnte nicht eingelesen werden (kopiere den gesamten Bericht!).";
+            $errors[] = "Kampfzeit konnte nicht eingelesen werden (kopiere den gesamten Bericht!).";
         }
         if ($parsed['spied_resources'] === false) {
             $errors[] = "Erspähte Ressourcen konnten nicht eingelesen werden.";
