@@ -13,8 +13,6 @@
 		<div id="tool_liste">
 				<ul>
 					<li><a id="attplaner" href="tools/attplaner.php" target="_self">Angriffsplaner</a></li>
-					<li><a id="deffformular" href="tools/deffform.php" target="_self">Deffformular</a></li>
-					<li><a id="deffformular_10plus" href="tools/deffform.php?s=modern" target="_self">Deffformular</a> (Welt 10+)</li>
 					<li>
 						<a id="farmmanager" href="tools/farmmanager.php" target="_self">Farmmanager</a>
 						<ul>

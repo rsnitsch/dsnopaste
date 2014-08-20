@@ -217,22 +217,6 @@ a#attplaner
     padding-left: 20px;
 }
 
-/* Toolseite -> Link zum Deffformular */
-a#deffformular
-{
-    background-image: url(images/units/sword.png);
-    background-repeat: no-repeat;
-    padding-left: 20px;
-}
-
-/* Toolseite -> Link zum Deffformular Welt 10+ */
-a#deffformular_10plus
-{
-    background-image: url(images/units/sword.png);
-    background-repeat: no-repeat;
-    padding-left: 20px;
-}
-
 /* Toolseite -> Link zum Farmmanager */
 a#farmmanager
 {
@@ -296,12 +280,6 @@ div#no_admin_notice
 {
 	font-size: 150%;
 }
-
-/* deffform */
-#deffform { width: 800px; }
-#deffform td { padding: 2px; }
-#deffform th{ padding-left: 5px; padding-right: 5px; }
-#deffform_generate { height: 50px; width: 800px; }
 
 /* errors & debuginfo */
 div#errors > ul { color: #DD2121 }
