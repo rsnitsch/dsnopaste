@@ -5,16 +5,6 @@
 {/block}
 
 {block 'content'}
-<script type="text/javascript">
-{literal}// <![CDATA[
-$(document).ready(function() {
-	smartifyCoordInputs($("input[name=from_x]"), $("input[name=from_y]"));
-	smartifyCoordInputs($("input[name=to_x]"), $("input[name=to_y]"));
-	autoSwitchFocus($("input[name=from_y]"), $("input[name=to_x]"), 3);
-});
-// ]]>{/literal}
-</script>
-
 <div id="attplan_meta" class="tiny">
 {if !empty($w_hinweis)}
 	<p class="warnung">{$w_hinweis}</p>
@@ -27,7 +17,7 @@ $(document).ready(function() {
 			</th>
 			<td>
 				<a class="simple" href="{$link}">{$link}</a>
-				(<a href="javascript:ap_normalLinkDescription()">Beschreibung</a>)
+				(<a class="normal_link_description" href="">Beschreibung</a>)
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +30,7 @@ $(document).ready(function() {
 {else}
 					- diesen Link darfst du nur sehen, wenn du bereits Bearbeitungsrechte hast -
 {/if}
-				(<a href="javascript:ap_adminLinkDescription()">Beschreibung</a>)
+				(<a class="admin_link_description" href="">Beschreibung</a>)
 			</td>
 		</tr>
 	</table>
@@ -50,7 +40,7 @@ $(document).ready(function() {
 	<p class="warnung">
 		EMPFEHLUNG:
 		Du solltest den Admin-Link zu deinem Angriffsplan jetzt zu deinen Lesezeichen hinzufügen!
-		<a href="javascript:ap_adminLinkDescription()">(Warum?)</a>
+		<a class="admin_link_description" href="">(Warum?)</a>
 		<br />
 		<a href="{$link}">Diesen Hinweis ausblenden.</a>
 	</p>
@@ -69,9 +59,6 @@ $(document).ready(function() {
 
 {if isset($noadmin) && $noadmin}
 <div id="no_admin_notice">
-	<script language="javascript" type="text/javascript">
-		setTimeout("alert('Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.');", 1000);
-	</script>
 	<noscript>
 		<p class="warnung">Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.</p>
 	</noscript>
@@ -102,8 +89,8 @@ $(document).ready(function() {
 	</tr>
 {foreach from=$actions item=action}
 	<tr class="{cycle values="background_light,background_dark"}">
-		<td><a class="setValue" href="javascript:ap_setCoord('from', {$action.from.x}, {$action.from.y})">{$action.from.orig}</a></td>
-		<td><a class="setValue" href="javascript:ap_setCoord('to', {$action.to.x}, {$action.to.y})">{$action.to.orig}</a></td>
+		<td><a class="setCoord" data-which="from" data-x="{$action.from.x}" data-y="{$action.from.y}" href="">{$action.from.orig}</a></td>
+		<td><a class="setCoord" data-which="to" data-x="{$action.to.x}" data-y="{$action.to.y}" href="">{$action.to.orig}</a></td>
 		<td>{if $action.typ==1}
 				<img src="{$root_path}images/units/axe.png" alt="Axtkämpfer" title="Angriff" />
 			{elseif $action.typ==2}
@@ -115,13 +102,13 @@ $(document).ready(function() {
 			{/if}
 		</td>
 		<td{if $action.senddate < $timestamp} class="red"{/if}{if !empty($action.timeleft)} title="Noch: {$action.timeleft}"{/if}>{$action.send}</td>
-		<td><a class="setValue" href="javascript:ap_setValue('arrival', '{$action.arrive_pure}')">{$action.arrive}</a></td>
+		<td><a class="setValue" data-name="arrival" data-value="{$action.arrive_pure}" href="">{$action.arrive}</a></td>
 		<td><textarea cols="10" rows="1">{$action.note|escape}</textarea></td>
 {foreach from=$unitnames item=unitname}
 			<td>{$action.$unitname}</td>
 {/foreach}
 
-		<td><a href="{$attplan_baseurl}&amp;edit={$action.id|escape:'url'}">Editieren</a> <a class="delete" href="{$attplan_baseurl}&amp;deleteatt={$action.id}" onclick="return ap_deleteConfirm()"><span>Löschen</span></a></td>
+		<td><a href="{$attplan_baseurl}&amp;edit={$action.id|escape:'url'}">Editieren</a> <a class="delete delete_action" href="{$attplan_baseurl}&amp;deleteatt={$action.id}"><span>Löschen</span></a></td>
 
 		<td><input type="checkbox" name="select_{$action.id}" value="1" {if count($selected) > 0 and array_search($action.id, $selected) !== false}checked="checked" {/if}/></td>
 	</tr>
@@ -193,7 +180,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<th>Notiz:</th>
-					<td><textarea cols="15" rows="2" name="note" onkeyup="this.value=this.value.substr(0,50);">{$note|escape}</textarea></td>
+					<td><textarea cols="15" rows="2" id="attplaner_aktion_notiz" name="note">{$note|escape}</textarea></td>
 				</tr>
 				<tr>
 					<th>Einheiten:</th>

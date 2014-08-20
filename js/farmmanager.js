@@ -27,3 +27,21 @@ function fm_updateFormVisible() {
 	if(formvisible != "true")
 		$("#form").hide();
 }
+
+$(document).ready(function() {
+	fm_updateFormVisible();
+
+	$('#update_settings select[name=source_village]').change(function() {
+		document.forms.namedItem('update_settings').submit();
+	});
+	
+	$('a.sendtroops').click(function() {
+		fm_sendTroops($(this).attr('data-world_id'), $(this).attr('data-from'), $(this).attr('data-to'), $(this).attr('data-units'));
+	});
+	
+	$('a.delete_farm').click(function() {
+		return confirm('Möchtest du diese Farm wirklich löschen?');
+	});
+	
+	$('#toggle_form').click(fm_toggleForm);
+});

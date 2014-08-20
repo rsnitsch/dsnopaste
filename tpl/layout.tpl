@@ -55,16 +55,7 @@
 {if $cfg.uploaded && !$cfg.debugmode}
 {literal}
 					<!-- Piwik -->
-					<script type="text/javascript">
-					var pkBaseURL = (("https:" == document.location.protocol) ? "https://anal.robertnitsch.de/piwik/" : "http://anal.robertnitsch.de/piwik/");
-					document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-					</script><script type="text/javascript">
-					try {
-					var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
-					piwikTracker.trackPageView();
-					piwikTracker.enableLinkTracking();
-					} catch( err ) {}
-					</script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
+					<script type="text/javascript" href="{$root_path}js/analytics.js"></script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
 					<!-- End Piwik Tracking Code -->
 {/literal}
 {/if}

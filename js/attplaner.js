@@ -12,7 +12,7 @@ function ap_deleteConfirm()
 
 function ap_setValue(name, value)
 {
-	eval("document.forms.attplan_form."+name+".value = value");
+	document.forms.namedItem("attplan_form").elements.namedItem(name).value = value;
 }
 
 function ap_setCoord(which, new_x, new_y) {
@@ -38,3 +38,36 @@ function ap_adminLinkDescription() {
 		  "deine Cookies löschst. Mit einem Admin-Link kann man sich die Bearbeitungsrechte "+
 		  "aber jederzeit wiederherstellen.");
 }
+
+$(document).ready(function() {
+	smartifyCoordInputs($("input[name=from_x]"), $("input[name=from_y]"));
+	smartifyCoordInputs($("input[name=to_x]"), $("input[name=to_y]"));
+	autoSwitchFocus($("input[name=from_y]"), $("input[name=to_x]"), 3);
+	
+	$('.normal_link_description').click(function() {
+		ap_normalLinkDescription();
+		return false;
+	});
+	$('.admin_link_description').click(function() {
+		ap_adminLinkDescription();
+		return false;
+	});
+	$('.setCoord').click(function() {
+		ap_setCoord($(this).attr('data-which'), $(this).attr('data-x'), $(this).attr('data-y'));
+		return false;
+	});
+	$('.setValue').click(function() {
+		ap_setValue($(this).attr('data-name'), $(this).attr('data-value'));
+		return false;
+	});
+	$('.delete_action').click(function() {
+		return ap_deleteConfirm();
+	});
+	$('#attplaner_aktion_notiz').keyup(function() {
+		$(this).val($(this).val().substr(0,50));
+	});
+	
+	if ($('#no_admin_notice').length) {
+		setTimeout("alert('Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.');", 1000);
+	}
+});

@@ -7,20 +7,6 @@
 {block 'content'}
 <div id="farmmanager">
 
-{literal}
-<script language="javascript" type="text/javascript">
-$(document).ready(
-	function() {
-		fm_updateFormVisible();
-
-		$('#update_settings select[name=source_village]').change(function() {
-			document.forms.namedItem('update_settings').submit();
-		});
-	}
-);
-</script>
-{/literal}
-
 <div class="tiny">
 	<p>
 		Link zu diesem Farmmanager (bitte abspeichern):
@@ -31,7 +17,7 @@ $(document).ready(
 </div>
 
 {if !isset($edited_farm)}
-<h3><a href="javascript:fm_toggleForm();">Farmbericht/Spähbericht einlesen</a></h3>
+<h3><a id="toggle_form" href="">Farmbericht/Spähbericht einlesen</a></h3>
 
 <div id="form">
 	<form action="farmmanager.php?id={$saveid}&amp;mode={$mode}" method="post">
@@ -72,7 +58,7 @@ $(document).ready(
 	</form>
 </div>
 {else}
-<h3><a href="javascript:fm_toggleForm();">Farm bearbeiten</a></h3>
+<h3><a id="toggle_form" href="">Farm bearbeiten</a></h3>
 
 <div id="form">
 	<form action="farmmanager.php?id={$saveid}&amp;mode={$mode}" method="post">
@@ -199,7 +185,7 @@ $(document).ready(
 			<td class="align_right">
 				{$farm.c_iron} <img src="{$root_path}images/eisen.png" alt="Eisen" />
 			</td>
-			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}" class="c_sum">{$farm.c_sum}</td>
+			<td class="c_sum align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.c_sum}</td>
 			<td> / </td>
 			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.storage_max} ({$farm.fill_level}%)</td>
 			<td>{if $farm.b_wall >= 5}<span class="warnung building_warn">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
@@ -230,13 +216,13 @@ $(document).ready(
 					{if !$farm.farmed}
 						{if $farm.v_id != 0}
 							<!-- Späher schicken (semi-automatisch) und als gefarmt markieren -->
-							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$farm.spy_count}');">
+							<a class="image_link sendtroops" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" data-world_id="{$world_id}" data-from="{$source_village_id}" data-to="$farm.v_id" data-units="spy={$farm.spy_count}">
 								<img src="{$root_path}images/units/spy.png" title="{$farm.spy_count}" alt="Späher" />
 							</a>
 							&nbsp;
 							
 							{foreach from=$farm.sendtroop_actions item=action}
-							<a class="image_link" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" onclick="fm_sendTroops('{$world_id}', {$source_village_id}, {$farm.v_id}, 'spy={$action.spy_count}&{$action.unit}={$action.unit_count}');">
+							<a class="image_link sendtroops" href="farmmanager.php?id={$saveid}&amp;farmed={$farm.id}&amp;mode={$mode}" data-world_id="{$world_id}" data-from="{$source_village_id}" data-to="$farm.v_id" data-units="spy={$action.spy_count}&{$action.unit}={$action.unit_count}">
 								<img src="{$root_path}images/units/{$action.unit}.png" title="{$action.unit_count}" />
 							</a>
 							&nbsp;
@@ -258,7 +244,7 @@ $(document).ready(
 				</a>
 				&nbsp;
 				<!-- Löschen der Farm -->
-				<a class="image_link" href="farmmanager.php?id={$saveid}&amp;delete={$farm.id}&amp;mode={$mode}" onclick="return confirm('Möchtest du diese Farm wirklich löschen?');">
+				<a class="image_link delete_farm" href="farmmanager.php?id={$saveid}&amp;delete={$farm.id}&amp;mode={$mode}">
 					<img src="{$root_path}images/delete.png" title="Löschen" alt="Kreuz-Icon" />
 				</a>
 			</td>
