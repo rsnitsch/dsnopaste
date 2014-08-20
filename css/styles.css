@@ -97,7 +97,7 @@ a.image_link {
 }
 a.delete
 {
-	background-image: url(images/delete.png);
+	background-image: url(../images/delete.png);
     background-repeat: no-repeat;
     display: block;
     height: 20px;
@@ -151,11 +151,11 @@ div#farmmanager textarea#report {
 	width: 140px;
 }
 
-#farmmanager #bonus_select_all { background-image: url(images/storage.png); }
-#farmmanager #bonus_select_wood { background-image: url(images/holz.png); }
-#farmmanager #bonus_select_loam { background-image: url(images/lehm.png); }
-#farmmanager #bonus_select_iron { background-image: url(images/eisen.png); }
-#farmmanager #bonus_select_storage { background-image: url(images/storage.png); }
+#farmmanager #bonus_select_all { background-image: url(../images/storage.png); }
+#farmmanager #bonus_select_wood { background-image: url(../images/holz.png); }
+#farmmanager #bonus_select_loam { background-image: url(../images/lehm.png); }
+#farmmanager #bonus_select_iron { background-image: url(../images/eisen.png); }
+#farmmanager #bonus_select_storage { background-image: url(../images/storage.png); }
 
 #farmmanager #parse_report_button {
 	font-weight: bold;
@@ -212,23 +212,7 @@ div#footer > hr
 /* Toolseite -> Link zum Attplaner */
 a#attplaner
 {
-    background-image: url(images/units/axe.png);
-    background-repeat: no-repeat;
-    padding-left: 20px;
-}
-
-/* Toolseite -> Link zum Deffformular */
-a#deffformular
-{
-    background-image: url(images/units/sword.png);
-    background-repeat: no-repeat;
-    padding-left: 20px;
-}
-
-/* Toolseite -> Link zum Deffformular Welt 10+ */
-a#deffformular_10plus
-{
-    background-image: url(images/units/sword.png);
+    background-image: url(../images/units/axe.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -236,7 +220,7 @@ a#deffformular_10plus
 /* Toolseite -> Link zum Farmmanager */
 a#farmmanager
 {
-    background-image: url(images/units/light.png);
+    background-image: url(../images/units/light.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -244,7 +228,7 @@ a#farmmanager
 /* Toolseite -> Link zum Berichteformatierer von terence */
 a#ext_berichteformatierer
 {
-    background-image: url(images/new_report.png);
+    background-image: url(../images/new_report.png);
     background-position: 0px 4px;
     background-repeat: no-repeat;
     padding-left: 20px;
@@ -259,26 +243,26 @@ a#ext_berichteformatierer
 /* Angriffsplaner */
 #attplaner_aktion_typ_att
 {
-    background-image: url(images/units/axe.png);
+    background-image: url(../images/units/axe.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
 #attplaner_aktion_typ_deff
 {
-    background-image: url(images/units/sword.png);
+    background-image: url(../images/units/sword.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
 #attplaner_aktion_typ_fake
 {
-    background-image: url(images/blue.png);
+    background-image: url(../images/blue.png);
     background-position: 3px 3px;
     background-repeat: no-repeat;
     padding-left: 20px;
 }
 #attplaner_aktion_typ_snob
 {
-    background-image: url(images/units/snob.png);
+    background-image: url(../images/units/snob.png);
     background-repeat: no-repeat;
     padding-left: 20px;
 }
@@ -296,12 +280,6 @@ div#no_admin_notice
 {
 	font-size: 150%;
 }
-
-/* deffform */
-#deffform { width: 800px; }
-#deffform td { padding: 2px; }
-#deffform th{ padding-left: 5px; padding-right: 5px; }
-#deffform_generate { height: 50px; width: 800px; }
 
 /* errors & debuginfo */
 div#errors > ul { color: #DD2121 }
