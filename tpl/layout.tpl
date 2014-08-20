@@ -7,7 +7,7 @@
 	<title>DS NoPaste - {$title}</title>
 	<meta name="author" content="Robert 'bmaker' Nitsch" />
 	<meta name="keywords" content="browsergame, angriffsplaner, planer, farmmanager, manager, tools, stämme, staemme, diestämme, diestaemme, tribal wars" />
-	<link rel="stylesheet" type="text/css" href="{$root_path}styles.css" />
+	<link rel="stylesheet" type="text/css" href="{$root_path}css/styles.css" />
 {if $cfg.debugmode}
 	<script language="javascript" type="text/javascript" src="{$root_path}js/jquery-2.0.1.js"></script>
 {else}
