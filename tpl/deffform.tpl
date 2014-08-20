@@ -8,7 +8,7 @@
 
 	<form action="" name="formdeff" method="get">
 
-		<table border="0" class="dsstyle" id="deffform" style="width: 800px;">
+		<table border="0" class="dsstyle" id="deffform">
 			<tr>
 				<th>Info über den Angreifer</th>
 
@@ -107,7 +107,7 @@
 		<br />
 		<input type="checkbox" name="nolink" /> Kein Link zu dieser Seite hinzufügen
 		<br />
-		<input type="button" value="Generieren" onclick="generate();" style="height: 50px; width: 800px;" />
+		<input id="deffform_generate" type="button" value="Generieren" onclick="generate();" />
 		<br />
 		<p>
 			Ergebnis:<br />

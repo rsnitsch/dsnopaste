@@ -1,7 +1,7 @@
 {extends 'layout.tpl'}
 {block 'content'}
 
-{if !empty($w_hinweis)}<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>{/if}
+{if !empty($w_hinweis)}<p class="warnung">{$w_hinweis}</p>{/if}
 
 <p>Wähle den Angriffsplan aus, zu dem du die Dörfer/Ziele hinzufügen willst:
 {if count($plans) > 0}

@@ -13,7 +13,6 @@ h1
 }
 h2,h3
 {
-    margin-top: 50px;
     text-decoration: underline;
 }
 blockquote
@@ -50,6 +49,7 @@ td
 a.setValue
 {
     font-weight: normal;
+    text-decoration: underline;
 }
 .onclick
 {
@@ -108,6 +108,14 @@ a.delete span
 {
 	visibility:hidden;
 }
+tr.background_light
+{
+	background-color: #F1EBDD;
+}
+tr.background_dark
+{
+	background-color: #E7E2D5;
+}
 
 div#farmmanager h3 {
 	margin-top: 20px;
@@ -123,6 +131,36 @@ div#farmmanager textarea#report {
 #farmmanager_farms {
 	font-size: 80%;
 	margin-top: 10px;
+}
+
+#farmmanager_farms .c_sum {
+	padding-left: 1.5em;
+}
+
+#farmmanager_farms .building_warn {
+	background-color: #f99;
+	padding: 5px;
+}
+
+#farmmanager #bonus_select option {
+	background-repeat: no-repeat;
+	padding-left:20px;
+}
+
+#farmmanager #bonus_select {
+	width: 140px;
+}
+
+#farmmanager #bonus_select_all { background-image: url(images/storage.png); }
+#farmmanager #bonus_select_wood { background-image: url(images/holz.png); }
+#farmmanager #bonus_select_loam { background-image: url(images/lehm.png); }
+#farmmanager #bonus_select_iron { background-image: url(images/eisen.png); }
+#farmmanager #bonus_select_storage { background-image: url(images/storage.png); }
+
+#farmmanager #parse_report_button {
+	font-weight: bold;
+	height:35px;
+	width:500px;
 }
 
 /* der gesamte Seiteninhalt wird hierin dargestellt */
@@ -150,6 +188,18 @@ div#farmmanager textarea#report {
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+/* footer */
+div#footer table
+{
+	vertical-align: bottom;
+	width: 100%;
+}
+
+div#footer > hr
+{
+	margin-top: 20px;
 }
 
 /* copyright */
@@ -232,6 +282,30 @@ a#ext_berichteformatierer
     background-repeat: no-repeat;
     padding-left: 20px;
 }
+div#attplan_creator_notice p
+{
+	border: 1px solid black;
+	font-size: 125%;
+	padding: 3pt;
+}
+div#attplan_creator_notice a
+{
+	font-size: 80%;
+}
+div#no_admin_notice
+{
+	font-size: 150%;
+}
+
+/* deffform */
+#deffform { width: 800px; }
+#deffform td { padding: 2px; }
+#deffform th{ padding-left: 5px; padding-right: 5px; }
+#deffform_generate { height: 50px; width: 800px; }
+
+/* errors & debuginfo */
+div#errors > ul { color: #DD2121 }
+div#debug_info > ul { 	color: #21AA21; }
 
 /* eigene Formatierungen */
 table.admin td { padding-left: 5px; padding-right: 5px; }
@@ -250,6 +324,3 @@ table.dsstyle td { vertical-align: top; }
 table.dsstyle th { background-color: #DED3B9; padding-right: 10px; }
 
 table.valign_top td { vertical-align: top; }
-
-#deffform td { padding: 2px; }
-#deffform th{ padding-left: 5px; padding-right: 5px; }

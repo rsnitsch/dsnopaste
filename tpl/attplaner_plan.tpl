@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 <div id="attplan_meta" class="tiny">
 {if !empty($w_hinweis)}
-	<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>
+	<p class="warnung">{$w_hinweis}</p>
 {/if}
 
 	<table>
@@ -46,15 +46,15 @@ $(document).ready(function() {
 	</table>
 
 {if $new_plan && $creator}
-	<p style="border: 1px solid black; padding: 3pt;">
-		<span class="warnung" style="font-size: 125%;">
-			<span style="font-size: 150%;">EMPFEHLUNG:</span>
-			Du solltest den Admin-Link zu deinem Angriffsplan jetzt zu deinen Lesezeichen hinzufügen!
-			<a href="javascript:ap_adminLinkDescription()">(Warum?)</a>
-			<br />
-			<a href="{$link}" style="font-size: 80%;">Diesen Hinweis ausblenden.</a>
-		</span>
+<div id="attplan_creator_notice">
+	<p class="warnung">
+		EMPFEHLUNG:
+		Du solltest den Admin-Link zu deinem Angriffsplan jetzt zu deinen Lesezeichen hinzufügen!
+		<a href="javascript:ap_adminLinkDescription()">(Warum?)</a>
+		<br />
+		<a href="{$link}">Diesen Hinweis ausblenden.</a>
 	</p>
+</div>
 {/if}
 
 	<p>
@@ -68,17 +68,19 @@ $(document).ready(function() {
 	</p>
 
 {if isset($noadmin) && $noadmin}
+<div id="no_admin_notice">
 	<script language="javascript" type="text/javascript">
 		setTimeout("alert('Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.');", 1000);
 	</script>
 	<noscript>
-		<p class="warnung" style="font-size: 150%;">Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.</p>
+		<p class="warnung">Du hast diesen Angriffsplan nicht erstellt. Du bist nicht berechtigt Änderungen durchzuführen.</p>
 	</noscript>
+</div>
 {/if}
 </div>
 
 
-<h3 style="margin-top: 15px;">Bisherige Angriffe/Unterstützungen</h3>
+<h3>Bisherige Angriffe/Unterstützungen</h3>
 
 
 <form action="" method="post" name="attplan_form">
@@ -99,7 +101,7 @@ $(document).ready(function() {
 		<th>Auswahl</th>
 	</tr>
 {foreach from=$actions item=action}
-	<tr style="background-color: {cycle values="#F1EBDD,#E7E2D5"};">
+	<tr class="{cycle values="background_light,background_dark"}">
 		<td><a class="setValue" href="javascript:ap_setCoord('from', {$action.from.x}, {$action.from.y})">{$action.from.orig}</a></td>
 		<td><a class="setValue" href="javascript:ap_setCoord('to', {$action.to.x}, {$action.to.y})">{$action.to.orig}</a></td>
 		<td>{if $action.typ==1}
@@ -112,14 +114,14 @@ $(document).ready(function() {
 				<img src="{$root_path}images/units/snob.png" alt="Adelsgeschlecht" title="Adelsgeschlecht" />
 			{/if}
 		</td>
-		<td{if $action.senddate < $timestamp} style="color: #FF2121;"{/if}{if !empty($action.timeleft)} title="Noch: {$action.timeleft}"{/if}>{$action.send}</td>
+		<td{if $action.senddate < $timestamp} class="red"{/if}{if !empty($action.timeleft)} title="Noch: {$action.timeleft}"{/if}>{$action.send}</td>
 		<td><a class="setValue" href="javascript:ap_setValue('arrival', '{$action.arrive_pure}')">{$action.arrive}</a></td>
 		<td><textarea cols="10" rows="1">{$action.note|escape}</textarea></td>
 {foreach from=$unitnames item=unitname}
 			<td>{$action.$unitname}</td>
 {/foreach}
 
-		<td style="text-align: center"><a href="{$attplan_baseurl}&amp;edit={$action.id|escape:'url'}">Editieren</a> <a class="delete" href="{$attplan_baseurl}&amp;deleteatt={$action.id}" onclick="return ap_deleteConfirm()"><span>Löschen</span></a></td>
+		<td><a href="{$attplan_baseurl}&amp;edit={$action.id|escape:'url'}">Editieren</a> <a class="delete" href="{$attplan_baseurl}&amp;deleteatt={$action.id}" onclick="return ap_deleteConfirm()"><span>Löschen</span></a></td>
 
 		<td><input type="checkbox" name="select_{$action.id}" value="1" {if count($selected) > 0 and array_search($action.id, $selected) !== false}checked="checked" {/if}/></td>
 	</tr>
@@ -162,8 +164,8 @@ $(document).ready(function() {
 <table border="0" class="valign_top">
 	<tr>
 		<td>
-			<h3 style="margin-top: 5px;">Angriff/Unterstützung {$add_or_edit}</h3>
-			<p class="tiny">WICHTIG: <a class="setValue" style="text-decoration: underline;">Unterstrichene</a> Werte bisheriger Aktionen können durch Anklicken ins Formular übernommen werden!</p>
+			<h3>Angriff/Unterstützung {$add_or_edit}</h3>
+			<p class="tiny">WICHTIG: <a class="setValue">Unterstrichene</a> Werte bisheriger Aktionen können durch Anklicken ins Formular übernommen werden!</p>
 
 			<table class="dsstyle">
 				<tr>
@@ -213,7 +215,7 @@ $(document).ready(function() {
 			</table>
 		</td>
 		<td>
-			<h3 style="margin-top: 5px;">Notizen</h3>
+			<h3>Notizen</h3>
 			<textarea name="notes" cols="30" rows="6">{$notes|escape}</textarea><br />
 			<input type="submit" name="save_notes" value="Speichern" />
 		</td>

@@ -20,6 +20,6 @@
 	<input type="submit" value="Erstellen" />
 </form>
 
-<p style="font-weight: bold;"><span style="color: #DD2121;">Wichtig: </span>Ungenutzte (=leere) Farmmanager werden spätestens nach 24 Stunden gelöscht!</p>
+<p class="bold"><span class="red">Wichtig: </span>Ungenutzte (=leere) Farmmanager werden spätestens nach 24 Stunden gelöscht!</p>
 
 {/block}

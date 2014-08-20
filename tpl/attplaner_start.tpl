@@ -1,7 +1,7 @@
 {extends 'layout.tpl'}
 {block 'content'}
 
-{if !empty($w_hinweis)}<p style="color: #FF2121; font-weight: bold;">{$w_hinweis}</p>{/if}
+{if !empty($w_hinweis)}<p class="warnung">{$w_hinweis}</p>{/if}
 
 <p>Dies ist der Angriffsplaner von NoPaste. Du kannst hier einen genauen Angriffsplan mit mehreren Dörfern erstellen und
 ihn dann über einen Link deinem Stamm zeigen. Angriffspläne werden i.d.R. einen Monat lang gespeichert.</p>
@@ -23,6 +23,6 @@ ihn dann über einen Link deinem Stamm zeigen. Angriffspläne werden i.d.R. eine
 	<input type="submit" value="Erstellen" />
 </form>
 
-<p style="font-weight: bold;"><span style="color: #DD2121;">Wichtig: </span>Angriffspläne, die keine Aktionen haben, werden spätestens nach 24 Stunden gelöscht!</p>
+<p class="bold"><span class="red">Wichtig: </span>Angriffspläne, die keine Aktionen haben, werden spätestens nach 24 Stunden gelöscht!</p>
 
 {/block}

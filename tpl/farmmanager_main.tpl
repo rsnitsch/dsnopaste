@@ -56,19 +56,19 @@ $(document).ready(
 				<input type="checkbox" name="iron" value="yes" checked="checked" /><img src="{$root_path}images/eisen.png" alt="Eisen" />
 			</td>
 			<td>
-				<select name="bonus" style="width: 140px;">
-					<option value="" style="padding-left:20px;" selected="selected">- keine Angabe (alter Wert wird beibehalten) -</option>
-					<option value="none" style="padding-left:20px;">keiner dieser Boni</option>
-					<option value="all" style="background-image: url({$root_path}images/storage.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
-					<option value="wood" style="background-image: url({$root_path}images/holz.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Holzproduktion</option>
-					<option value="loam" style="background-image: url({$root_path}images/lehm.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Lehmproduktion</option>
-					<option value="iron" style="background-image: url({$root_path}images/eisen.png);background-repeat: no-repeat;padding-left: 20px;">+{$bonus_res_one}% erhöhte Eisenproduktion</option>
-					{if $bonus_new}<option value="storage" style="background-image: url({$root_path}images/storage.png);background-repeat: no-repeat;padding-left: 20px;">+50% Speicher-Volumen</option>{/if}
+				<select id="bonus_select" name="bonus">
+					<option value="" selected="selected">- keine Angabe (alter Wert wird beibehalten) -</option>
+					<option value="none">keiner dieser Boni</option>
+					<option id="bonus_select_all" value="all">+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
+					<option id="bonus_select_wood" value="wood">+{$bonus_res_one}% erhöhte Holzproduktion</option>
+					<option id="bonus_select_loam" value="loam">+{$bonus_res_one}% erhöhte Lehmproduktion</option>
+					<option id="bonus_select_iron" value="iron">+{$bonus_res_one}% erhöhte Eisenproduktion</option>
+					{if $bonus_new}<option id="bonus_select_storage" value="storage">+50% Speicher-Volumen</option>{/if}
 				</select>
 			</td>
 		</tr>
 	</table>
-	<input type="submit" style="font-weight: bold;width:500px;height:35px;" value="OK" />
+	<input id="parse_report_button" type="submit" value="OK" />
 	</form>
 </div>
 {else}
@@ -86,18 +86,18 @@ $(document).ready(
 		<tr>
 			<td><input type="text" size="30" name="note" value="{$edited_farm.note|escape}" /></td>
 			<td>
-				<select name="bonus" style="width: 140px;">
-					<option value="none" style="padding-left:20px;"{if $edited_farm.bonus=='none'} selected="selected"{/if}>keiner dieser Boni</option>
-					<option value="all" style="background-image: url({$root_path}images/storage.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='all'} selected="selected"{/if}>+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
-					<option value="wood" style="background-image: url({$root_path}images/holz.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='wood'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Holzproduktion</option>
-					<option value="loam" style="background-image: url({$root_path}images/lehm.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='loam'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Lehmproduktion</option>
-					<option value="iron" style="background-image: url({$root_path}images/eisen.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='iron'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Eisenproduktion</option>
-					{if $bonus_new}<option value="storage" style="background-image: url({$root_path}images/storage.png);background-repeat: no-repeat;padding-left: 20px;"{if $edited_farm.bonus=='storage'} selected="selected"{/if}>+50% Speicher-Volumen</option>{/if}
+				<select id="bonus_select" name="bonus">
+					<option value="none" {if $edited_farm.bonus=='none'} selected="selected"{/if}>keiner dieser Boni</option>
+					<option id="bonus_select_all" value="all" {if $edited_farm.bonus=='all'} selected="selected"{/if}>+{$bonus_res_all}% erhöhte Rohstoffproduktion</option>
+					<option id="bonus_select_wood" value="wood" {if $edited_farm.bonus=='wood'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Holzproduktion</option>
+					<option id="bonus_select_loam" value="loam" {if $edited_farm.bonus=='loam'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Lehmproduktion</option>
+					<option id="bonus_select_iron" value="iron" {if $edited_farm.bonus=='iron'} selected="selected"{/if}>+{$bonus_res_one}% erhöhte Eisenproduktion</option>
+					{if $bonus_new}<option id="bonus_select_storage" value="storage" {if $edited_farm.bonus=='storage'} selected="selected"{/if}>+50% Speicher-Volumen</option>{/if}
 				</select>
 			</td>
 		</tr>
 	</table>
-	<input type="submit" style="font-weight: bold;width:500px;height:35px;" value="Speichern" />
+	<input id="parse_report_button" type="submit" value="Speichern" />
 	</form>
 </div>
 {/if}
@@ -157,7 +157,7 @@ $(document).ready(
 			<th class="align_right">
 				<a href="farmmanager.php?id={$saveid}&amp;order=c_iron&amp;mode={$mode}" title="Nach Eisen sortieren"><img src="{$root_path}images/eisen.png" alt="Eisen" /></a>
 			</th>
-			<th style="padding-left: 1.5em;"><a href="farmmanager.php?id={$saveid}&amp;order=c_sum&amp;mode={$mode}"><abbr title="Ressourcen">Ress.</abbr></a></th>
+			<th class="c_sum"><a href="farmmanager.php?id={$saveid}&amp;order=c_sum&amp;mode={$mode}"><abbr title="Ressourcen">Ress.</abbr></a></th>
 			<th> / </th>
 			<th><a href="farmmanager.php?id={$saveid}&amp;order=storage&amp;mode={$mode}">Speicher</a> (<a href="farmmanager.php?id={$saveid}&amp;order=fill_level" title="relativer Füllstand des Speichers">XX%</a>)</th>
 			<th>Wall</th>
@@ -174,7 +174,7 @@ $(document).ready(
 			<th class="align_center">Bearbeiten</th>
 		</tr>
 	{foreach from=$farms item=farm}{if !$farm.filter}
-		<tr {if $farm.farmed}class="green"{/if} style="background-color: {cycle values="#F1EBDD,#E7E2D5"};">
+		<tr class="{cycle values="background_light,background_dark"}{if $farm.farmed} green{/if}">
 			<td>{$farm.v_coords}</td>
 			<td>{$farm.v_name}</td>
 			<td>
@@ -199,10 +199,10 @@ $(document).ready(
 			<td class="align_right">
 				{$farm.c_iron} <img src="{$root_path}images/eisen.png" alt="Eisen" />
 			</td>
-			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}" style="padding-left: 1.5em;">{$farm.c_sum}</td>
+			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}" class="c_sum">{$farm.c_sum}</td>
 			<td> / </td>
 			<td class="align_left{if $farm.c_sum>=$farm.storage_max} red{/if}">{$farm.storage_max} ({$farm.fill_level}%)</td>
-			<td>{if $farm.b_wall >= 5}<span class="warnung" style="background-color: #f99; padding: 5px;">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
+			<td>{if $farm.b_wall >= 5}<span class="warnung building_warn">St. {$farm.b_wall}</span>{else}St. {$farm.b_wall}{/if}</td>
 			<td>{if $farm.performance === null}-{else}{$farm.performance_percentage}%{/if}</td>
 			{elseif $mode == 'buildings'}
 				{foreach from=$buildings item=building}
@@ -210,7 +210,7 @@ $(document).ready(
 					<td class="align_center">{if is_null($farm["b_$building"])} ? {else} {$farm["b_$building"]} {/if}</td>
 					{else}
 						{if $building == 'barracks' || $building == 'wall'}
-							<td class="align_center bold red"><span style="background-color: #f99; padding: 4px;">{$farm["b_$building"]}</span></td>
+							<td class="align_center"><span class="warnung building_warn">{$farm["b_$building"]}</span></td>
 						{else}
 							<td class="align_center bold red">{$farm["b_$building"]}</td>
 						{/if}
@@ -279,7 +279,7 @@ $(document).ready(
 			<td class="tiny align_right">
 				{$total_iron} <img src="{$root_path}images/eisen.png" width="11" height="11" alt="Eisen" />
 			</td>
-			<td class="tiny" style="padding-left: 1.5em;">{$total_sum}</td>
+			<td class="tiny" class="c_sum">{$total_sum}</td>
 			<td> / </td>
 			<td class="tiny">{$total_storage}</td>
 			<td>-</td>

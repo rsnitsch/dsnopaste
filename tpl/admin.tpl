@@ -1,7 +1,7 @@
 {extends 'layout.tpl'}
 {block 'content'}
 
-<h3 style="margin-top: 10px;">Konfiguration</h3>
+<h3>Konfiguration</h3>
 
 	<p>
 		Website aktiviert: {$cfg_enabled}<br />
@@ -9,7 +9,7 @@
 		Debugmodus aktiviert: {$cfg_debugmode}
 	</p>
 
-<h3 style="margin-top: 10px;">Angriffspläne</h3>
+<h3>Angriffspläne</h3>
 
 	<p>Anzahl Pläne: {$count}</p>
 
@@ -19,7 +19,7 @@
 			<th>Server</th>
 			<th>IP</th>
 			<th>Key</th>
-			<th style="color: #21CC21; width: 130px;">Aktionen</th>
+			<th>Aktionen</th>
 		</tr>
 		{foreach item=plan from=$plans}
 		<tr>

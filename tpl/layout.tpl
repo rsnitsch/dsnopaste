@@ -32,15 +32,16 @@
 {block 'content'}---Platzhalter---{/block}
 
 {block 'footer'}
+<div id="footer">
 	<br />
-	<hr style="margin-top: 20px;" />
+	<hr />
 
-	<table align="center" border="0" style="vertical-align: bottom; width: 100%;">
+	<table align="center" border="0">
 		<tr>
 			<td align="left" width="200">
 				<p>
 					<a href="{$root_path}spenden.php">
-						<img src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" alt="Spenden" />
+						<img src="{$root_path}/images/paypal_spenden.gif" border="0" alt="Spenden" />
 					</a>
 				</p>
 			</td>
@@ -63,7 +64,7 @@
 					piwikTracker.trackPageView();
 					piwikTracker.enableLinkTracking();
 					} catch( err ) {}
-					</script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+					</script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
 					<!-- End Piwik Tracking Code -->
 {/literal}
 {/if}
@@ -71,6 +72,7 @@
 			</td>
 		</tr>
 	</table>
+</div>
 {/block}
 
 </div>
