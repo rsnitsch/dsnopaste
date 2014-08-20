@@ -28,8 +28,7 @@
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 	<input type="hidden" name="cmd" value="_s-xclick" />
 	<input type="hidden" name="hosted_button_id" value="YGYFQSEEH9PQE" />
-	<input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" alt="Jetzt einfach, schnell und sicher online spenden – mit PayPal." />
-	<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+	<input type="image" src="{$root_path}/images/paypal_spenden.gif" name="submit" alt="Jetzt einfach, schnell und sicher online spenden – mit PayPal." />
 </form>
 
 <h3>Spenden per Überweisung</h3>
