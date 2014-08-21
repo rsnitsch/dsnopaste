@@ -54,7 +54,9 @@
 					<a href="{$root_path}legal.php" target="_self">Impressum</a><br />
 {if $cfg.uploaded && !$cfg.debugmode}
 					<!-- Piwik -->
-					<script type="text/javascript" src="{$root_path}js/analytics.js"></script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
+					<script src="{$request_protocol|lower}://anal.robertnitsch.de/piwik/piwik.js"></script>
+					<script type="text/javascript" src="{$root_path}js/analytics.js"></script>
+					<noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
 					<!-- End Piwik Tracking Code -->
 {/if}
 				</p>

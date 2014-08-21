@@ -19,6 +19,7 @@
             $this->assign('global_announcing', $cfg["announcing"]);
             $this->assign('debugmode', $cfg["debugmode"]);
             
+			$this->assign('request_protocol', request_protocol());
             $this->assign('server_url', server_url());
 			
 			// Translation functions
