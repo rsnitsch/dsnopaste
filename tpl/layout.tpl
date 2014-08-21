@@ -53,11 +53,9 @@
 					<a href="http://feedback.np.bmaker.de/">Feedback</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
 					<a href="{$root_path}legal.php" target="_self">Impressum</a><br />
 {if $cfg.uploaded && !$cfg.debugmode}
-{literal}
 					<!-- Piwik -->
-					<script type="text/javascript" href="{$root_path}js/analytics.js"></script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
+					<script type="text/javascript" src="{$root_path}js/analytics.js"></script><noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
 					<!-- End Piwik Tracking Code -->
-{/literal}
 {/if}
 				</p>
 			</td>
