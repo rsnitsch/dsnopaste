@@ -41,7 +41,7 @@
 			<td align="left" width="200">
 				<p>
 					<a href="{$root_path}spenden.php">
-						<img src="{$root_path}/images/paypal_spenden.gif" border="0" alt="Spenden" />
+						<img src="{$root_path}images/paypal_spenden.gif" border="0" alt="Spenden" />
 					</a>
 				</p>
 			</td>
