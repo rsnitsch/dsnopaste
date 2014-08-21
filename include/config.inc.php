@@ -43,6 +43,7 @@
     require_once($cfg["incdir"].'/class.nopSmarty.php');
     require_once($cfg["incdir"].'/Session.class.php');
 	require_once($cfg["incdir"].'/lang.inc.php');
+	require_once($cfg["incdir"].'/content-security-policy.php');
 
     // MySQL
     $mysql=FALSE;
