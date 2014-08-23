@@ -23,7 +23,7 @@ Wenn Sie mit der Spei­che­rung und Aus­wer­tung die­ser Daten aus Ihrem Bes
 Widerspruch:
 </p>
 
-<iframe frameborder="no" width="600px" height="200px" src="http://anal.robertnitsch.de/piwik/index.php?module=CoreAdminHome&action=optOut&language=de"></iframe>
+<iframe frameborder="no" width="600px" height="200px" src="{$request_protocol|lower}://anal.robertnitsch.de/piwik/index.php?module=CoreAdminHome&amp;action=optOut&amp;language=de"></iframe>
 
 <p>
 Die Erklärung zu den Analysediensten wurde leicht angepasst übernommen von http://www.datenschutzbeauftragter-info.de.
