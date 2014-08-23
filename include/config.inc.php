@@ -7,7 +7,6 @@
         "serverpath" => "np.bmaker.de", // URL to this NP install, without the protocol part. Trailing forward slashes are automatically removed.
         "smartydir" => $root_path."smarty/libs",
         "tpldir" => $root_path."tpl",
-        "incdir" => $root_path."include",
         "debugmode" => false,
         "twdata_include" => "/home/twdata/twdata.php",
         "language" => "de",
@@ -35,13 +34,13 @@
 
     // Includes etc...
     define('SSQL_INC_CHECK',TRUE);
-    require_once($cfg["incdir"].'/class.simpleMySQL.php');
-    require_once($cfg["incdir"].'/functions.inc.php');
-    require_once($cfg["incdir"].'/functions.tribalwars.inc.php');
-    require_once($cfg["incdir"].'/mysql.inc.php');
-    require_once($cfg["incdir"].'/class.nopSmarty.php');
-	require_once($cfg["incdir"].'/lang.inc.php');
-	require_once($cfg["incdir"].'/content-security-policy.php');
+    require_once($root_path.'include/class.simpleMySQL.php');
+    require_once($root_path.'include/functions.inc.php');
+    require_once($root_path.'include/functions.tribalwars.inc.php');
+    require_once($root_path.'include/mysql.inc.php');
+    require_once($root_path.'include/class.nopSmarty.php');
+	require_once($root_path.'include/lang.inc.php');
+	require_once($root_path.'include/content-security-policy.php');
 
     // MySQL
     $mysql=FALSE;
