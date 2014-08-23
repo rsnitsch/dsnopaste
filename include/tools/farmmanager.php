@@ -187,7 +187,7 @@
             _displayErrors();
         }
         
-        enableMySQL(true);
+        enableMySQL(true) or _displaySQLError();
         
         // darf der Besucher noch einen Farmmanger erstellen (1 pro Tag / Welt)?
         $limit=5; // 5 Einträge
