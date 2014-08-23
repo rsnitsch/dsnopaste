@@ -41,7 +41,6 @@
     require_once($cfg["incdir"].'/functions.tribalwars.inc.php');
     require_once($cfg["incdir"].'/mysql.inc.php');
     require_once($cfg["incdir"].'/class.nopSmarty.php');
-    require_once($cfg["incdir"].'/Session.class.php');
 	require_once($cfg["incdir"].'/lang.inc.php');
 	require_once($cfg["incdir"].'/content-security-policy.php');
 
