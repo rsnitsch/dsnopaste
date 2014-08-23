@@ -44,7 +44,8 @@
     
     // array der aktivierten Server
     $activated_servers = getServers();
-    
+    $smarty->assign('activated_servers', $activated_servers);
+	
     // array der möglichen sortierungen
     $avail_orders = array(  'lastreport',
                             'v_coords',
@@ -55,8 +56,6 @@
                             'fill_level',
                             'storage',
                             'distance');
-    
-    $smarty->assign('activated_servers', $activated_servers);
     
     // kleine Hilfsfunktionen
     function _displayErrors() {
