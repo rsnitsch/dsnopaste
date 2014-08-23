@@ -5,14 +5,6 @@
         return ctype_digit($txt);
     }
     
-    function paramGET($key, $std=null)
-    {
-        if(isset($_GET[$key]))
-            return $_GET[$key];
-        
-        return $std;
-    }
-    
     function noSqlConnection($output)
     {
         global $errors;

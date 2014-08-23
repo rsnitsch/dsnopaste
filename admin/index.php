@@ -21,10 +21,10 @@
         $total_count = $mysql->sql_result($mysql->sql_query('SELECT COUNT(*) AS total FROM attplans'), 0, 'total');
         $output->assign('count', $total_count);
         
-        $server = addslashes(paramGET('server', ''));
+        $server = filter_input('server');
         
         $limit = 50;
-        $page = paramGET('page', 1);
+        $page = filter_input(INPUT_GET, 'page') || 1;
         if(!is_numeric($page) or $page < 1)
             $page = 1;
         
@@ -34,7 +34,7 @@
         $limit = "LIMIT $offset,50";
         
         $plans = array();
-        $query = $mysql->sql_query("SELECT * FROM attplans ".(!empty($server) ? "WHERE server='$server'" : "")." $limit");
+        $query = $mysql->sql_query("SELECT * FROM attplans ".($server ? "WHERE server='".mysql_real_escape_string($server)."'" : "")." $limit");
         if(!$query)
             die($mysql->lastquery.'<br />'.$mysql->lasterror);
             
