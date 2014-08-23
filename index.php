@@ -13,4 +13,3 @@
 
 	// seite darstellen
 	$output->display('start.tpl');
-?>

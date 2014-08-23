@@ -9,4 +9,3 @@
 	$output->assign('title', 'Impressum');
 	$output->assign('root_path', $root_path);
 	$output->display('legal.tpl');
-?>

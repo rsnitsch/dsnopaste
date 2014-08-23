@@ -75,4 +75,3 @@ if (is_file($root_path.'data/server/servers.xml')) {
 function red($txt) { return '<span style="color: #FF2121;">'.$txt.'</span>'; }
 function done($br=true) { echo '<span style="color: #21FF21; font-weight: bold;">done</span>'; if($br) echo "<br />\n"; }
 function failed($br=true) { echo '<span style="color: #FF2121; font-weight: bold;">failed</span>'; if($br) echo "<br />\n"; }
-?>

@@ -9,4 +9,3 @@
 	{
 		echo "Parameter key oder adminkey nicht übertragen.";
 	}
-?>

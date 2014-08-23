@@ -236,4 +236,3 @@
 		$y = floor($con / 10) * 50 + floor($sec / 10) * 5 + floor($sub / 5);
 		return array('x' => $x, 'y' => $y);
 	}
-?>

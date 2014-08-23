@@ -12,4 +12,3 @@
     
 	// die Seite anzeigen
 	$output->display('spenden.tpl');
-?>

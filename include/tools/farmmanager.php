@@ -949,4 +949,3 @@
     
     $smarty->assign('farms', $farms);
     $smarty->display('farmmanager_main.tpl');
-?>

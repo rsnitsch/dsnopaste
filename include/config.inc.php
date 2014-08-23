@@ -44,4 +44,3 @@
 
     // MySQL
     $mysql=FALSE;
-?>

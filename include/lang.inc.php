@@ -26,4 +26,3 @@
 	}
 	
 	require_once($root_path.'/include/lang/de.php');
-	

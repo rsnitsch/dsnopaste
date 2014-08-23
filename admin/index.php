@@ -130,4 +130,3 @@
         return $sOut;
             
     } //smarty_pagenate
-?>
