@@ -11,7 +11,6 @@
         "debugmode" => false,
         "twdata_include" => "/home/twdata/twdata.php",
         "language" => "de",
-        "announce" => false,
         "announcing" => "",
         "mysql_host" => "localhost",
         "mysql_user" => "nopaste",
