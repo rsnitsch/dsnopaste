@@ -1,5 +1,5 @@
 <?php
-// Copyright by Robert Nitsch (2006-2007, 2013)
+// Copyright by Robert Nitsch (2006-2007, 2013, 2016)
 
 /*
 DS_Bericht
@@ -7,7 +7,7 @@ DS_Bericht
 DS_Bericht is a PHP class which can parse reports of the german browsergame DieStämme.
 */
 
-define('DSBERICHT_VERSION','0.3.0.0');
+define('DSBERICHT_VERSION','0.3.1.0');
 
 if(!defined('INC_CHECK_DSBERICHT'))
     die('hacking attempt');
@@ -15,6 +15,8 @@ if(!defined('INC_CHECK_DSBERICHT'))
 if(!defined('DSBERICHT_DEBUG')) define('DSBERICHT_DEBUG',FALSE); // debugging can be activated from outside (before including this file)
 
 class dsBericht {
+    public static $WINNER_ATTACKER = 1;
+    public static $WINNER_DEFENDER = 2;
 
     private $data;
     private $matches;
@@ -30,12 +32,14 @@ class dsBericht {
 
     function __construct($units, $spied_resources=array('wood', 'loam', 'iron'), $lng='de')
     {
+        $username_regex = "[[:print:]]+";
         $this->all_patterns = array('de' => array(  'troops_pattern' => '/(?:Anzahl|Verluste):\s+((?:[0-9]+\s+)+)/',
                                                     'spied_troops_pattern' => '/Einheiten au.{1,2}erhalb:\s+((?:[0-9]+\s*)+)/',
                                                     'troops_out_pattern' => '/Truppen des Verteidigers, die unterwegs waren\s+((?:[0-9]+\s+)+)/',
                                                     'time' => '/Kampfzeit\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)/',
                                                     'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+):([0-9]+)\s+Weitergeleitet von:\s+(.*)\s+Der (Angreifer|Verteidiger) hat gewonnen/',
-                                                    'winner' => '/Der (Angreifer|Verteidiger) hat gewonnen/',
+                                                    'winner' => "/($username_regex) hat gewonnen/",
+                                                    'winner2' => "/($username_regex) hat \"$username_regex\" ausgekundschaftet/",
                                                     'luck' => '/Gl.{1,2}ck \(aus Sicht des Angreifers\).*\s+([\-0-9]*[0-9]+\.[0-9]+)%/s',
                                                     'moral' => '/Moral:\s+([0-9]+)/',
                                                     'attacker' => '/Angreifer:\s+(.*)\s+Herkunft:\s+(.*)\s+Anzahl:/U',
@@ -195,7 +199,7 @@ class dsBericht {
 
         $this->report['time']       = $this->parse_time();
         $this->report['forwarded']  = $this->parse_forwarded();
-        $this->report['winner']     = $this->parse_winner();
+        $this->report['winner_name']= $this->parse_winner();
         $this->report['luck']       = $this->parse_luck();
         $this->report['moral']      = $this->parse_moral();
         $this->report['attacker']   = $this->parse_attacker();
@@ -212,6 +216,15 @@ class dsBericht {
         $this->report['troops_out']     = $this->parse_troops_out();
         $this->report['booty']          = $this->parse_booty();
         $this->report['mood']           = $this->parse_mood();
+
+        if ($this->report['winner_name'] && is_array($this->report['attacker']) && is_array($this->report['defender']))
+        {
+            $this->report['winner'] = ($this->report['attacker']['nick'] === $this->report['winner_name']) ? self::$WINNER_ATTACKER : self::$WINNER_DEFENDER;
+        }
+        else
+        {
+            $this->report['winner'] = FALSE;
+        }
 
         if(DSBERICHT_DEBUG)
         {
@@ -458,14 +471,10 @@ class dsBericht {
     function parse_winner()
     {
         $winner=FALSE;
-        if($this->preg_match_std($this->patterns['winner']))
+        if($this->preg_match_std($this->patterns['winner']) || $this->preg_match_std($this->patterns['winner2']))
         {
-            if($this->match(1)=='Angreifer')
-                $winner=1; // attacker
-            else
-                $winner=2; // defender
+            $winner = $this->match(1);
         }
-
         return $winner;
     }
 
