@@ -76,7 +76,7 @@ class dsBericht {
         $this->all_patterns["en"] = array(          'troops_pattern' => '/(?:Quantity|Losses):\s+((?:[0-9]+\s+)+)/',
                                                     'spied_troops_start' => 'Units outside of village:\s+',
                                                     'troops_out_start' => "Defender's".' troops, that were in transit\s+',
-													// 	Jul 12, 2013 12:12:41
+                                                    //  Jul 12, 2013 12:12:41
                                                     'time' => '/Sent\s+([a-zA-Z]+\s+[^a-zA-Z]+)/',
                                                     'forwarded' => '/Weitergeleitet am:\s+([0-9]+)\.([0-9]+)\.([0-9]+)\s+([0-9]+):([0-9]+).*Weitergeleitet von:\s+([^\n]*)\n/s', // TODO
                                                     'winner' => '/The (attacker|defender) has won/',
@@ -415,11 +415,11 @@ class dsBericht {
             $assoc['troops_att_'.$unit] = isset($this->report['troops']['att_'.$unit]) ? $this->report['troops']['att_'.$unit] : 0;
             $assoc['troops_attl_'.$unit] = isset($this->report['troops']['attl_'.$unit]) ? $this->report['troops']['attl_'.$unit] : 0;
         }
-		foreach($this->units_defender as $unit)
-		{
+        foreach($this->units_defender as $unit)
+        {
             $assoc['troops_def_'.$unit] = isset($this->report['troops']['def_'.$unit]) ? $this->report['troops']['def_'.$unit] : 0;
             $assoc['troops_defl_'.$unit] = isset($this->report['troops']['defl_'.$unit]) ? $this->report['troops']['defl_'.$unit] : 0;
-		}
+        }
         foreach($this->units_spied as $unit)
         {
             $assoc['spied_troops_out_'.$unit] = isset($this->report['spied_troops_out'][$unit]) ? $this->report['spied_troops_out'][$unit] : 0;
