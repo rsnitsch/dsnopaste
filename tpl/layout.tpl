@@ -49,7 +49,7 @@
 			</td>
 			<td align="right" width="300">
 				<p id="copyright">
-					&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2014.<br />
+					&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2016.<br />
 					<a href="http://feedback.np.bmaker.de/">Feedback</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
 					<a href="{$root_path}legal.php" target="_self">Impressum</a><br />
 {if $cfg.uploaded && !$cfg.debugmode}
