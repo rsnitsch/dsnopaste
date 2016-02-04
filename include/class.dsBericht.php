@@ -61,7 +61,7 @@ class dsBericht {
                                                     'b_place' => '/Versammlungsplatz\s+([0-9]+)/',
                                                     'b_statue' => '/Statue\s+([0-9]+)/',
                                                     'b_market' => '/Marktplatz\s+([0-9]+)/',
-                                                    'b_wood' => '/Holzf.{1,3}ller\s+([0-9]+)/',
+                                                    'b_wood' => '/Holzf.{1,3}llerlager\s+([0-9]+)/',
                                                     'b_stone' => '/Lehmgrube\s+([0-9]+)/',
                                                     'b_iron' => '/Eisenmine\s+([0-9]+)/',
                                                     'b_farm' => '/Bauernhof\s+([0-9]+)/',
