@@ -262,6 +262,7 @@
     // das sollte niemals passieren
     if(!isValidServerID($server)) {
         $errors[] = "Internal error: Invalid server id";
+        $debugs[] = "Server ID: '$server'";
         _displayErrors();
     }
     
