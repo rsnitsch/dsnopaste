@@ -36,33 +36,7 @@
 	<br />
 	<hr />
 
-	<table align="center" border="0">
-		<tr>
-			<td align="left" width="200">
-				<p>
-					<a href="{$root_path}spenden.php">
-						<img src="{$root_path}images/paypal_spenden.gif" border="0" alt="Spenden" />
-					</a>
-				</p>
-			</td>
-			<td align="center">
-			</td>
-			<td align="right" width="300">
-				<p id="copyright">
-					&copy; copyright by <a href="http://www.robertnitsch.de">Robert Nitsch</a>, 2006-2016.<br />
-					<a href="http://feedback.np.bmaker.de/">Feedback</a> oder Mail an<br /> <i>battlemaker ät web punkt de</i><br />
-					<a href="{$root_path}legal.php" target="_self">Impressum</a><br />
-{if $cfg.uploaded && !$cfg.debugmode}
-					<!-- Piwik -->
-					<script src="{$request_protocol|lower}://anal.robertnitsch.de/piwik/piwik.js"></script>
-					<script type="text/javascript" src="{$root_path}js/analytics.js"></script>
-					<noscript><p><img src="http://anal.robertnitsch.de/piwik/piwik.php?idsite=1" border="0" alt="" /></p></noscript>
-					<!-- End Piwik Tracking Code -->
-{/if}
-				</p>
-			</td>
-		</tr>
-	</table>
+	<a href="https://bitbucket.org/rsnitsch/dsnopaste">DS NoPaste wird auf Bitbucket.org entwickelt</a>
 </div>
 {/block}
 

@@ -191,22 +191,15 @@ div#farmmanager textarea#report {
 }
 
 /* footer */
-div#footer table
+div#footer
 {
-	vertical-align: bottom;
-	width: 100%;
+	font-size: 0.8em;
+	text-align: right;
 }
 
 div#footer > hr
 {
 	margin-top: 20px;
-}
-
-/* copyright */
-#copyright
-{
-    font-size: 10px;
-    text-align: right;
 }
 
 /* Toolseite -> Link zum Attplaner */
