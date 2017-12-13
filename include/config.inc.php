@@ -27,7 +27,7 @@
     } else if (is_readable($root_path.'/include/config.local.inc.php')) {
         require($root_path.'/include/config.local.inc.php');
     } else {
-        die("Invalid installation: No local config present.");
+        die("Invalid installation: No local config present. Please make a copy of include/config.local.sample.inc.php, rename it to config.local.inc.php and edit the config as you wish.");
     }
 
     error_reporting($cfg["debugmode"] ? E_ALL : 0);
