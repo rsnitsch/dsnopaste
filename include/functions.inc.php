@@ -120,7 +120,6 @@
         $errors[] = "SQL-Fehler!";
         $debugs[] = "SQL-Abfrage: ".$mysql->lastquery;
         $debugs[] = "SQL-Fehler: ".$mysql->lasterror;
-        $debugs[] = "mysql_error(): ".mysql_error();
         displayErrors($smarty, $errors, $debugs);
     }
     

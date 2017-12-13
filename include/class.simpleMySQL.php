@@ -16,7 +16,7 @@ class simpleMySQL {
     public $lastquery;
     
     // constructor
-    public function simpleMySQL($db_user, $db_pass, $db_name, $db_host='localhost')
+    public function __construct($db_user, $db_pass, $db_name, $db_host='localhost')
     {
         $this->querycount=0;
         $this->affectedrows=0;
@@ -24,9 +24,9 @@ class simpleMySQL {
         $this->lastquery='';
         
         // connect to mysql database
-        if($this->connection = @mysql_connect($db_host, $db_user, $db_pass))
+        if($this->connection = @mysqli_connect($db_host, $db_user, $db_pass))
         {
-            if(mysql_select_db($db_name, $this->connection))
+            if(mysqli_select_db($this->connection, $db_name))
                 return TRUE;
             else
             {
@@ -52,7 +52,7 @@ class simpleMySQL {
     
     public function escape($data)
     {
-        return mysql_real_escape_string($data);
+        return mysqli_real_escape_string($this->connection, $data);
     }
     
     public function sql_query($query)
@@ -61,10 +61,10 @@ class simpleMySQL {
         
         $this->lastquery = $query;
         
-        if($result=@mysql_query($query,$this->connection))
+        if($result=@mysqli_query($this->connection, $query))
         {
             $this->querycount++;
-            $this->affectedrows += mysql_affected_rows($this->connection);
+            $this->affectedrows += mysqli_affected_rows($this->connection);
         
             return $result;
         }
@@ -79,7 +79,7 @@ class simpleMySQL {
     public function sql_result($queryid, $row, $column)
     {
         $return=FALSE;
-        if($return=mysql_result($queryid, $row, $column))
+        if($return=$this->mysqli_result($queryid, $row, $column))
         {
             return $return;
         }
@@ -90,7 +90,7 @@ class simpleMySQL {
     
     public function sql_num_rows($queryid)
     {
-        return mysql_num_rows($queryid);
+        return mysqli_num_rows($queryid);
     }
     
     public function fetch($queryid)
@@ -100,19 +100,25 @@ class simpleMySQL {
     
     public function sql_fetch_assoc($queryid)
     {
-        return mysql_fetch_assoc($queryid);
+        return mysqli_fetch_assoc($queryid);
     }
     
     private function saveError($msg='')
     {
         if(empty($msg))
         {
-            $this->lasterror=mysql_error($this->connection);
+            $this->lasterror=mysqli_error($this->connection);
         }
         else
         {
             $this->lasterror=$msg;
         }
+    }
+    
+    private function mysqli_result($res, $row, $field=0) { 
+        $res->data_seek($row);
+        $datarow = $res->fetch_array();
+        return $datarow[$field];
     }
 
 };

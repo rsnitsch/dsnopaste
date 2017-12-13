@@ -18,10 +18,14 @@
     if(enableMySQL(true))
     {
         // angriffspläne abfragen
-        $total_count = $mysql->sql_result($mysql->sql_query('SELECT COUNT(*) AS total FROM attplans'), 0, 'total');
+        $query = $mysql->sql_query('SELECT COUNT(*) AS total FROM attplans');
+        if ($query === false) {
+            die("Executing attack plan database query failed: ".$mysql->lasterror);
+        }
+        $total_count = $mysql->sql_result($query, 0, 'total');
         $output->assign('count', $total_count);
         
-        $server = filter_input('server');
+        $server = filter_input(INPUT_GET, 'server');
         
         $limit = 50;
         $page = filter_input(INPUT_GET, 'page') || 1;
@@ -34,7 +38,7 @@
         $limit = "LIMIT $offset,50";
         
         $plans = array();
-        $query = $mysql->sql_query("SELECT * FROM attplans ".($server ? "WHERE server='".mysql_real_escape_string($server)."'" : "")." $limit");
+        $query = $mysql->sql_query("SELECT * FROM attplans ".($server ? "WHERE server='".$mysql->escape($server)."'" : "")." $limit");
         if(!$query)
             die($mysql->lastquery.'<br />'.$mysql->lasterror);
             
