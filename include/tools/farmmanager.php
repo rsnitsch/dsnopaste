@@ -330,7 +330,7 @@
 	
     // Herkunftsdörfer auslesen
     $att_villages = array();
-    $res = $mysql->sql_query("SELECT av_name, av_coords FROM farms WHERE saveid='".$mysql->escape($saveid)."' GROUP BY av_coords ORDER BY av_name");
+    $res = $mysql->sql_query("SELECT av_coords, ANY_VALUE(av_name) AS __av_name FROM farms WHERE saveid='".$mysql->escape($saveid)."' GROUP BY av_coords ORDER BY __av_name");
     if(!$res)
         _displaySQLError();
     while($av = $mysql->fetch($res)) {
