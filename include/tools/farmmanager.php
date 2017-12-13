@@ -243,7 +243,9 @@
     try {
         $twd = TWData::get_db_connection();
     } catch(Exception $exc) {
-        _displaySQLError();
+        $errors[] = "TWData database connection failed.";
+        $debugs[] = $exc->getMessage();
+        _displayErrors();
     }
     
     // gibt es diesen Farmmanager überhaupt?
